@@ -1,0 +1,38 @@
+# delete()
+
+
+> Use Clerk's JS Backend SDK to delete an API key.
+
+> [!WARNING]
+> API keys is currently in beta. The API may change before general availability.
+
+
+Deletes an [API key](/guides/development/machine-auth/api-keys) by its ID. Returns a [`DeletedObjectResource`](/reference/javascript/types/deleted-object-resource) object.
+
+```ts
+
+function delete(apiKeyId: string): Promise
+```
+
+## Parameters
+
+- **`apiKeyId`** `string`
+
+  The ID of the API key to delete.
+
+
+## Example
+
+> [!NOTE]
+> Using `clerkClient` varies based on your framework. Refer to the [JS Backend SDK overview](/js-backend/getting-started/quickstart) for usage details, including guidance on [how to access the `userId` and other properties](/js-backend/getting-started/quickstart#get-the-user-id-and-other-properties).
+
+
+```tsx
+const apiKeyId = 'apikey_123'
+
+const response = await clerkClient.apiKeys.delete(apiKeyId)
+```
+
+## Backend API (BAPI) endpoint
+
+This method in the SDK is a wrapper around the BAPI endpoint `DELETE/api_keys/{apiKeyID}`. See the [BAPI reference](/reference/backend-api/tag/api-keys/delete/api_keys/%7BapiKeyID%7D) for more information.

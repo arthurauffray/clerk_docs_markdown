@@ -1,0 +1,48 @@
+# PublicUserData
+
+
+> Information about that user that's publicly available.
+
+Information about the user that's publicly available.
+
+## Properties
+
+- **`firstName`** `string | null`
+
+  The user's first name.
+
+    ---
+
+- **`lastName`** `string | null`
+
+  The user's last name.
+
+    ---
+
+- **`imageUrl`** `string`
+
+  Holds the default avatar or user's uploaded profile image. Compatible with Clerk's [Image Optimization](/guides/development/image-optimization).
+
+    ---
+
+- **`hasImage`** `boolean`
+
+  A getter boolean to check if the user has uploaded an image or one was copied from OAuth. Returns `false` if Clerk is displaying an avatar for the user.
+
+    ---
+
+- **`identifier`** `string`
+
+  The user's identifier.
+
+    ---
+
+- **`userId?`** `string | null`
+
+  The user's ID.
+
+    ---
+
+- **`username?`** `string | null`
+
+  The user's username.

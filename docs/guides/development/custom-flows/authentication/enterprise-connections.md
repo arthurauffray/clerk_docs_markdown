@@ -1,0 +1,385 @@
+# Build a custom flow for authenticating with enterprise connections
+
+
+> Learn how to use the Clerk API to build a custom sign-up and sign-in flow that supports enterprise connections.
+
+> [!WARNING]
+> This guide is for users who want to build a custom flow. To use a _prebuilt_ UI, use the [Account Portal pages](/guides/account-portal/overview) or [prebuilt components](/reference/components/overview).
+
+
+  > [!IMPORTANT]
+  > This guide applies to the following Clerk SDKs:
+  >
+  > - `@clerk/react` v6 or higher
+  > - `@clerk/nextjs` v7 or higher
+  > - `@clerk/expo` v3 or higher
+  > - `@clerk/react-router` v3 or higher
+  > - `@clerk/tanstack-react-start` v0.26.0 or higher
+  >
+  > If you're using an older version of one of these SDKs, or are using the legacy API, refer to the [legacy API documentation](/guides/development/custom-flows/authentication/legacy/enterprise-connections).
+
+
+## Before you start
+
+You must configure your application instance through the Clerk Dashboard for the enterprise connection(s) that you want to use. Visit [the appropriate guide for your platform](/guides/configure/auth-strategies/enterprise-connections/overview) to learn how to configure your instance.
+
+## Build the custom flow
+
+
+  
+    > [!TIP]
+> Examples for this SDK aren't available yet. For now, try adapting the  available example to fit your SDK.
+
+  
+
+  The following example **will both sign up _and_ sign in users**, eliminating the need for a separate sign-up page. However, if you want to have separate sign-up and sign-in pages, the sign-up and sign-in flows are equivalent, meaning that all you have to do is swap out the `SignIn` object for the `SignUp` object using the [`useSignUp()`](/reference/hooks/use-sign-up) hook.
+
+  The following example:
+
+  1. Accesses the [`SignIn`](/reference/javascript/sign-in) object using the [`useSignIn()`](/reference/hooks/use-sign-in) hook.
+  1. Starts the authentication process by calling [`SignIn.sso(params)`](/reference/javascript/sign-in-future#sso). This method requires the following params:
+     - `redirectUrl`: The URL that the browser will be redirected to once the user authenticates with the identity provider if no additional requirements are needed, and a session has been created.
+     - `redirectCallbackUrl`: The URL that the browser will be redirected to once the user authenticates with the identity provider if additional requirements are needed.
+  1. Creates a route at the URL that the `redirectCallbackUrl` param points to. The following example re-uses the `/sign-in` route, which should be written to handle when a sign-in attempt is in a non-complete status such as `needs_second_factor`.
+
+  ```tsx
+// Filename: app/sign-in/page.tsx
+
+  'use client'
+
+  import * as React from 'react'
+  import { useSignIn } from '@clerk/nextjs'
+
+  export default function Page() {
+    const { signIn, errors, fetchStatus } = useSignIn()
+
+    const signInWithEnterpriseSSO = async (formData: FormData) => {
+      const email = formData.get('email') as string
+
+      const { error } = await signIn.sso({
+        identifier: email,
+        strategy: 'enterprise_sso',
+        // The URL that the user will be redirected to if additional requirements are needed
+        redirectCallbackUrl: '/sign-in',
+        redirectUrl: '/sign-in/tasks', // Learn more about session tasks at https://clerk.com/docs/guides/development/custom-flows/overview#session-tasks
+      })
+      if (error) {
+        // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+        // for more info on error handling
+        console.error(JSON.stringify(error, null, 2))
+        return
+      }
+
+      if (signIn.status === 'needs_second_factor') {
+        // See https://clerk.com/docs/guides/development/custom-flows/authentication/multi-factor-authentication
+      } else if (signIn.status === 'needs_client_trust') {
+        // See https://clerk.com/docs/guides/development/custom-flows/authentication/client-trust
+      } else {
+        // Check why the sign-in is not complete
+        console.error('Sign-in attempt not complete:', signIn)
+      }
+    }
+
+    return (
+      <>
+        <form action={signInWithEnterpriseSSO}>
+          <input id="email" type="email" name="email" placeholder="Enter email address" />
+          <button type="submit" disabled={fetchStatus === 'fetching'}>
+            Sign in with Enterprise SSO
+          </button>
+        </form>
+        
+        {errors && <p>{JSON.stringify(errors, null, 2)}</p>}
+      </>
+    )
+  }
+  ```
+
+
+  The following example **will both sign up _and_ sign in users**, eliminating the need for a separate sign-up page.
+
+  The following example:
+
+  1. Uses the [`useSSO()`](/reference/expo/native-hooks/use-sso) hook to access the `startSSOFlow()` method.
+  1. Calls the `startSSOFlow()` method with the `strategy` param set to `enterprise_sso` and the `identifier` param set to the user's email address that they provided. The optional `redirect_url` param is also set in order to redirect the user once they finish the authentication flow.
+     - If authentication is successful, the `setActive()` method is called to set the active session with the new `createdSessionId`. You may need to check for session tasks that are required for the user to complete after signing up.
+     - If authentication is not successful, you can handle the missing requirements, such as MFA, using the [`signIn`](/reference/javascript/sign-in) or [`signUp`](/reference/javascript/sign-up) object returned from `startSSOFlow()`, depending on if the user is signing in or signing up. These objects include properties, like `status`, that can be used to determine the next steps. See the respective linked references for more information.
+
+  ```tsx
+// Filename: app/(auth)/sign-in.tsx
+
+  import React, { useEffect, useState } from 'react'
+  import * as WebBrowser from 'expo-web-browser'
+  import * as AuthSession from 'expo-auth-session'
+  import { useSSO } from '@clerk/expo'
+  import { View, Button, TextInput, Platform } from 'react-native'
+
+  export const useWarmUpBrowser = () => {
+    useEffect(() => {
+      // Preloads the browser for Android devices to reduce authentication load time
+      // See: https://docs.expo.dev/guides/authentication/#improving-user-experience
+      if (Platform.OS !== 'android') return
+      void WebBrowser.warmUpAsync()
+      return () => {
+        // Cleanup: closes browser when component unmounts
+        void WebBrowser.coolDownAsync()
+      }
+    }, [])
+  }
+
+  // Handle any pending authentication sessions
+  WebBrowser.maybeCompleteAuthSession()
+
+  export default function Page() {
+    useWarmUpBrowser()
+
+    const [email, setEmail] = useState('')
+
+    // Use the `useSSO()` hook to access the `startSSOFlow()` method
+    const { startSSOFlow } = useSSO()
+
+    const onPress = async () => {
+      try {
+        // Start the authentication process by calling `startSSOFlow()`
+        const { createdSessionId, setActive, signIn, signUp } = await startSSOFlow({
+          strategy: 'enterprise_sso',
+          identifier: email,
+          // For web, defaults to current path
+          // For native, you must pass a scheme, like AuthSession.makeRedirectUri({ scheme, path })
+          // For more info, see https://docs.expo.dev/versions/latest/sdk/auth-session/#authsessionmakeredirecturioptions
+          redirectUrl: AuthSession.makeRedirectUri(),
+        })
+
+        // If sign in was successful, set the active session
+        if (createdSessionId) {
+          setActive!({
+            session: createdSessionId,
+            navigate: async ({ session, decorateUrl }) => {
+              if (session?.currentTask) {
+                //  Handle pending session tasks
+                // See https://clerk.com/docs/guides/development/custom-flows/authentication/session-tasks
+                console.log(session?.currentTask)
+                return
+              }
+
+              const url = decorateUrl('/')
+              if (url.startsWith('http')) {
+                window.location.href = url
+              } else {
+                router.push(url)
+              }
+            },
+          })
+        } else {
+          // If there is no `createdSessionId`,
+          // there are missing requirements, such as MFA
+          // Use the `signIn` or `signUp` returned from `startSSOFlow`
+          // to handle next steps
+        }
+      } catch (err) {
+        // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+        // for more info on error handling
+        console.error(JSON.stringify(err, null, 2))
+      }
+    }
+
+    return (
+      
+        
+    )
+  }
+  ```
+
+
+  ```swift
+// Filename: EnterpriseSSOView.swift
+
+  import SwiftUI
+  import ClerkKit
+
+  struct EnterpriseSSOView: View {
+  @Environment(Clerk.self) private var clerk
+  @State private var email = ""
+
+  var body: some View {
+    TextField("Enter email", text: $email)
+    Button("Sign in with Enterprise SSO") {
+      Task { await signInWithEnterpriseSSO(email: email) }
+    }
+  }
+  }
+
+  extension EnterpriseSSOView {
+
+  func signInWithEnterpriseSSO(email: String) async {
+    do {
+      let result = try await clerk.auth.signInWithEnterpriseSSO(emailAddress: email)
+
+      // Enterprise SSO can complete as either a sign-in or sign-up
+      // Clerk returns a TransferFlowResult to cover both cases
+      switch result {
+      case .signIn(let signIn):
+        switch signIn.status {
+        case .complete:
+          dump(clerk.session)
+        default:
+          dump(signIn.status)
+        }
+      case .signUp(let signUp):
+        switch signUp.status {
+        case .complete:
+          dump(clerk.session)
+        default:
+          dump(signUp.status)
+        }
+      }
+    } catch {
+      // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+      // for more info on error handling
+      dump(error)
+    }
+  }
+  }
+  ```
+
+
+  
+**EnterpriseSSOView.kt:**
+
+```kotlin
+// Filename: EnterpriseSSOView.kt
+
+    import android.util.Log
+    import androidx.lifecycle.ViewModel
+    import androidx.lifecycle.viewModelScope
+    import com.clerk.api.Clerk
+    import com.clerk.api.network.serialization.errorMessage
+    import com.clerk.api.network.serialization.onFailure
+    import com.clerk.api.network.serialization.onSuccess
+    import com.clerk.api.signin.SignIn
+    import com.clerk.api.signup.SignUp
+    import com.clerk.api.sso.ResultType
+    import kotlinx.coroutines.flow.MutableStateFlow
+    import kotlinx.coroutines.flow.asStateFlow
+    import kotlinx.coroutines.flow.combine
+    import kotlinx.coroutines.flow.launchIn
+    import kotlinx.coroutines.launch
+
+    class EnterpriseSSOViewModel : ViewModel() {
+    private val _uiState = MutableStateFlow(UiState.Loading)
+    val uiState = _uiState.asStateFlow()
+
+    init {
+        combine(Clerk.isInitialized, Clerk.userFlow) { isInitialized, user ->
+            _uiState.value = when {
+                !isInitialized -> UiState.Loading
+                user != null -> UiState.Authenticated
+                else -> UiState.SignedOut
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun signInWithEnterpriseSSO(email: String) {
+        viewModelScope.launch {
+            Clerk.auth.signInWithEnterpriseSso { this.email = email }.onSuccess {
+                // Enterprise SSO can complete as either a sign-in or sign-up.
+                when (it.resultType) {
+                    ResultType.SIGN_IN -> {
+                        if (it.signIn?.status == SignIn.Status.COMPLETE) {
+                            _uiState.value = UiState.Authenticated
+                        } else {
+                            // If the status is not complete, check why. User may need to
+                            // complete further steps.
+                        }
+                    }
+                    ResultType.SIGN_UP -> {
+                        if (it.signUp?.status == SignUp.Status.COMPLETE) {
+                            _uiState.value = UiState.Authenticated
+                        } else {
+                            // If the status is not complete, check why. User may need to
+                            // complete further steps.
+                        }
+                    }
+                }
+            }.onFailure {
+                // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+                // for more info on error handling
+                Log.e("EnterpriseSSO", it.errorMessage, it.throwable)
+            }
+        }
+    }
+
+    sealed interface UiState {
+        data object Loading : UiState
+
+        data object SignedOut : UiState
+
+        data object Authenticated : UiState
+    }
+    }
+    ```
+
+
+**EnterpriseSSOActivity.kt:**
+
+```kotlin
+// Filename: EnterpriseSSOActivity.kt
+
+    import android.os.Bundle
+    import androidx.activity.ComponentActivity
+    import androidx.activity.compose.setContent
+    import androidx.activity.viewModels
+    import androidx.compose.foundation.layout.Arrangement
+    import androidx.compose.foundation.layout.Column
+    import androidx.compose.foundation.layout.fillMaxSize
+    import androidx.compose.foundation.layout.padding
+    import androidx.compose.material3.Button
+    import androidx.compose.material3.CircularProgressIndicator
+    import androidx.compose.material3.Text
+    import androidx.compose.material3.TextField
+    import androidx.compose.runtime.getValue
+    import androidx.compose.runtime.mutableStateOf
+    import androidx.compose.runtime.remember
+    import androidx.compose.runtime.setValue
+    import androidx.compose.ui.Alignment
+    import androidx.compose.ui.Modifier
+    import androidx.compose.ui.unit.dp
+    import androidx.lifecycle.compose.collectAsStateWithLifecycle
+
+    class EnterpriseSSOActivity : ComponentActivity() {
+    private val viewModel: EnterpriseSSOViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            val state by viewModel.uiState.collectAsStateWithLifecycle()
+            var email by remember { mutableStateOf("") }
+
+            Column(
+                modifier = Modifier.fillMaxSize().padding(24.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                when (state) {
+                    EnterpriseSSOViewModel.UiState.Authenticated -> Text("Authenticated")
+                    EnterpriseSSOViewModel.UiState.Loading -> CircularProgressIndicator()
+                    EnterpriseSSOViewModel.UiState.SignedOut -> {
+                        TextField(
+                            value = email,
+                            onValueChange = { email = it },
+                            label = { Text("Work email") }
+                        )
+                        Button(
+                            modifier = Modifier.padding(top = 12.dp),
+                            enabled = email.isNotBlank(),
+                            onClick = { viewModel.signInWithEnterpriseSSO(email) }
+                        ) {
+                            Text("Sign in with Enterprise SSO")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    }
+    ```

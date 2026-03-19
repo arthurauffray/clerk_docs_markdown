@@ -1,0 +1,618 @@
+# useUser()
+
+
+> Access and manage the current user's data in your React application with Clerk's useUser() hook.
+
+The `useUser()` hook provides access to the current user's [`User`](/reference/javascript/user) object, which contains all the data for a single user in your application and provides methods to manage their account. This hook also allows you to check if the user is signed in and if Clerk has loaded and initialized.
+
+## Examples
+
+### Get the current user
+
+The following example uses the `useUser()` hook to access the [`User`](/reference/javascript/user) object, which contains the current user's data such as their full name. The `isLoaded` and `isSignedIn` properties are used to handle the loading state and to check if the user is signed in, respectively.
+
+
+  ```tsx
+// Filename: src/pages/Example.tsx
+
+  import { useUser } from '@clerk/react'
+
+  export default function Example() {
+    const { isSignedIn, user, isLoaded } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    return <div>Hello {user.firstName}!</div>
+  }
+  ```
+
+
+  ```tsx
+// Filename: app/page.tsx
+
+  'use client'
+
+  import { useUser } from '@clerk/nextjs'
+
+  export default function Page() {
+    const { isSignedIn, user, isLoaded } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    return <div>Hello {user.firstName}!</div>
+  }
+  ```
+
+
+  ```tsx
+// Filename: app/routes/home.tsx
+
+  import { useUser } from '@clerk/react-router'
+
+  export default function Home() {
+    const { isSignedIn, user, isLoaded } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    return <div>Hello {user.firstName}!</div>
+  }
+  ```
+
+
+  ```tsx
+// Filename: src/routes/page.tsx
+
+  import { useUser } from '@clerk/chrome-extension'
+
+  export default function Example() {
+    const { isSignedIn, user, isLoaded } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    return <div>Hello {user.firstName}!</div>
+  }
+  ```
+
+
+  ```tsx
+// Filename: app/routes/index.tsx
+
+  import { useUser } from '@clerk/tanstack-react-start'
+  import { createFileRoute } from '@tanstack/react-router'
+
+  export const Route = createFileRoute('/')({
+    component: Home,
+  })
+
+  export default function Home() {
+    const { isSignedIn, user, isLoaded } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    return <div>Hello {user.firstName}!</div>
+  }
+  ```
+
+
+  ```tsx
+// Filename: app/(user)/index.tsx
+
+  import { useUser } from '@clerk/expo'
+  import { Text, View } from 'react-native'
+
+  export default function Page() {
+    const { isSignedIn, user, isLoaded } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return Loading...
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return Sign in to view this page
+
+    return (
+      
+        Hello {user.firstName}!
+      
+    )
+  }
+  ```
+
+
+### Update user data
+
+The following example uses the `useUser()` hook to access the [`User`](/reference/javascript/user) object, which calls the [`update()`](/reference/javascript/user#update) method to update the current user's information.
+
+
+  ```tsx
+// Filename: src/pages/Example.tsx
+
+  import { useUser } from '@clerk/react'
+
+  export default function Example() {
+    const { isSignedIn, isLoaded, user } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    const updateUser = async () => {
+      await user.update({
+        firstName: 'John',
+        lastName: 'Doe',
+      })
+    }
+
+    return (
+      <>
+        <button onClick={updateUser}>Update your name</button>
+        <p>user.firstName: {user.firstName}</p>
+        <p>user.lastName: {user.lastName}</p>
+      </>
+    )
+  }
+  ```
+
+
+  ```tsx
+// Filename: app/page.tsx
+
+  'use client'
+
+  import { useUser } from '@clerk/nextjs'
+
+  export default function Page() {
+    const { isSignedIn, isLoaded, user } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    const updateUser = async () => {
+      await user.update({
+        firstName: 'John',
+        lastName: 'Doe',
+      })
+    }
+
+    return (
+      <>
+        <button onClick={updateUser}>Update your name</button>
+        <p>user.firstName: {user.firstName}</p>
+        <p>user.lastName: {user.lastName}</p>
+      </>
+    )
+  }
+  ```
+
+
+  ```tsx
+// Filename: app/routes/home.tsx
+
+  import { useUser } from '@clerk/react-router'
+
+  export default function Home() {
+    const { isSignedIn, isLoaded, user } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    const updateUser = async () => {
+      await user.update({
+        firstName: 'John',
+        lastName: 'Doe',
+      })
+    }
+
+    return (
+      <>
+        <button onClick={updateUser}>Update your name</button>
+        <p>user.firstName: {user.firstName}</p>
+        <p>user.lastName: {user.lastName}</p>
+      </>
+    )
+  }
+  ```
+
+
+  ```tsx
+// Filename: src/routes/page.tsx
+
+  import { useUser } from '@clerk/chrome-extension'
+
+  export default function Home() {
+    const { isSignedIn, isLoaded, user } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    const updateUser = async () => {
+      await user.update({
+        firstName: 'John',
+        lastName: 'Doe',
+      })
+    }
+
+    return (
+      <>
+        <button onClick={updateUser}>Update your name</button>
+        <p>user.firstName: {user.firstName}</p>
+        <p>user.lastName: {user.lastName}</p>
+      </>
+    )
+  }
+  ```
+
+
+  ```tsx
+// Filename: app/routes/index.tsx
+
+  import { useUser } from '@clerk/tanstack-react-start'
+  import { createFileRoute } from '@tanstack/react-router'
+
+  export const Route = createFileRoute('/')({
+    component: Home,
+  })
+
+  export default function Home() {
+    const { isSignedIn, isLoaded, user } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    const updateUser = async () => {
+      await user.update({
+        firstName: 'John',
+        lastName: 'Doe',
+      })
+    }
+
+    return (
+      <>
+        <button onClick={updateUser}>Update your name</button>
+        <p>user.firstName: {user.firstName}</p>
+        <p>user.lastName: {user.lastName}</p>
+      </>
+    )
+  }
+  ```
+
+
+  ```tsx
+// Filename: app/(user)/index.tsx
+
+  import { useUser } from '@clerk/expo'
+  import { Text, View, TouchableOpacity } from 'react-native'
+
+  export default function Page() {
+    const { isSignedIn, isLoaded, user } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return Loading...
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return Sign in to view this page
+
+    const updateUser = async () => {
+      await user.update({
+        firstName: 'John',
+        lastName: 'Doe',
+      })
+    }
+
+    return (
+      
+        
+          Update your name
+        
+        user.firstName: {user.firstName}
+        user.lastName: {user.lastName}
+      
+    )
+  }
+  ```
+
+
+### Reload user data
+
+The following example uses the `useUser()` hook to access the [`User`](/reference/javascript/user) object, which calls the [`reload()`](/reference/javascript/user#reload) method to get the latest user's information.
+
+
+  ```tsx
+// Filename: src/pages/Home.tsx
+
+  import { useUser } from '@clerk/react'
+
+  export default function Home() {
+    const { isSignedIn, isLoaded, user } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    const updateUser = async () => {
+      // Update data via an API endpoint
+      const updateMetadata = await fetch('/api/updateMetadata', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          role: 'admin',
+        }),
+      })
+
+      // Check if the update was successful
+      if ((await updateMetadata.json()).message !== 'success') {
+        throw new Error('Error updating')
+      }
+
+      // If the update was successful, reload the user data
+      await user.reload()
+    }
+
+    return (
+      <>
+        <button onClick={updateUser}>Update your metadata</button>
+        <p>user role: {user.publicMetadata.role}</p>
+      </>
+    )
+  }
+  ```
+
+
+  ```tsx
+// Filename: app/page.tsx
+
+  'use client'
+
+  import { useUser } from '@clerk/nextjs'
+
+  export default function Page() {
+    const { isSignedIn, isLoaded, user } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    const updateUser = async () => {
+      // Update data via an API endpoint
+      const updateMetadata = await fetch('/api/updateMetadata', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          role: 'admin',
+        }),
+      })
+
+      // Check if the update was successful
+      if ((await updateMetadata.json()).message !== 'success') {
+        throw new Error('Error updating')
+      }
+
+      // If the update was successful, reload the user data
+      await user.reload()
+    }
+
+    return (
+      <>
+        <button onClick={updateUser}>Update your metadata</button>
+        <p>user role: {user.publicMetadata.role}</p>
+      </>
+    )
+  }
+  ```
+
+
+  ```tsx
+// Filename: app/routes/home.tsx
+
+  import { useUser } from '@clerk/react-router'
+
+  export default function Home() {
+    const { isSignedIn, isLoaded, user } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    const updateUser = async () => {
+      // Update data via an API endpoint
+      const updateMetadata = await fetch('/api/updateMetadata', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          role: 'admin',
+        }),
+      })
+
+      // Check if the update was successful
+      if ((await updateMetadata.json()).message !== 'success') {
+        throw new Error('Error updating')
+      }
+
+      // If the update was successful, reload the user data
+      await user.reload()
+    }
+
+    return (
+      <>
+        <button onClick={updateUser}>Update your metadata</button>
+        <p>user role: {user.publicMetadata.role}</p>
+      </>
+    )
+  }
+  ```
+
+
+  ```tsx
+// Filename: src/routes/page.tsx
+
+  import { useUser } from '@clerk/chrome-extension'
+
+  export default function Home() {
+    const { isSignedIn, isLoaded, user } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    const updateUser = async () => {
+      // Update data via an API endpoint
+      const updateMetadata = await fetch('/api/updateMetadata', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          role: 'admin',
+        }),
+      })
+
+      // Check if the update was successful
+      if ((await updateMetadata.json()).message !== 'success') {
+        throw new Error('Error updating')
+      }
+
+      // If the update was successful, reload the user data
+      await user.reload()
+    }
+
+    return (
+      <>
+        <button onClick={updateUser}>Update your metadata</button>
+        <p>user role: {user.publicMetadata.role}</p>
+      </>
+    )
+  }
+  ```
+
+
+  ```tsx
+// Filename: app/routes/index.tsx
+
+  import { useUser } from '@clerk/tanstack-react-start'
+  import { createFileRoute } from '@tanstack/react-router'
+
+  export const Route = createFileRoute('/')({
+    component: Home,
+  })
+
+  export default function Home() {
+    const { isSignedIn, isLoaded, user } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return <div>Loading...</div>
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return <div>Sign in to view this page</div>
+
+    const updateUser = async () => {
+      // Update data via an API endpoint
+      const updateMetadata = await fetch('/api/updateMetadata', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          role: 'admin',
+        }),
+      })
+
+      // Check if the update was successful
+      if ((await updateMetadata.json()).message !== 'success') {
+        throw new Error('Error updating')
+      }
+
+      // If the update was successful, reload the user data
+      await user.reload()
+    }
+
+    return (
+      <>
+        <button onClick={updateUser}>Update your metadata</button>
+        <p>user role: {user.publicMetadata.role}</p>
+      </>
+    )
+  }
+  ```
+
+
+  ```tsx
+// Filename: app/(user)/index.tsx
+
+  import { useUser } from '@clerk/expo'
+  import { Text, View, TouchableOpacity } from 'react-native'
+
+  export default function Page() {
+    const { isSignedIn, isLoaded, user } = useUser()
+
+    // Handle loading state
+    if (!isLoaded) return Loading...
+
+    // Protect the page from unauthenticated users
+    if (!isSignedIn) return Sign in to view this page
+
+    const updateUser = async () => {
+      // Update data via an API endpoint
+      const updateMetadata = await fetch('/api/updateMetadata', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          role: 'admin',
+        }),
+      })
+
+      // Check if the update was successful
+      if ((await updateMetadata.json()).message !== 'success') {
+        throw new Error('Error updating')
+      }
+
+      // If the update was successful, reload the user data
+      await user.reload()
+    }
+
+    return (
+      
+        
+          Update your metadata
+        
+        user role: {user.publicMetadata.role}
+      
+    )
+  }
+  ```

@@ -1,0 +1,45 @@
+# OrganizationSuggestion
+
+
+> An interface representing an Organization suggestion.
+
+An interface representing an Organization suggestion.
+
+- **`id`** `string`
+
+  The ID of the Organization suggestion.
+
+    ---
+
+- **`publicOrganizationData`** `{ hasImage: boolean; imageUrl: string; name: string; id: string; slug: string | null; }`
+
+  The public data of the Organization.
+
+- **`hasImage`: Whether the Organization has an image.** `imageUrl`: Holds the Organization logo. Compatible with Clerk's [Image Optimization](/guides/development/image-optimization). `name`: The name of the Organization. `id`: The ID of the Organization. `slug`: The slug of the Organization.
+
+  ---
+
+- **`status`** `'pending' | 'accepted'`
+
+  The status of the Organization suggestion.
+
+    ---
+
+- **`createdAt`** `Date`
+
+  The date and time when the Organization suggestion was created.
+
+    ---
+
+- **`updatedAt`** `Date`
+
+  The date and time when the Organization suggestion was last updated.
+
+
+## `accept()`
+
+Accepts the Organization suggestion. Returns the accepted `OrganizationSuggestion`.
+
+```ts
+function accept(): Promise
+```

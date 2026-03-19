@@ -1,0 +1,6 @@
+# The Backend `Session` object
+
+
+> The Backend Session object holds information about a Session of your application. However, the Backend Session object is different from the Session object in that it is used in the Backend API.
+
+

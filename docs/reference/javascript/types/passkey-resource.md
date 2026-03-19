@@ -1,0 +1,70 @@
+# PasskeyResource
+
+
+> An interface that describes a passkey associated with a user response.
+
+An interface that describes a passkey associated with a user response.
+
+## Properties
+
+- **`id`** `string`
+
+  The unique identifier of the passkey.
+
+    ---
+
+- **`name`** `string`
+
+  The passkey's name.
+
+    ---
+
+- **`verification`** [`VerificationResource`](/reference/javascript/types/verification-resource)
+
+  The verification details for the passkey.
+
+    ---
+
+- **`createdAt`** `Date`
+
+  The date when the passkey was created.
+
+    ---
+
+- **`updatedAt`** `Date`
+
+  The date when the passkey was last updated.
+
+    ---
+
+- **`lastUsedAt`** `Date | null`
+
+  The date when the passkey was last used.
+
+
+## Methods
+
+### `update()`
+
+Updates the name of the associated passkey for the signed-in user.
+
+```ts
+function update(params: { name: string }): Promise
+```
+
+For an example of how to use these methods, see the [Passkeys custom flows documentation](/guides/development/custom-flows/authentication/passkeys#rename-user-passkeys).
+
+### `delete()`
+
+Deletes the associated passkey for the signed-in user.
+
+```ts
+
+function delete(): Promise
+```
+
+Learn more:
+
+- [`DeletedObjectResource`](/reference/javascript/types/deleted-object-resource)
+
+For an example of how to use these methods, see the [Passkeys custom flows documentation](/guides/development/custom-flows/authentication/passkeys#delete-user-passkeys).

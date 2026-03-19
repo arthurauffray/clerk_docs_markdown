@@ -1,0 +1,184 @@
+# useStatements()
+
+
+> Access and manage statements in your React application with Clerk's useStatements() hook.
+
+> [!WARNING]
+>
+> Billing is currently in Beta and its APIs are experimental and may undergo breaking changes. To mitigate potential disruptions, we recommend [pinning](/pinning) your SDK and `clerk-js` package versions.
+
+
+The `useStatements()` hook provides access to the statements associated with a user or Organization. It returns a paginated list of statements and includes methods for managing them.
+
+## Parameters
+
+`useStatements()` accepts a single optional object with the following properties:
+
+## Returns
+
+`useStatements()` returns an object with the following properties:
+
+## Examples
+
+### Basic usage
+
+The following example demonstrates how to fetch and display a user's statements.
+
+
+  ```tsx
+// Filename: app/billing/statements/page.tsx
+
+  'use client'
+
+  import { useStatements } from '@clerk/nextjs/experimental'
+
+  export default function StatementsList() {
+    const { data, isLoading } = useStatements({
+      for: 'user',
+      pageSize: 10,
+    })
+
+    if (isLoading) {
+      return <div>Loading statements...</div>
+    }
+
+    if (!data || data.length === 0) {
+      return <div>No statements found.</div>
+    }
+
+    return (
+      <ul>
+        {data?.map((statement) => (
+          <li key={statement.id}>
+            Statement ID: {statement.id} - {statement.status}
+            <br />
+            Date: {statement.timestamp.toLocaleDateString()}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  ```
+
+
+  ```tsx
+// Filename: src/pages/billing/StatementsList.tsx
+
+  import { useStatements } from '@clerk/react/experimental'
+
+  export default function StatementsList() {
+    const { data, isLoading } = useStatements({
+      for: 'user',
+      pageSize: 10,
+    })
+
+    if (isLoading) {
+      return <div>Loading statements...</div>
+    }
+
+    if (!data || data.length === 0) {
+      return <div>No statements found.</div>
+    }
+
+    return (
+      <ul>
+        {data?.map((statement) => (
+          <li key={statement.id}>
+            Statement ID: {statement.id} - {statement.status}
+            <br />
+            Date: {statement.timestamp.toLocaleDateString()}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  ```
+
+
+### Infinite pagination
+
+The following example demonstrates how to implement infinite scrolling with statements.
+
+
+  ```tsx
+// Filename: app/billing/statements/page.tsx
+
+  'use client'
+
+  import { useStatements } from '@clerk/nextjs/experimental'
+
+  export default function InfiniteStatements() {
+    const { data, isLoading, hasNextPage, fetchNext } = useStatements({
+      for: 'user',
+      infinite: true,
+      pageSize: 20,
+    })
+
+    if (isLoading) {
+      return <div>Loading...</div>
+    }
+
+    if (!data || data.length === 0) {
+      return <div>No statements found.</div>
+    }
+
+    return (
+      <div>
+        <ul>
+          {data?.map((statement) => (
+            <li key={statement.id}>
+              Statement ID: {statement.id}
+              <br />
+              Amount: {statement.totals.grandTotal.amountFormatted}
+              <br />
+              Status: {statement.status}
+            </li>
+          ))}
+        </ul>
+
+        {hasNextPage && <button onClick={() => fetchNext()}>Load more statements</button>}
+      </div>
+    )
+  }
+  ```
+
+
+  ```tsx
+// Filename: src/pages/billing/StatementsList.tsx
+
+  import { useStatements } from '@clerk/react/experimental'
+
+  export default function InfiniteStatements() {
+    const { data, isLoading, hasNextPage, fetchNext } = useStatements({
+      for: 'user',
+      infinite: true,
+      pageSize: 20,
+    })
+
+    if (isLoading) {
+      return <div>Loading...</div>
+    }
+
+    if (!data || data.length === 0) {
+      return <div>No statements found.</div>
+    }
+
+    return (
+      <div>
+        <ul>
+          {data?.map((statement) => (
+            <li key={statement.id}>
+              Statement ID: {statement.id}
+              <br />
+              Amount: {statement.totals.grandTotal.amountFormatted}
+              <br />
+              Status: {statement.status}
+            </li>
+          ))}
+        </ul>
+
+        {hasNextPage && <button onClick={() => fetchNext()}>Load more statements</button>}
+      </div>
+    )
+  }
+  ```

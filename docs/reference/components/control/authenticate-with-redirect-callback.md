@@ -1,0 +1,92 @@
+# <AuthenticateWithRedirectCallback />
+
+
+> Clerk's <AuthenticateWithRedirectCallback /> component is used to implement custom OAuth flows. It handles the OAuth callback and completes the authentication process.
+
+The `` component is a crucial part of implementing custom OAuth flows in your application. It serves as the callback handler for the authentication process initiated by the `authenticateWithRedirect()` method. Render it on the route specified as the `redirectUrl` in your `authenticateWithRedirect()` call.
+
+This component automatically handles the OAuth callback, completing the authentication process and managing the user's session. It uses the [`handleRedirectCallback()`](/reference/javascript/clerk#handle-redirect-callback) method under the hood.
+
+## Example
+
+For an example of how to use the `` component, see the [custom flow](/guides/development/custom-flows/authentication/oauth-connections) guide.
+
+## Properties
+
+All props are optional.
+
+- **`continueSignUpUrl?`** `string | undefined | null`
+
+  The full URL or path to navigate to if the sign up requires additional information.
+
+    ---
+
+- **`signInUrl?`** `string`
+
+  The full URL or path where the `` component is mounted.
+
+    ---
+
+- **`signUpUrl?`** `string`
+
+  The full URL or path where the `` component is mounted.
+
+    ---
+
+- **`signInFallbackRedirectUrl?`** `string`
+
+  The fallback URL to redirect to after the user signs in, if there's no `redirect_url` in the path already. Defaults to `/`. It's recommended to use [the environment variable](/guides/development/clerk-environment-variables#sign-in-and-sign-up-redirects) instead.
+
+    ---
+
+- **`signUpFallbackRedirectUrl?`** `string`
+
+  The fallback URL to redirect to after the user signs up, if there's no `redirect_url` in the path already. Defaults to `/`. It's recommended to use [the environment variable](/guides/development/clerk-environment-variables#sign-in-and-sign-up-redirects) instead.
+
+    ---
+
+- **`signInForceRedirectUrl?`** `string`
+
+  If provided, this URL will always be redirected to after the user signs in. It's recommended to use [the environment variable](/guides/development/clerk-environment-variables#sign-in-and-sign-up-redirects) instead.
+
+    ---
+
+- **`signUpForceRedirectUrl?`** `string`
+
+  If provided, this URL will always be redirected to after the user signs up. It's recommended to use [the environment variable](/guides/development/clerk-environment-variables#sign-in-and-sign-up-redirects) instead.
+
+    ---
+
+- **`firstFactorUrl?`** `string | undefined`
+
+  The full URL or path to navigate to during sign in, if first factor verification is required.
+
+    ---
+
+- **`secondFactorUrl?`** `string | undefined`
+
+  The full URL or path to navigate to during sign in, if [multi-factor authentication](/guides/configure/auth-strategies/sign-up-sign-in-options#multi-factor-authentication) is enabled.
+
+    ---
+
+- **`resetPasswordUrl?`** `string`
+
+  The full URL or path to navigate to during sign in, if the user is required to reset their password.
+
+    ---
+
+- **`transferable?`** `boolean`
+
+  A boolean that indicates whether or not sign in attempts are transferable to the sign up flow. Defaults to `true`. When set to `false`, prevents opaque sign ups when a user attempts to sign in via OAuth with an email that doesn't exist.
+
+    ---
+
+- **`verifyEmailAddressUrl?`** `string | undefined | null`
+
+  The full URL or path to navigate to after requesting email verification.
+
+    ---
+
+- **`verifyPhoneNumberUrl?`** `string | undefined | null`
+
+  The full URL or path to navigate to after requesting phone verification.

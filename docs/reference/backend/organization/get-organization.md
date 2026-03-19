@@ -1,0 +1,290 @@
+# getOrganization()
+
+
+> Use Clerk's JS Backend SDK to retrieve a single Organization.
+
+Retrieves a single [`Organization`](/reference/backend/types/backend-organization).
+
+```ts
+function getOrganization(params: GetOrganizationParams): Promise
+```
+
+## `GetOrganizationParams`
+
+- **`organizationId | slug`** `string`
+
+  The ID of the Organization to retrieve, or the slug of the Organization to retrieve.
+
+
+## Usage
+
+> [!NOTE]
+> Using `clerkClient` varies based on your framework. Refer to the [JS Backend SDK overview](/js-backend/getting-started/quickstart) for usage details, including guidance on [how to access the `userId` and other properties](/js-backend/getting-started/quickstart#get-the-user-id-and-other-properties).
+
+
+### Retrieve by ID
+
+```tsx
+const organizationId = 'org_123'
+
+const response = await clerkClient.organizations.getOrganization({ organizationId })
+```
+
+### Retrieve by slug
+
+Retrieve an Organization by its slug instead of its ID.
+
+```tsx
+const slug = 'my-organization-slug'
+
+const response = await clerkClient.organizations.getOrganization({ slug })
+```
+
+## Example
+
+To use the `getOrganization()` method, you first need to initialize the [`clerkClient()`](/js-backend/getting-started/quickstart) helper. Then, you need to get the Active Organization's ID which you can access from the [`Auth`](/reference/backend/types/auth-object) object. Finally, you can pass the Organization ID to the `getOrganization()` method to get the [`Organization`](/reference/backend/types/backend-organization) object.
+
+**If your SDK isn't listed, use the comments in the example to help you adapt it to your SDK.**
+
+
+#### Next.js
+
+
+    ```tsx
+// Filename: app/page.tsx
+
+    import { useOrganization, useOrganizationList } from '@clerk/nextjs'
+    import { auth, clerkClient } from '@clerk/nextjs/server'
+
+    export default async function Home() {
+      // Accessing the `Auth` object differs depending on the SDK you're using
+      // https://clerk.com/docs/reference/backend/types/auth-object#how-to-access-the-auth-object
+      const { isAuthenticated, orgId, orgRole } = await auth()
+
+      // Check if user is authenticated
+      if (!isAuthenticated) return <p>You must be signed in to access this page.</p>
+
+      // Check if there is an Active Organization
+      if (!orgId) return <p>Set an Active Organization to access this page.</p>
+
+      // Initialize the JS Backend SDK
+      // This varies depending on the SDK you're using
+      // https://clerk.com/docs/js-backend/getting-started/quickstart
+      const client = await clerkClient()
+
+      // Use the `getOrganization()` method to get the Backend `Organization` object
+      const organization = await client.organizations.getOrganization({ organizationId: orgId })
+
+      return (
+        <div>
+          <h1>Welcome to the {organization.name} organization</h1>
+          <p>Your role in this organization: {orgRole}</p>
+        </div>
+      )
+    }
+    ```
+  
+
+#### Astro
+
+
+    ```astro
+// Filename: src/pages/index.astro
+
+    ---
+    import Layout from '../layouts/Layout.astro'
+    import { Show } from '@clerk/astro/components'
+    import { clerkClient } from '@clerk/astro/server'
+
+    const { isAuthenticated, orgId, orgRole } = Astro.locals.auth()
+
+    let organization = null
+    if (isAuthenticated && orgId) {
+      organization = await clerkClient(Astro).organizations.getOrganization({ organizationId: orgId })
+    }
+    ---
+
+    
+      
+        <p>Sign in to try Clerk out!</p>
+      
+      
+        {
+          organization && (
+            <div class="p-8">
+              <h1 class="text-2xl font-bold mb-4">
+                Welcome to the <strong>{organization.name}</strong> organization
+              </h1>
+              <p class="mb-6">
+                Your role in this organization: <strong>{orgRole}</strong>
+              </p>
+            </div>
+          )
+        }
+      
+    
+    ```
+  
+
+#### Express
+
+
+    ```js
+// Filename: index.js
+
+    import { createClerkClient, getAuth } from '@clerk/express'
+    import express from 'express'
+
+    const app = express()
+    // Initialize the JS Backend SDK
+    // This varies depending on the SDK you're using
+    // https://clerk.com/docs/js-backend/getting-started/quickstart
+    const clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY })
+
+    app.get('/user', async (req, res) => {
+      // Accessing the `Auth` object differs depending on the SDK you're using
+      // https://clerk.com/docs/reference/backend/types/auth-object#how-to-access-the-auth-object
+      const { isAuthenticated, orgId } = getAuth(req)
+
+      // Protect the route from unauthenticated users
+      if (!isAuthenticated) {
+        res.status(401).json({ error: 'User not authenticated' })
+      }
+
+      // Check if there is an Active Organization
+      if (!orgId) {
+        res.status(404).json({ error: 'Set an Active Organization to access this page.' })
+      }
+
+      // Use the `getOrganization()` method to get the Backend `Organization` object
+      const organization = await clerkClient.organizations.getOrganization({ organizationId: orgId })
+
+      // Return the `Organization` object
+      res.json(organization)
+    })
+    ```
+  
+
+#### JS Backend SDK
+
+
+```js
+import { createClerkClient } from '@clerk/backend'
+
+// Initialize the JS Backend SDK
+// This varies depending on the SDK you're using
+// https://clerk.com/docs/js-backend/getting-started/quickstart
+const clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY })
+
+async function getOrganization(request) {
+  // Accessing the `Auth` object differs depending on the SDK you're using
+  // https://clerk.com/docs/reference/backend/types/auth-object#how-to-access-the-auth-object
+  const { isAuthenticated, orgId } = getAuth(req)
+
+  // Protect the route from unauthenticated users
+  if (!isAuthenticated) return null
+
+  // Check if there is an Active Organization
+  if (!orgId) return null
+
+  // Use the `getOrganization()` method to get the Backend `Organization` object
+  const organization = await clerkClient.organizations.getOrganization({ organizationId: orgId })
+
+  // Return the `Organization` object
+  return organization
+}
+```
+  
+
+#### React Router
+
+
+    ```tsx
+// Filename: app/routes/organization.tsx
+
+    import { getAuth } from '@clerk/react-router/ssr.server'
+    import { createClerkClient } from '@clerk/react-router/server'
+    import type { Route } from './+types/notion'
+
+    // Initialize the JS Backend SDK
+    // This varies depending on the SDK you're using
+    // https://clerk.com/docs/js-backend/getting-started/quickstart
+    const clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY })
+
+    export async function loader(args: Route.LoaderArgs) {
+      // Accessing the `Auth` object differs depending on the SDK you're using
+      // https://clerk.com/docs/reference/backend/types/auth-object#how-to-access-the-auth-object
+      const { isAuthenticated, orgId } = await getAuth(args)
+
+      // Protect the route from unauthenticated users
+      if (!isAuthenticated) {
+        return new Response('User not authenticated', {
+          status: 401,
+        })
+      }
+
+      // Check if there is an Active Organization
+      if (!orgId) {
+        return new Response('Set an Active Organization to access this page.', {
+          status: 404,
+        })
+      }
+
+      // Use the `getOrganization()` method to get the Backend `Organization` object
+      const organization = await clerkClient.organizations.getOrganization({ organizationId: orgId })
+
+      // Return the `Organization` object
+      return json({ organization })
+    }
+    ```
+  
+
+#### TanStack React Start
+
+
+    ```tsx
+// Filename: app/routes/api/organization.tsx
+
+    import { json } from '@tanstack/react-start'
+    import { createFileRoute } from '@tanstack/react-router'
+    import { auth, clerkClient } from '@clerk/tanstack-react-start/server'
+
+    export const ServerRoute = createFileRoute('/api/organization')({
+      server: {
+        handlers: {
+          GET: async () => {
+            // Accessing the `Auth` object differs depending on the SDK you're using
+            // https://clerk.com/docs/reference/backend/types/auth-object#how-to-access-the-auth-object
+            const { isAuthenticated, orgId } = await auth()
+
+            // Protect the route from unauthenticated users
+            if (!isAuthenticated) {
+              return new Response('User not authenticated', {
+                status: 401,
+              })
+            }
+
+            // Check if there is an Active Organization
+            if (!orgId) {
+              return new Response('Set an Active Organization to access this page.', {
+                status: 404,
+              })
+            }
+
+            // Use the `getOrganization()` method to get the Backend `Organization` object
+            const organization = await clerkClient.organizations.getOrganization({
+              organizationId: orgId,
+            })
+
+            // Return the `Organization` object
+            return json(organization)
+          },
+        },
+      },
+    })
+    ```
+  
+
+## Backend API (BAPI) endpoint
+
+This method in the SDK is a wrapper around the BAPI endpoint `GET/organizations/{organization_id}`. See the [BAPI reference](/reference/backend-api/tag/organizations/get/organizations/\{organization_id}) for more information.

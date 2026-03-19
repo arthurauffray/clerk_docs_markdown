@@ -1,0 +1,742 @@
+# Build a custom flow for switching Organizations
+
+
+> Learn how to use the Clerk API to build a custom flow for switching between Organizations.
+
+> [!WARNING]
+> This guide is for users who want to build a custom flow. To use a _prebuilt_ UI, use the [Account Portal pages](/guides/account-portal/overview) or [prebuilt components](/reference/components/overview).
+
+
+This guide will demonstrate how to use the Clerk API to build a custom flow for switching between Organizations.
+
+
+  Two examples are provided: one for a paginated list and one for an infinite list.
+
+  The following examples:
+
+  1. Use the [`useOrganizationList()`](/reference/hooks/use-organization-list) hook to get `memberships`, which is a list of the current user's Organization memberships. `memberships` returns `data`, which is an array of [`OrganizationMembership`](/reference/javascript/types/organization-membership) objects.
+  1. Map over the `data` array to display the user's Organization memberships in a table, providing a button that calls `setActive()` to set the selected Organization as the Active Organization.
+     - If there are no Organizations, the [`` component (custom-flow version, not the Clerk component)](/guides/development/custom-flows/organizations/create-organizations) is rendered to allow the user to create an Organization.
+
+  The difference between the two examples is the parameters passed to the `useOrganizationList()` hook in order to determine how the list is paginated.
+
+  - The "Paginated list" example provides a button to load more Organizations if there are more available. The `data` array is paginated and will only return the first 5 results, so the `fetchNext()` method is used to load more Organizations if they are available.
+  - The "Infinite list" example sets the `infinite` option to `true` to enable infinite results.
+
+  
+    
+      > [!TIP]
+> Examples for this SDK aren't available yet. For now, try adapting the  available example to fit your SDK.
+
+    
+
+    
+**Paginated list:**
+
+```jsx
+// Filename: app/components/CustomOrganizationSwitcher.tsx
+
+      'use client'
+
+      import { useAuth, useOrganizationList } from '@clerk/nextjs'
+      import CreateOrganization from '../components/create-organization' // See https://clerk.com/docs/guides/development/custom-flows/organizations/create-organizations for this component
+
+      // List user's organization memberships
+      export default function JoinedOrganizations() {
+        const { isLoaded, setActive, userMemberships } = useOrganizationList({
+          userMemberships: {
+            // Set pagination parameters
+            pageSize: 5,
+            keepPreviousData: true,
+          },
+        })
+        const { orgId } = useAuth()
+
+        if (!isLoaded) {
+          return <p>Loading...</p>
+        }
+
+        return (
+          <>
+            <h1>Joined organizations</h1>
+            {userMemberships?.data?.length > 0 && (
+              <>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Identifier</th>
+                      <th>Organization</th>
+                      <th>Joined</th>
+                      <th>Role</th>
+                      <th>Set as active org</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {userMemberships?.data?.map((mem) => (
+                      <tr key={mem.id}>
+                        <td>{mem.publicUserData.identifier}</td>
+                        <td>{mem.organization.name}</td>
+                        <td>{mem.createdAt.toLocaleDateString()}</td>
+                        <td>{mem.role}</td>
+                        <td>
+                          {orgId === mem.organization.id ? (
+                            <button onClick={() => setActive({ organization: mem.organization.id })}>
+                              Set as active
+                            </button>
+                          ) : (
+                            <p>Currently active</p>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+                <div>
+                  <button
+                    disabled={!userMemberships?.hasPreviousPage || userMemberships?.isFetching}
+                    onClick={() => userMemberships?.fetchPrevious?.()}
+                  >
+                    Previous
+                  </button>
+
+                  <button
+                    disabled={!userMemberships?.hasNextPage || userMemberships?.isFetching}
+                    onClick={() => userMemberships?.fetchNext?.()}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
+            )}
+            {userMemberships?.data?.length === 0 && (
+              <div>
+                <p>No organizations found</p>
+                </div>
+            )}
+          </>
+        )
+      }
+      ```
+
+
+**Infinite list:**
+
+```jsx
+// Filename: app/components/CustomOrganizationSwitcher.tsx
+
+      'use client'
+
+      import { useAuth, useOrganizationList } from '@clerk/nextjs'
+      import CreateOrganization from '../components/create-organization' // See https://clerk.com/docs/guides/development/custom-flows/organizations/create-organizations for this component
+
+      // List user's organization memberships
+      export default function JoinedOrganizations() {
+        const { isLoaded, setActive, userMemberships } = useOrganizationList({
+          userMemberships: {
+            // Set pagination parameters
+            infinite: true,
+          },
+        })
+        const { orgId } = useAuth()
+
+        if (!isLoaded) {
+          return <p>Loading...</p>
+        }
+
+        return (
+          <>
+            <h1>Joined organizations</h1>
+            {userMemberships?.data?.length > 0 && (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Identifier</th>
+                    <th>Organization</th>
+                    <th>Joined</th>
+                    <th>Role</th>
+                    <th>Set as active org</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {userMemberships?.data?.map((mem) => (
+                    <tr key={mem.id}>
+                      <td>{mem.publicUserData.identifier}</td>
+                      <td>{mem.organization.name}</td>
+                      <td>{mem.createdAt.toLocaleDateString()}</td>
+                      <td>{mem.role}</td>
+                      <td>
+                        {orgId === mem.organization.id ? (
+                          <button onClick={() => setActive({ organization: mem.organization.id })}>
+                            Set as active
+                          </button>
+                        ) : (
+                          <p>Currently active</p>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            {userMemberships?.data?.length === 0 && (
+              <div>
+                <p>No organizations found</p>
+                </div>
+            )}
+          </>
+        )
+      }
+      ```
+
+  
+
+  
+    
+**Paginated list:**
+
+```tsx
+// Filename: app/components/organization-switcher.tsx
+
+      import { CreateOrganization } from '@/components/create-organization' // See https://clerk.com/docs/guides/development/custom-flows/organizations/create-organizations for this component
+
+      import { ThemedText } from '@/components/themed-text'
+      import { ThemedView } from '@/components/themed-view'
+      import { useAuth, useOrganizationList } from '@clerk/expo'
+      import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+
+      // List user's organization memberships
+      export const OrganizationSwitcher = () => {
+        const { isLoaded, setActive, userMemberships } = useOrganizationList({
+          userMemberships: {
+            // Set pagination parameters
+            pageSize: 5,
+            keepPreviousData: true,
+          },
+        })
+        const { orgId } = useAuth()
+
+        if (!isLoaded) {
+          return (
+            
+              Loading...
+            
+          )
+        }
+
+        return (
+          
+            
+              Joined organizations
+            
+            {userMemberships?.data?.length > 0 && (
+              <>
+                
+                  {userMemberships?.data?.map((mem) => (
+                    
+                      Identifier:
+                      
+                        {mem.publicUserData?.identifier || 'N/A'}
+                      
+
+                      Organization:
+                      {mem.organization.name}
+
+                      Joined:
+                      {mem.createdAt.toLocaleDateString()}
+
+                      Role:
+                      {mem.role}
+
+                      
+                        {orgId === mem.organization.id ? (
+                          Currently active
+                        ) : (
+                           [styles.button, pressed && styles.buttonPressed]}
+                            onPress={() => setActive({ organization: mem.organization.id })}
+                          >
+                            Set as active
+                          
+                        )}
+                      
+                    
+                  ))}
+                
+
+                
+                   [
+                      styles.paginationButton,
+                      (!userMemberships?.hasPreviousPage || userMemberships?.isFetching) &&
+                        styles.buttonDisabled,
+                      pressed && styles.buttonPressed,
+                    ]}
+                    disabled={!userMemberships?.hasPreviousPage || userMemberships?.isFetching}
+                    onPress={() => userMemberships?.fetchPrevious?.()}
+                  >
+                    Previous
+                  
+
+                   [
+                      styles.paginationButton,
+                      (!userMemberships?.hasNextPage || userMemberships?.isFetching) &&
+                        styles.buttonDisabled,
+                      pressed && styles.buttonPressed,
+                    ]}
+                    disabled={!userMemberships?.hasNextPage || userMemberships?.isFetching}
+                    onPress={() => userMemberships?.fetchNext?.()}
+                  >
+                    Next
+                  
+                
+              </>
+            )}
+            {userMemberships?.data?.length === 0 && (
+              
+                No organizations found
+                
+            )}
+          
+        )
+      }
+
+      const styles = StyleSheet.create({
+        container: {
+          flex: 1,
+          padding: 20,
+        },
+        center: {
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 16,
+        },
+        title: {
+          marginBottom: 20,
+        },
+        scrollView: {
+          flex: 1,
+        },
+        card: {
+          backgroundColor: 'rgba(128, 128, 128, 0.1)',
+          borderRadius: 8,
+          padding: 16,
+          marginBottom: 12,
+          gap: 8,
+        },
+        label: {
+          fontWeight: '600',
+          fontSize: 14,
+        },
+        value: {
+          fontSize: 16,
+          marginBottom: 8,
+        },
+        buttonContainer: {
+          marginTop: 8,
+        },
+        button: {
+          backgroundColor: '#0a7ea4',
+          paddingVertical: 12,
+          paddingHorizontal: 24,
+          borderRadius: 8,
+          alignItems: 'center',
+        },
+        buttonPressed: {
+          opacity: 0.7,
+        },
+        buttonDisabled: {
+          opacity: 0.5,
+        },
+        buttonText: {
+          color: '#fff',
+          fontWeight: '600',
+        },
+        activeText: {
+          color: '#0a7ea4',
+          fontWeight: '600',
+        },
+        pagination: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: 20,
+          gap: 12,
+        },
+        paginationButton: {
+          flex: 1,
+          backgroundColor: '#0a7ea4',
+          paddingVertical: 12,
+          paddingHorizontal: 24,
+          borderRadius: 8,
+          alignItems: 'center',
+        },
+        emptyContainer: {
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 20,
+        },
+      })
+      ```
+
+
+**Infinite list:**
+
+```tsx
+// Filename: app/components/organization-switcher.tsx
+
+      import { ThemedText } from '@/components/themed-text'
+      import { ThemedView } from '@/components/themed-view'
+      import { useAuth, useOrganizationList } from '@clerk/expo'
+      import { FlatList, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+
+      // List user's organization memberships
+      export default function JoinedOrganizations() {
+        const { isLoaded, setActive, userMemberships } = useOrganizationList({
+          userMemberships: {
+            // Set pagination parameters
+            infinite: true,
+          },
+        })
+        const { orgId } = useAuth()
+
+        if (!isLoaded) {
+          return (
+            
+              Loading...
+            
+          )
+        }
+
+        return (
+          
+            
+              
+                Joined organizations
+              
+
+              {userMemberships?.data && userMemberships.data.length > 0 ? (
+                 item.id}
+                  renderItem={({ item: mem }) => (
+                    
+                      
+                        {mem.organization.name}
+                        
+                          Identifier: {mem.publicUserData?.identifier || 'N/A'}
+                        
+                        
+                          Joined: {mem.createdAt.toLocaleDateString()}
+                        
+                        Role: {mem.role}
+                      
+
+                      
+                        {orgId !== mem.organization.id ? (
+                           [styles.button, pressed && styles.buttonPressed]}
+                            onPress={() => setActive({ organization: mem.organization.id })}
+                          >
+                            Set as active
+                          
+                        ) : (
+                          
+                            Currently active
+                          
+                        )}
+                      
+                    
+                  )}
+                />
+              ) : (
+                
+                  No organizations found
+                
+              )}
+            
+          
+        )
+      }
+
+      const styles = StyleSheet.create({
+        container: {
+          flex: 1,
+          padding: 20,
+        },
+        title: {
+          marginBottom: 16,
+        },
+        organizationCard: {
+          padding: 16,
+          backgroundColor: '#f5f5f5',
+          borderRadius: 8,
+          marginBottom: 12,
+          gap: 12,
+        },
+        organizationInfo: {
+          gap: 6,
+        },
+        organizationName: {
+          fontSize: 18,
+          fontWeight: '600',
+        },
+        detailText: {
+          fontSize: 14,
+          opacity: 0.8,
+        },
+        organizationActions: {
+          marginTop: 4,
+        },
+        button: {
+          backgroundColor: '#0a7ea4',
+          paddingVertical: 10,
+          paddingHorizontal: 20,
+          borderRadius: 6,
+          alignItems: 'center',
+        },
+        buttonPressed: {
+          opacity: 0.7,
+        },
+        buttonText: {
+          color: '#fff',
+          fontWeight: '600',
+          fontSize: 14,
+        },
+        activeContainer: {
+          padding: 10,
+          backgroundColor: '#e8f5e9',
+          borderRadius: 6,
+          alignItems: 'center',
+        },
+        activeText: {
+          color: '#2e7d32',
+          fontWeight: '600',
+          fontSize: 14,
+        },
+        emptyContainer: {
+          padding: 20,
+          gap: 16,
+          alignItems: 'center',
+        },
+        emptyText: {
+          fontSize: 16,
+          opacity: 0.8,
+        },
+      })
+      ```
+
+  
+
+
+  The following example:
+
+  1. Calls the [`getOrganizationMemberships()`](/reference/javascript/user#get-organization-memberships) method to retrieve the list of Organizations the current user is a part of. This method returns `data`, which is an array of [`OrganizationMembership`](/reference/javascript/types/organization-membership) objects.
+  1. Maps over the `data` array to display the user's Organization memberships in a list, providing a button that calls [`setActive()`](/reference/javascript/clerk#set-active) to set the selected Organization as the Active Organization.
+
+  Use the following tabs to view the code necessary for the `index.html` and `main.js` files.
+
+  
+**index.html:**
+
+```html
+<!-- Filename: index.html -->
+
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Clerk + JavaScript App</title>
+      </head>
+      <body>
+        <div id="app"></div>
+
+        <h2>Joined organizations</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Identifier</th>
+              <th>Organization</th>
+              <th>Joined</th>
+              <th>Role</th>
+              <th>Set as active org</th>
+            </tr>
+          </thead>
+          <tbody id="memberships-table-body"></tbody>
+        </table>
+
+        <div id="create-organization-container" hidden>
+          <h1>Create an organization</h1>
+          <form id="create-organization">
+            <label for="name">Name</label>
+            <input id="name" name="name" />
+            <button>Create organization</button>
+          </form>
+        </div>
+
+        <script type="module" src="/src/main.js" async crossorigin="anonymous"></script>
+      </body>
+    </html>
+    ```
+
+
+**main.js:**
+
+```js
+// Filename: main.js
+
+    import { Clerk } from '@clerk/clerk-js'
+
+    const pubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+    if (!pubKey) {
+      throw new Error('Add your VITE_CLERK_PUBLISHABLE_KEY to .env file')
+    }
+
+    const clerk = new Clerk('{{pub_key}}')
+    await clerk.load()
+
+    if (clerk.isSignedIn) {
+      // Check for an Active Organization
+      if (clerk.organization) {
+        const { data } = await clerk.user.getOrganizationMemberships()
+        const memberships = data
+
+        memberships.map((membership) => {
+          const membershipTable = document.getElementById('memberships-table-body')
+          const row = membershipTable.insertRow()
+          row.insertCell().textContent = membership.publicUserData.identifier
+          row.insertCell().textContent = membership.organization.name
+          row.insertCell().textContent = membership.createdAt.toLocaleDateString()
+          row.insertCell().textContent = membership.role
+
+          // Set as Active Organization
+          const addBtn = document.createElement('button')
+          addBtn.textContent = 'Set as active'
+          addBtn.addEventListener('click', async function (e) {
+            e.preventDefault()
+
+            await clerk
+              .setActive({ organization: membership.organization.id })
+              .then((res) => {
+                console.log('Set as active:', res)
+              })
+              .catch((err) => {
+                // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+                // for more info on error handling
+                console.error(JSON.stringify(err, null, 2))
+              })
+          })
+          row.insertCell().appendChild(addBtn)
+        })
+      } else {
+        // If there is no Active Organization,
+        // render a form to create an Organization
+        document.getElementById('create-organization-container').removeAttribute('hidden')
+        const form = document.getElementById('create-organization')
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault()
+
+          const inputEl = document.getElementById('name')
+
+          if (!inputEl) {
+            // ... handle empty input
+            return
+          }
+
+          clerk
+            .createOrganization({ name: inputEl.value })
+            .then((res) => console.log(res))
+            .catch((error) => console.log('An error occurred:', error))
+        })
+      }
+    } else {
+      // If there is no active user, mount Clerk's // or add your sign-in custom flow
+      document.getElementById('app').innerHTML = `
+        <div id="sign-in"></div>
+      `
+
+      const signInDiv = document.getElementById('sign-in')
+
+      clerk.mountSignIn(signInDiv)
+    }
+    ```
+
+
+  ```swift
+// Filename: OrganizationSwitcherView.swift
+
+  import SwiftUI
+  import ClerkKit
+
+  struct OrganizationSwitcherView: View {
+    @Environment(Clerk.self) private var clerk
+    @State private var memberships: [OrganizationMembership] = []
+
+    var body: some View {
+      VStack {
+        ForEach(memberships) { membership in
+          HStack {
+            Text(membership.organization.name)
+            Button("Set active") {
+              Task { await setActiveOrganization(organizationId: membership.organization.id) }
+            }
+          }
+        }
+      }
+      .task { await fetchOrganizationMemberships() }
+    }
+  }
+
+  extension OrganizationSwitcherView {
+
+    func fetchOrganizationMemberships() async {
+      do {
+        memberships = try await clerk.user?.getOrganizationMemberships().data ?? []
+      } catch {
+        // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+        // for more info on error handling
+        dump(error)
+        memberships = []
+      }
+    }
+
+    func setActiveOrganization(organizationId: String) async {
+      guard let sessionId = clerk.session?.id else { return }
+
+      do {
+        try await clerk.auth.setActive(sessionId: sessionId, organizationId: organizationId)
+      } catch {
+        // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+        // for more info on error handling
+        dump(error)
+      }
+    }
+  }
+  ```
+
+
+  ```kotlin
+  import com.clerk.api.Clerk
+  import com.clerk.api.network.serialization.ClerkResult
+  import com.clerk.api.network.serialization.onFailure
+  import com.clerk.api.organizations.OrganizationMembership
+  import com.clerk.api.user.getOrganizationMemberships
+
+  suspend fun fetchOrganizationMemberships(): List {
+    val membershipsResult = Clerk.user?.getOrganizationMemberships() ?: return emptyList()
+    return when (membershipsResult) {
+      is ClerkResult.Success -> membershipsResult.value.data
+      is ClerkResult.Failure -> emptyList()
+    }
+  }
+
+  suspend fun setActiveOrganization(organizationId: String) {
+    val sessionId = Clerk.session?.id ?: return
+
+    Clerk.auth
+      .setActive(sessionId = sessionId, organizationId = organizationId)
+      .onFailure {
+        // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+        // for more info on error handling
+      }
+  }
+  ```

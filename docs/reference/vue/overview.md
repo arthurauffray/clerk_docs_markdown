@@ -1,0 +1,39 @@
+# Clerk Vue SDK
+
+
+> The Clerk Vue SDK gives you access to prebuilt components, composables, and helpers to make user authentication easier.
+
+The Clerk Vue SDK gives you access to prebuilt components, composables, and helpers to make user authentication easier. Refer to the [quickstart guide](/vue/getting-started/quickstart) to get started.
+
+## `clerkPlugin`
+
+To configure Clerk with Vue, you must initialize `clerkPlugin`. See the [quickstart](/vue/getting-started/quickstart#add-clerk-plugin-to-your-app) for more information.
+
+## `updateClerkOptions()`
+
+The `updateClerkOptions()` function is used to update Clerk's options at runtime. It can be called at any time after [Clerk has been initialized](/reference/vue/clerk-plugin). See the [reference documentation](/reference/vue/update-clerk-options) for more information.
+
+## Custom composables
+
+The Vue SDK provides access to custom composables that include access to the [`Clerk`](/reference/javascript/clerk) object, [`User` object](/reference/javascript/user), [`Organization` object](/reference/javascript/organization), and a set of useful helper methods for signing in and signing up.
+
+- [`useUser()`](/reference/composables/use-user)
+- [`useClerk()`](/reference/composables/use-clerk)
+- [`useAuth()`](/reference/composables/use-auth)
+- [`useSignIn()`](/reference/composables/use-sign-in)
+- [`useSignUp()`](/reference/composables/use-sign-up)
+- [`useSession()`](/reference/composables/use-session)
+- [`useSessionList()`](/reference/composables/use-session-list)
+- [`useOrganization()`](/reference/composables/use-organization)
+
+
+## Framework-specific SDKs
+
+> [!IMPORTANT]
+> If you're building a standard Vue application (client-side only), use `@clerk/vue`. If you're using Nuxt, use the dedicated `@clerk/nuxt` package which includes backend integration.
+
+Clerk offers framework-specific SDKs that are customized to provide the better developer experience and integration with each framework's features. Choose the appropriate SDK based on your framework:
+
+| Framework | Package | Docs |
+| - | - | - |
+| Nuxt | `@clerk/nuxt` | [Nuxt SDK](/reference/nuxt/overview) |

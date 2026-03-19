@@ -1,0 +1,6 @@
+# The Backend `Organization` object
+
+
+> The Backend Organization object holds information about an Organization, as well as methods for managing it. However, the it is different from the Organization object in that it is used in the Backend API and is not directly accessible from the Frontend API.
+
+

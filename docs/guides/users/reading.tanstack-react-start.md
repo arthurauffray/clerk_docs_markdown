@@ -1,0 +1,195 @@
+# Read session and user data in your TanStack React Start app with Clerk
+
+
+> Learn how to use Clerk's hooks and helpers to protect content and read user data in your TanStack React Start application.
+
+Clerk provides a set of [hooks and helpers](/reference/tanstack-react-start/overview#client-side-helpers) that you can use to protect content and read user data in your TanStack React Start application. Here are examples of how to use these helpers in both the client and server-side to get you started.
+
+## Server-side
+
+The [`auth()`](/reference/tanstack-react-start/auth) helper returns the [`Auth`](/reference/backend/types/auth-object) object of the currently active user, which contains important information like the current user's session ID, user ID, and Organization ID, and the `isAuthenticated` property, which can be used to protect your API routes.
+
+In some cases, you may need the full [`Backend User`](/reference/backend/types/backend-user) object of the currently active user. This is helpful if you want to render information, like their first and last name, directly from the server. The `clerkClient()` helper returns an instance of the [JS Backend SDK](/js-backend/getting-started/quickstart), which exposes Clerk's Backend API resources through methods such as the [`getUser()`](/reference/backend/user/get-user) method. This method returns the full `Backend User` object.
+
+In the following example, the `userId` is passed to the JS Backend SDK's `getUser()` method to get the user's full `Backend User` object.
+
+
+#### Server function
+
+
+    ```tsx
+// Filename: src/routes/index.tsx
+
+    import { createFileRoute, redirect } from '@tanstack/react-router'
+    import { createServerFn } from '@tanstack/react-start'
+    import { clerkClient, auth } from '@clerk/tanstack-react-start/server'
+    import { UserButton } from '@clerk/tanstack-react-start'
+
+    const authStateFn = createServerFn().handler(async () => {
+      // The `Auth` object gives you access to properties like `isAuthenticated` and `userId`
+      // Accessing the `Auth` object differs depending on the SDK you're using
+      // https://clerk.com/docs/reference/backend/types/auth-object#how-to-access-the-auth-object
+      const { isAuthenticated, userId } = await auth()
+
+      // Protect the server function from unauthenticated users
+      if (!isAuthenticated) {
+        // This might error if you're redirecting to a path that doesn't exist yet
+        // You can create a sign-in route to handle this
+        // See https://clerk.com/docs/reference/tanstack-react-start/custom-sign-in-or-up-page
+        throw redirect({
+          to: '/sign-in/$',
+        })
+      }
+
+      // Get the user's full `Backend User` object
+      const user = await clerkClient().users.getUser(userId)
+
+      return { userId, firstName: user?.firstName }
+    })
+
+    export const Route = createFileRoute('/')({
+      component: Home,
+      beforeLoad: () => authStateFn(),
+      loader: async ({ context }) => {
+        return { userId: context.userId, firstName: context.firstName }
+      },
+    })
+
+    function Home() {
+      const state = Route.useLoaderData()
+
+      return (
+        <div>
+          <h1>Welcome, {state.firstName}!</h1>
+          <p>Your ID is {state.userId}</p>
+          </div>
+      )
+    }
+    ```
+  
+
+#### API Route
+
+
+    ```ts
+// Filename: src/routes/api/example.ts
+
+    import { auth, clerkClient } from '@clerk/tanstack-react-start/server'
+    import { json } from '@tanstack/react-start'
+    import { createFileRoute } from '@tanstack/react-router'
+
+    export const ServerRoute = createFileRoute('/api/example')({
+      server: {
+        handlers: {
+          GET: async () => {
+            // The `Auth` object gives you access to properties like `isAuthenticated` and `userId`
+            // Accessing the `Auth` object differs depending on the SDK you're using
+            // https://clerk.com/docs/reference/backend/types/auth-object#how-to-access-the-auth-object
+            const { isAuthenticated, userId } = await auth()
+
+            // Protect the API route from unauthenticated users
+            if (!isAuthenticated) {
+              return new Response('User not authenticated', {
+                status: 404,
+              })
+            }
+
+            // Get the user's full `Backend User` object
+            const user = await clerkClient().users.getUser(userId)
+
+            // Return the `Backend User` object
+            return json({ user })
+          },
+        },
+      },
+    })
+    ```
+  
+
+## Client-side
+
+To access session and user data on the client-side, use Clerk's `useAuth()` and `useUser()` hooks.
+
+### `useAuth()`
+
+
+The [`useAuth()`](/reference/hooks/use-auth) hook provides information about the current auth state, as well as helper methods to manage the current session.
+
+```tsx
+// Filename: routes/example.tsx
+
+import { useAuth } from '@clerk/tanstack-react-start'
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/example')({
+  component: Example,
+})
+
+function Example() {
+  const { isLoaded, isSignedIn, userId, sessionId, getToken } = useAuth()
+
+  const fetchExternalData = async () => {
+    // Use `getToken()` to get the current user's session token
+    const token = await getToken()
+
+    // Use `token` to fetch data from an external API
+    const response = await fetch('https://api.example.com/data', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    return response.json()
+  }
+
+  // Use `isLoaded` to check if Clerk is loaded
+  if (!isLoaded) {
+    return <div>Loading...</div>
+  }
+
+  // Use `isSignedIn` to check if the user is signed in
+  if (!isSignedIn) {
+    // You could also add a redirect to the sign-in page here
+    return <div>Sign in to view this page</div>
+  }
+
+  return (
+    <div>
+      Hello, {userId}! Your current active session is {sessionId}.
+    </div>
+  )
+}
+```
+
+### `useUser()`
+
+
+The [`useUser()`](/reference/hooks/use-user) hook enables you to access the [`User`](/reference/javascript/user) object, which contains the current user's data such as their full name.
+
+The following example demonstrates how to use `useUser()` to check if the user is signed in and display their first name:
+
+```tsx
+// Filename: routes/example.tsx
+
+import { useUser } from '@clerk/tanstack-react-start'
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/example')({
+  component: Example,
+})
+
+function Example() {
+  const { isLoaded, isSignedIn, user } = useUser()
+
+  if (!isLoaded) {
+    return <div>Loading...</div>
+  }
+
+  if (!isSignedIn) {
+    // You could also add a redirect to the sign-in page here
+    return <div>Sign in to view this page</div>
+  }
+
+  return <div>Hello, {user.firstName}!</div>
+}
+```

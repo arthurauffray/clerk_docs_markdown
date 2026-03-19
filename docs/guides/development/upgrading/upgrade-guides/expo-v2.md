@@ -1,0 +1,24 @@
+# Upgrade to @clerk/clerk-expo v2
+
+
+> Learn how to upgrade your application to use the latest Clerk Expo SDK.
+
+`@clerk/clerk-expo@2` introduces updated platform requirements:
+
+- React Native ≥ `0.73.0`
+- Expo SDK ≥ `50.0.0`
+
+## Upgrade steps
+
+
+  ### Update Expo to version 50 or later
+
+  Update your Expo package to version `50` or later. To upgrade your Expo package, follow the [Expo upgrade guide](https://docs.expo.dev/workflow/upgrading-expo-sdk-walkthrough/).
+
+  ### Update Clerk Expo SDK
+
+  Run the following command to update the Clerk Expo SDK to the latest v2 version:
+
+  ```npm
+  npm install @clerk/clerk-expo@^2
+  ```

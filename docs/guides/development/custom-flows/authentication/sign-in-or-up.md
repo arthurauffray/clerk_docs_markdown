@@ -1,0 +1,281 @@
+# Sign-in-or-up custom flow
+
+
+> Learn how to handle a combined sign-up and sign-in flow in your application.
+
+> [!WARNING]
+> This guide is for users who want to build a custom flow. To use a _prebuilt_ UI, use the [Account Portal pages](/guides/account-portal/overview) or [prebuilt components](/reference/components/overview).
+
+
+  > [!IMPORTANT]
+  > This guide applies to the following Clerk SDKs:
+  >
+  > - `@clerk/react` v6 or higher
+  > - `@clerk/nextjs` v7 or higher
+  > - `@clerk/expo` v3 or higher
+  > - `@clerk/react-router` v3 or higher
+  > - `@clerk/tanstack-react-start` v0.26.0 or higher
+  >
+  > If you're using an older version of one of these SDKs, or are using the legacy API, refer to the [legacy API documentation](/guides/development/custom-flows/authentication/legacy/sign-in-or-up).
+
+
+This guide demonstrates how to build a custom user interface that **allows users to sign up or sign in within a single flow**. It uses email and password authentication, but you can modify this approach according to the needs of your application.
+
+## Enable email and password authentication
+
+**This example uses the [email and password sign-in custom flow](/guides/development/custom-flows/authentication/email-password) as a base. However, you can modify this approach according to the settings you've configured for your application's instance in the Clerk Dashboard.**
+
+1. In the Clerk Dashboard, navigate to the [**User & authentication**](https://dashboard.clerk.com/~/user-authentication/user-and-authentication) page.
+1. Enable **Sign-up with email**.
+   - **Require email address** should be enabled.
+   - For **Verify at sign-up**, **Email verification code** is enabled by default, and is used for this guide. If you'd like to use **Email verification link** instead, see the [dedicated custom flow](/guides/development/custom-flows/authentication/email-links).
+1. Enable **Sign in with email**.
+   - This guide supports password authentication. If you'd like to build a custom flow that allows users to sign in passwordlessly, see the [email code custom flow](/guides/development/custom-flows/authentication/email-sms-otp) or the [email links custom flow](/guides/development/custom-flows/authentication/email-links).
+1. Select the **Password** tab and enable **Sign-up with password**.
+   - [**Client Trust**](/guides/secure/client-trust) is enabled by default. The sign-in example supports it using email verification codes because it's the default second factor strategy.
+
+
+## Sign-in-or-up flow
+
+To blend a sign-up and sign-in flow into a single flow, you must **treat it as a sign-in flow**, but with the ability to sign up a new user if they don't have an account. You can do this by **checking for the `form_identifier_not_found` error** if the sign-in process fails, and then starting the sign-up process.
+
+
+  > [!TIP]
+> Examples for this SDK aren't available yet. For now, try adapting the  available example to fit your SDK.
+
+
+  ```tsx
+// Filename: app/sign-in/page.tsx
+
+  'use client'
+
+  import { useSignIn, useSignUp } from '@clerk/nextjs'
+  import { useRouter } from 'next/navigation'
+  import React from 'react'
+
+  export default function Page() {
+    const { signIn, errors, fetchStatus } = useSignIn()
+    const { signUp } = useSignUp()
+    const router = useRouter()
+
+    const [emailAddress, setEmailAddress] = React.useState('')
+    const [password, setPassword] = React.useState('')
+    const [code, setCode] = React.useState('')
+    const [showEmailCode, setShowEmailCode] = React.useState(false)
+
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault()
+
+      const { error } = await signIn.password({
+        emailAddress,
+        password,
+      })
+      if (error) {
+        // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+        // for more info on error handling
+        console.error(JSON.stringify(error, null, 2))
+
+        // If the identifier is not found, the user is not signed up yet
+        // So swap to the sign-up flow
+        if (error.errors[0].code === 'form_identifier_not_found') {
+          try {
+            const { error } = await signUp.password({
+              emailAddress,
+              password,
+            })
+
+            // Send the user an email with the verification code
+            if (!error) await signUp.verifications.sendEmailCode()
+
+            // Display second form to capture the verification code
+            if (
+              signUp.status === 'missing_requirements' &&
+              signUp.unverifiedFields.includes('email_address') &&
+              signUp.missingFields.length === 0
+            ) {
+              setShowEmailCode(true)
+              return
+            }
+          } catch (err: any) {
+            // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+            // for more info on error handling
+            console.error(JSON.stringify(err, null, 2))
+          }
+        }
+      }
+
+      if (signIn.status === 'complete') {
+        await signIn.finalize({
+          navigate: ({ session, decorateUrl }) => {
+            if (session?.currentTask) {
+              //  Handle pending session tasks
+              // See https://clerk.com/docs/guides/development/custom-flows/authentication/session-tasks
+              console.log(session?.currentTask)
+              return
+            }
+
+            const url = decorateUrl('/')
+            if (url.startsWith('http')) {
+              window.location.href = url
+            } else {
+              router.push(url)
+            }
+          },
+        })
+      } else if (signIn.status === 'needs_second_factor') {
+        // See https://clerk.com/docs/guides/development/custom-flows/authentication/multi-factor-authentication
+      } else if (signIn.status === 'needs_client_trust') {
+        // For other second factor strategies,
+        // see https://clerk.com/docs/guides/development/custom-flows/authentication/client-trust
+        const emailCodeFactor = signIn.supportedSecondFactors.find(
+          (factor) => factor.strategy === 'email_code',
+        )
+
+        if (emailCodeFactor) {
+          await signIn.mfa.sendEmailCode()
+        }
+      } else {
+        // Check why the sign-in is not complete
+        console.error('Sign-in attempt not complete:', signIn)
+      }
+    }
+
+    const handleVerify = async (e: React.FormEvent) => {
+      e.preventDefault()
+      // Flow for signing up a new user
+      if (showEmailCode) {
+        // Use the code the user provided to attempt verification
+        const { error } = await signUp.verifications.verifyEmailCode({
+          code,
+        })
+        if (error) {
+          // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+          // for more info on error handling
+          console.error(JSON.stringify(error, null, 2))
+          return
+        }
+
+        // If verification was completed, set the session to active
+        // and redirect the user
+        if (signUp.status === 'complete') {
+          await signUp.finalize({
+            navigate: async ({ session, decorateUrl }) => {
+              if (session?.currentTask) {
+                // Handle session tasks
+                // See https://clerk.com/docs/guides/development/custom-flows/authentication/session-tasks
+                console.log(session?.currentTask)
+                return
+              }
+
+              const url = decorateUrl('/')
+              if (url.startsWith('http')) {
+                window.location.href = url
+              } else {
+                router.push(url)
+              }
+            },
+          })
+        } else {
+          // Check why the status is not complete
+          console.error('Sign-up attempt not complete. Status:', signUp.status)
+        }
+      }
+
+      // Flow for signing in an existing user
+      const { error } = await signIn.mfa.verifyEmailCode({
+        code,
+      })
+      if (error) {
+        // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+        // for more info on error handling
+        console.error(JSON.stringify(error, null, 2))
+        return
+      }
+
+      if (signIn.status === 'complete') {
+        await signIn.finalize({
+          navigate: async ({ session, decorateUrl }) => {
+            if (session?.currentTask) {
+              console.log(session?.currentTask)
+              return
+            }
+
+            const url = decorateUrl('/')
+            if (url.startsWith('http')) {
+              window.location.href = url
+            } else {
+              router.push(url)
+            }
+          },
+        })
+      } else {
+        // Check why the status is not complete
+        console.error('Sign-in attempt not complete. Status:', signIn.status)
+      }
+    }
+
+    if (showEmailCode || signIn.status === 'needs_client_trust') {
+      return (
+        <>
+          <h1>Verify your account</h1>
+          <form onSubmit={handleVerify}>
+            <div>
+              <label htmlFor="code">Code</label>
+              <input
+                id="code"
+                name="code"
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+              />
+              {errors.fields.code && <p>{errors.fields.code.message}</p>}
+            </div>
+            <button type="submit" disabled={fetchStatus === 'fetching'}>
+              Verify
+            </button>
+          </form>
+          <button onClick={() => signIn.mfa.sendEmailCode()}>I need a new code</button>
+          <button onClick={() => signIn.reset()}>Start over</button>
+        </>
+      )
+    }
+
+    return (
+      <>
+        <h1>Sign up/sign in</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="email">Enter email address</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={emailAddress}
+              onChange={(e) => setEmailAddress(e.target.value)}
+            />
+            {errors.fields.identifier && <p>{errors.fields.identifier.message}</p>}
+          </div>
+          <div>
+            <label htmlFor="password">Enter password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {errors.fields.password && <p>{errors.fields.password.message}</p>}
+          </div>
+          <button type="submit" disabled={fetchStatus === 'fetching'}>
+            Continue
+          </button>
+        </form>
+        
+        {errors && <p>{JSON.stringify(errors, null, 2)}</p>}
+
+        
+        <div id="clerk-captcha" />
+      </>
+    )
+  }
+  ```

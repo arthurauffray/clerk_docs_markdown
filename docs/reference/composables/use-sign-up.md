@@ -1,0 +1,49 @@
+# useSignUp() | Vue
+
+
+> Access and manage sign-up state in your Vue application with Clerk's useSignUp() composable.
+
+The `useSignUp()` composable provides access to the [`SignUp`](/reference/javascript/sign-up) object, which allows you to check the current state of a sign-up attempt and manage the sign-up flow. You can use this to create a custom sign-up flow.
+
+## Returns
+
+- **`isLoaded`** `Ref<boolean>`
+
+  A boolean that indicates whether Clerk has completed initialization. Initially `false`, becomes `true` once Clerk loads.
+
+    ---
+
+- **`setActive()`** <code>Ref\<(params: [SetActiveParams](/reference/javascript/types/set-active-params)) => Promise\<void>></code>
+
+  A function that sets the active session.
+
+    ---
+
+- **`signUp`** <code>Ref\<[SignUp](/reference/javascript/sign-up)></code>
+
+  An object that contains the current sign-up attempt status and methods to create a new sign-up attempt.
+
+
+## How to use the `useSignUp()` composable
+
+### Check the current state of a sign-up
+
+The following example uses the `useSignUp()` hook to access the [`SignUp`](/reference/javascript/sign-up) object, which contains the current sign-up attempt status and methods to create a new sign-up attempt. The `isLoaded` property is used to handle the loading state.
+
+```vue
+// Filename: SignUpStep.vue
+
+<script setup>
+import { useSignUp } from '@clerk/vue'
+
+const { isLoaded, signUp } = useSignUp()
+</script>
+
+<template>
+  <div v-if="!isLoaded">
+    <!-- Handle loading state -->
+  </div>
+
+  <div v-else>The current sign-up attempt status is {{ signUp?.status }}.</div>
+</template>
+```

@@ -1,0 +1,6 @@
+# The Backend `Verification` object
+
+
+> The Backend Verification object describes the state of the verification process of a sign-in or sign-up attempt.
+
+

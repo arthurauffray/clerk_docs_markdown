@@ -1,0 +1,60 @@
+# Change domain or subdomain
+
+
+> Learn how to change your Clerk production instance's domain or subdomain.
+
+Learn how to change your Clerk production instance's domain or subdomain.
+
+> [!WARNING]
+> You cannot change the domain of the [development instance](/guides/development/managing-environments#development-instance) of your Clerk application.
+
+## Change domain
+
+1. Update your production domain using either of the following options:
+   - The [Clerk Dashboard](#update-your-domain-via-clerk-dashboard)
+   - The [Backend API](#update-your-domain-via-backend-api)
+1. Once you make the change to your domain, you will need to update the following:
+   - Update DNS records.
+   - Generate new SSL certificates.
+   - [Update your Publishable Key](#update-your-publishable-key).
+   - If using social connections, update the settings with your social connections so that the redirect URL they are using is correct.
+   - If using JWT templates, update JWT issuer and JWKS Endpoint in external JWT SSO services.
+
+### Update your domain via Clerk Dashboard
+
+To update your **production** domain in the Clerk Dashboard:
+
+1. In the navigation sidenav, select **[Domains](https://dashboard.clerk.com/~/domains)**.
+1. Scroll to find the **Change domain** setting.
+
+### Update your domain via Backend API
+
+To update your production domain using the [Backend API](/reference/backend-api), you will need to make a POST request to the `change_domain` endpoint. You will need to provide your new domain in the request body.
+
+1. Copy the following cURL command.
+
+
+  2) Your Secret Key is required to authenticate the request. It is injected into the cURL command after `Authorization`.
+
+
+  2. Replace `YOUR_SECRET_KEY` with your Clerk Secret Key.
+
+
+3. Replace `YOUR_PROD_URL` with your new production domain.
+
+```bash
+# Filename: terminal
+
+curl -XPOST -H 'Authorization: {{secret}}' -H "Content-type: application/json" -d '{
+"home_url": "YOUR_PROD_URL"
+}' 'https://api.clerk.com/v1/instance/change_domain'
+```
+
+For more information on how to update your instance settings using the Backend API, see the [Backend API reference](/reference/backend-api/tag/beta-features/patch/beta_features/instance_settings).
+
+### Update your Publishable Key
+
+After changing your domain, a new Publishable Key will be automatically generated for your application. You need to update your environment variables with this new key and redeploy your application.
+
+> [!NOTE]
+> Failing to update your Publishable Key will result in Clerk failing to load.

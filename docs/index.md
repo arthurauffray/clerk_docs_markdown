@@ -1,0 +1,241 @@
+# Welcome to Clerk Docs
+
+
+> Add complete user management to your application in minutes.
+
+Clerk offers a variety of guides to help you build and work with Clerk. These guides cover a broad range of topics, from authentication flows and user management to security, billing, and deployment.
+
+Find the right guide for your needs, whether you're just getting started or looking to implement advanced features.
+
+
+  
+    - [Quickstarts & Tutorials](/getting-started/quickstart/overview)
+    - Explore our end-to-end tutorials and getting started guides for different application stacks using Clerk.
+    - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g clipPath="url(#a)"><path fill="currentColor" fillOpacity=".15" fillRule="evenodd" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 .75C24.422.75 31.25 7.578 31.25 16S24.422 31.25 16 31.25.75 24.422.75 16 7.578.75 16 .75M10 23l14-7-14-7z" clipRule="evenodd"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}
+
+    ---
+
+    - [UI Components](/reference/components/overview)
+    - Clerk's prebuilt UI components give you a beautiful, fully-functional user management experience in minutes.
+    - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g clipPath="url(#a)"><path fill="currentColor" fillOpacity=".15" d="M16 31.25 1.962 25.234A2 2 0 0 1 .75 23.395V7.285l14.462-6.197a2 2 0 0 1 1.576 0L31.25 7.286 16 13.896z"/><path fill="currentColor" d="m16 31.25-.295.69a.75.75 0 0 0 1.045-.69zM.75 7.286l-.295-.69a.75.75 0 0 0-.455.69zm30.5 0 .298.688a.75.75 0 0 0-.003-1.378zM16.788 1.088l-.296.689zm-1.576 0 .296.689zm1.083 29.473L2.258 24.544l-.591 1.38 14.038 6.015zM1.5 23.395V7.285L0 7.286v16.109zM31.545 6.596 17.083.398l-.591 1.379 14.463 6.198zM14.917.398.455 6.596l.59 1.38 14.463-6.199zM.452 7.974l15.25 6.61.596-1.376-15.25-6.61zm15.846 6.61 15.25-6.61-.596-1.376-15.25 6.61zm-1.048-.688V31.25h1.5V13.896zM17.083.398a2.75 2.75 0 0 0-2.166 0l.59 1.38a1.25 1.25 0 0 1 .985 0zM2.258 24.544a1.25 1.25 0 0 1-.758-1.149H0c0 1.1.656 2.096 1.667 2.529z"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M31.25 7.281v16.11a2 2 0 0 1-1.212 1.838L16 31.246"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}
+
+    ---
+
+    - [SDK Reference](/reference/overview)
+    - Dig into our SDK reference documentation. We have everything you need to get started setting up authentication with Clerk.
+    - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><path fill="currentColor" fillOpacity=".15" d="M1 10a1 1 0 0 1 1-1h29v21H5a4 4 0 0 1-4-4z"/><rect width="30.5" height="28.5" x=".75" y="1.75" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" rx="4"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13.25 15.75 9.75 19l3.5 3.25m5.5-6.5 3.5 3.25-3.5 3.25m-14-14h22.5"/></svg>}
+
+    ---
+
+    - [Customizing Clerk](/guides/customizing-clerk/appearance-prop/overview)
+    - Customize Clerk's UI components, email templates, and other aspects of the user experience to match your application's branding and user interface.
+    - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g clipPath="url(#a)"><path fill="currentColor" fillOpacity=".15" fillRule="evenodd" d="M12.32.75c1.16 0 2.103.942 2.103 2.104v24.271l-2.673 2.75-4.164 1.375-.352-.009A6.837 6.837 0 0 1 .75 24.414V2.854C.75 1.692 1.692.75 2.854.75zM7.546 22a2 2 0 1 0 0 4 2 2 0 0 0 0-4" clipRule="evenodd"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7.586 31.25a6.837 6.837 0 0 0 6.837-6.836V2.854A2.104 2.104 0 0 0 12.319.75H2.854A2.104 2.104 0 0 0 .75 2.854v21.56a6.836 6.836 0 0 0 6.836 6.836m0 0h21.56a2.103 2.103 0 0 0 2.104-2.103V19.68a2.103 2.103 0 0 0-2.103-2.103h-4.733m0 0C23.99 18 13.832 27.93 13.339 28.218m11.075-10.64 5.551-5.673a2.104 2.104 0 0 0 0-2.975l-6.693-6.693a2.103 2.103 0 0 0-2.975 0l-5.875 5.875M7.547 22a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}
+  
+
+
+  
+    - [Quickstarts & Tutorials](/getting-started/quickstart/overview)
+    - Explore our end-to-end tutorials and getting started guides for different application stacks using Clerk.
+    - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g clipPath="url(#a)"><path fill="currentColor" fillOpacity=".15" fillRule="evenodd" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 .75C24.422.75 31.25 7.578 31.25 16S24.422 31.25 16 31.25.75 24.422.75 16 7.578.75 16 .75M10 23l14-7-14-7z" clipRule="evenodd"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}
+
+    ---
+
+    - [Views](/reference/views/overview)
+    - Clerk's prebuilt Views give you a beautiful, fully-functional user management experience in minutes.
+    - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g clipPath="url(#a)"><path fill="currentColor" fillOpacity=".15" d="M16 31.25 1.962 25.234A2 2 0 0 1 .75 23.395V7.285l14.462-6.197a2 2 0 0 1 1.576 0L31.25 7.286 16 13.896z"/><path fill="currentColor" d="m16 31.25-.295.69a.75.75 0 0 0 1.045-.69zM.75 7.286l-.295-.69a.75.75 0 0 0-.455.69zm30.5 0 .298.688a.75.75 0 0 0-.003-1.378zM16.788 1.088l-.296.689zm-1.576 0 .296.689zm1.083 29.473L2.258 24.544l-.591 1.38 14.038 6.015zM1.5 23.395V7.285L0 7.286v16.109zM31.545 6.596 17.083.398l-.591 1.379 14.463 6.198zM14.917.398.455 6.596l.59 1.38 14.463-6.199zM.452 7.974l15.25 6.61.596-1.376-15.25-6.61zm15.846 6.61 15.25-6.61-.596-1.376-15.25 6.61zm-1.048-.688V31.25h1.5V13.896zM17.083.398a2.75 2.75 0 0 0-2.166 0l.59 1.38a1.25 1.25 0 0 1 .985 0zM2.258 24.544a1.25 1.25 0 0 1-.758-1.149H0c0 1.1.656 2.096 1.667 2.529z"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M31.25 7.281v16.11a2 2 0 0 1-1.212 1.838L16 31.246"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}
+
+    ---
+
+    - [SDK Reference](/reference/overview)
+    - Dig into our SDK reference documentation. We have everything you need to get started setting up authentication with Clerk.
+    - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><path fill="currentColor" fillOpacity=".15" d="M1 10a1 1 0 0 1 1-1h29v21H5a4 4 0 0 1-4-4z"/><rect width="30.5" height="28.5" x=".75" y="1.75" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" rx="4"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13.25 15.75 9.75 19l3.5 3.25m5.5-6.5 3.5 3.25-3.5 3.25m-14-14h22.5"/></svg>}
+
+    ---
+
+    - [Customizing Clerk](/guides/customizing-clerk/clerk-theme)
+    - Customize Clerk's views, email templates, and other aspects of the user experience to match your application's branding and user interface.
+    - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g clipPath="url(#a)"><path fill="currentColor" fillOpacity=".15" fillRule="evenodd" d="M12.32.75c1.16 0 2.103.942 2.103 2.104v24.271l-2.673 2.75-4.164 1.375-.352-.009A6.837 6.837 0 0 1 .75 24.414V2.854C.75 1.692 1.692.75 2.854.75zM7.546 22a2 2 0 1 0 0 4 2 2 0 0 0 0-4" clipRule="evenodd"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7.586 31.25a6.837 6.837 0 0 0 6.837-6.836V2.854A2.104 2.104 0 0 0 12.319.75H2.854A2.104 2.104 0 0 0 .75 2.854v21.56a6.836 6.836 0 0 0 6.836 6.836m0 0h21.56a2.103 2.103 0 0 0 2.104-2.103V19.68a2.103 2.103 0 0 0-2.103-2.103h-4.733m0 0C23.99 18 13.832 27.93 13.339 28.218m11.075-10.64 5.551-5.673a2.104 2.104 0 0 0 0-2.975l-6.693-6.693a2.103 2.103 0 0 0-2.975 0l-5.875 5.875M7.547 22a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}
+  
+
+
+## Explore by feature
+
+
+  - [Authentication](/guides/configure/auth-strategies/sign-up-sign-in-options)
+  - Clerk supports multiple authentication strategies so you can implement the strategy that makes sense for your users.
+  - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g clipPath="url(#a)"><path fill="currentColor" fillOpacity=".15" fillRule="evenodd" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M22.31.75a8.94 8.94 0 0 1 8.94 8.94 8.94 8.94 0 0 1-10.176 8.855c-.684-.095-1.395.066-1.9.538l-6.855 6.412H8.231v1.755a4 4 0 0 1-4 4H.75v-7.362l12.014-12.014c.455-.455.648-1.102.617-1.745A8.94 8.94 0 0 1 22.31.75m1.171 5.755a2.014 2.014 0 1 0 0 4.028 2.014 2.014 0 0 0 0-4.028" clipRule="evenodd"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}
+
+  ---
+
+  - [User management](/guides/users/managing)
+  - Complete user management. Add sign up, sign in, and profile management to your application in minutes.
+  - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g clipPath="url(#a)"><circle cx="16" cy="16" r="15.25" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"/><path fill="currentColor" fillOpacity=".15" d="M7.052 28.349a16.9 16.9 0 0 0 4.454 2.227 15.2 15.2 0 0 1-4.454-2.227m17.895 0a15.2 15.2 0 0 1-4.454 2.227 16.9 16.9 0 0 0 4.454-2.227M16 .75C24.422.75 31.25 7.578 31.25 16a15.2 15.2 0 0 1-5.067 11.35c-2.15-3.347-3.805-5.566-10.183-5.566s-8.033 2.218-10.184 5.567A15.2 15.2 0 0 1 .75 16C.75 7.578 7.578.75 16 .75"/><path fill="currentColor" d="m7.052 28.349.433-.613a.75.75 0 0 0-.874 1.22zm4.454 2.227-.22.717a.75.75 0 0 0 .452-1.43zm13.441-2.227.44.607a.75.75 0 0 0-.873-1.22zm-4.454 2.227-.231-.713a.75.75 0 0 0 .452 1.43zm5.69-3.225-.631.405a.75.75 0 0 0 1.132.153zM16 21.784v-.75zM5.816 27.351l-.5.558a.75.75 0 0 0 1.131-.153zm1.236.998-.433.612a17.6 17.6 0 0 0 4.655 2.329l.232-.714.232-.713a16.1 16.1 0 0 1-4.253-2.127zm4.454 2.227.22-.717a14.5 14.5 0 0 1-4.234-2.117l-.44.607-.44.607a16 16 0 0 0 4.673 2.337zm13.441-2.227-.44-.607a14.4 14.4 0 0 1-4.235 2.117l.221.717.22.717a16 16 0 0 0 4.675-2.337zm-4.454 2.227.232.713a17.6 17.6 0 0 0 4.655-2.328l-.433-.612-.433-.613a16.1 16.1 0 0 1-4.252 2.127zM16 .75v.75c8.008 0 14.5 6.492 14.5 14.5H32c0-8.837-7.163-16-16-16zM31.25 16h-.75a14.46 14.46 0 0 1-4.818 10.793l.5.558.502.558A15.96 15.96 0 0 0 32 16zm-5.067 11.35.63-.405c-1.069-1.665-2.095-3.188-3.724-4.26-1.646-1.082-3.817-1.65-7.089-1.65v1.5c3.106 0 4.951.54 6.265 1.404 1.33.874 2.206 2.134 3.287 3.817zM16 21.785v-.75c-3.272 0-5.443.569-7.09 1.651-1.628 1.072-2.655 2.595-3.725 4.26l.631.406.631.405c1.081-1.683 1.958-2.943 3.288-3.818 1.313-.863 3.159-1.404 6.265-1.404zM5.816 27.351l.501-.558A14.46 14.46 0 0 1 1.5 16H0c0 4.73 2.054 8.98 5.315 11.909zM.75 16h.75C1.5 7.992 7.992 1.5 16 1.5V0C7.163 0 0 7.163 0 16z"/><circle cx="16" cy="12.845" r="3.681" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}
+
+  ---
+
+  - [Organizations](/guides/organizations/overview)
+  - Organizations are shared accounts, useful for project and team leaders. Members with elevated privileges can manage member access to the Organization's data and resources.
+  - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g clipPath="url(#a)"><path fill="currentColor" fillOpacity=".15" d="M19.998 6.578h3.038v7.414l-9.411.82V32H1.094V6.578h2.194V1.28h16.71z"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M.74 31.25V6.009h3.155m18.93 8.413V6.01h-3.154m-15.776 0V.75H19.67v5.259m-15.776 0H19.67M13.375 31.25V15.422a1 1 0 0 1 1-1h15.88a1 1 0 0 1 1 1V31.25m-11.44-11.414h5M6.283 10.25h11m2.532 15.586h5"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}
+
+  ---
+
+  - [Billing](/guides/billing/overview)
+  - Set up and manage Billing for B2C and B2B applications, including free trials, Subscription Plans, payments, and webhook events.
+  - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><path fill="currentColor" fillOpacity=".15" d="M4.734 30.25h22.532c2.2 0 3.984-2.144 3.984-4.788V10.87H.75v14.592c0 2.644 1.784 4.788 3.984 4.788"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M.75 10.87v14.592c0 2.644 1.784 4.788 3.984 4.788h22.532c2.2 0 3.984-2.144 3.984-4.788V10.87m-30.5 0V6.538c0-2.644 1.784-4.788 3.984-4.788h22.532c2.2 0 3.984 2.144 3.984 4.788v4.332m-30.5 0h30.5M7.06 23.41h1.052m9.466 0h7.362"/></svg>}
+
+  ---
+
+  - [Waitlist](/guides/secure/waitlist)
+  - Collect signups and control access to new features or products before launch, with a simple, integrated workflow for developers.
+  - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><path fill="currentColor" fillOpacity=".15" d="M29 1.031a3 3 0 0 1 3 3V23.97l-.004.142A6.75 6.75 0 0 0 25.25 17.5a6.75 6.75 0 0 0-.64 13.469H3a3 3 0 0 1-3-3V4.03a3 3 0 0 1 3-3z"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M14.422 30.25H2.75a2 2 0 0 1-2-2V3.75a2 2 0 0 1 2-2h26.5a2 2 0 0 1 2 2v8.26M5.813 9.5h20.5M5.813 16h10.25m-10.25 6.5h6.343"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M25.25 21.564v2.686l1.86 1.86m4.14-1.86a6 6 0 1 1-12 0 6 6 0 0 1 12 0"/></svg>}
+
+
+## Explore by frontend framework
+
+
+  - [Next.js](/nextjs/getting-started/quickstart)
+  - Easily add secure, beautiful, and fast authentication to Next.js with Clerk.
+  - ---
+
+  - [React](/react/getting-started/quickstart)
+  - Get started installing and initializing Clerk in a new React + Vite app.
+  - ---
+
+  - [Astro](/astro/getting-started/quickstart)
+  - Easily add secure and SSR-friendly authentication to your Astro application with Clerk.
+  - ---
+
+  - [Chrome Extension](/chrome-extension/getting-started/quickstart)
+  - Use the Chrome Extension SDK to authenticate users in your Chrome extension.
+  - ---
+
+  - [Expo](/expo/getting-started/quickstart)
+  - Use Clerk with Expo to authenticate users in your React Native application.
+  - ---
+
+  - [Android](/android/getting-started/quickstart)
+  - Use the Clerk Android SDK to authenticate users in your native Android applications.
+  - ---
+
+  - [iOS](/ios/getting-started/quickstart)
+  - Use the Clerk iOS SDK to authenticate users in your native Apple applications.
+  - ---
+
+  - [JavaScript](/js-frontend/getting-started/quickstart)
+  - The Clerk JavaScript SDK gives you access to prebuilt components and helpers to make user authentication easier.
+  - ---
+
+  - [Nuxt](/nuxt/getting-started/quickstart)
+  - Easily add secure, beautiful, and fast authentication to Nuxt with Clerk.
+  - ---
+
+  - [React Router](/react-router/getting-started/quickstart)
+  - Easily add secure, edge- and SSR-friendly authentication to React Router with Clerk.
+  - ---
+
+  - [TanStack React Start](/tanstack-react-start/getting-started/quickstart)
+  - Easily add secure and SSR-friendly authentication to your TanStack React Start application with Clerk.
+  - ---
+
+  - [Vue](/vue/getting-started/quickstart)
+  - Get started installing and initializing Clerk in a new Vue + Vite app.
+  - 
+
+## Explore by backend framework
+
+
+  - [JS Backend SDK](/js-backend/getting-started/quickstart)
+  - The JavaScript Backend SDK exposes our Backend API resources and low-level authentication utilities for JavaScript environments.
+  - ---
+
+  - [C#](https://github.com/clerk/clerk-sdk-csharp/blob/main/README.md)
+  - The Clerk C# SDK is a wrapper around our Backend API to make it easier to integrate Clerk into your backend.
+  - ---
+
+  - [Express](/expressjs/getting-started/quickstart)
+  - Quickly add authentication and user management to your Express application.
+  - ---
+
+  - [Go](/go/getting-started/quickstart)
+  - The Clerk Go SDK is a wrapper around the Backend API written in Golang to make it easier to integrate Clerk into your backend.
+  - ---
+
+  - [Fastify](/fastify/getting-started/quickstart)
+  - Build secure authentication and user management flows for your Fastify server.
+  - ---
+
+  - [Python](https://github.com/clerk/clerk-sdk-python/blob/main/README.md)
+  - The Clerk Python SDK is a wrapper around the Backend API written in Python to make it easier to integrate Clerk into your backend.
+  - ---
+
+  - [Ruby on Rails](/ruby/getting-started/quickstart)
+  - Integrate authentication and user management into your Ruby application.
+  - 
+
+## Beyond the basics
+
+
+  - [Securing your application](/guides/secure/authorization-checks)
+  - Enhance the security of your application with access control, authorization checks, session options, MFA, password policies, bot protection, and compliance tools.
+  - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M24.382 20.897c0-4.45-3.753-8.059-8.382-8.059-4.63 0-8.382 3.608-8.382 8.059 0 3.045 1.098 5.843 2.934 8.05a13.3 13.3 0 0 0 2.105 2.023M30.25 12.402C27.292 7.826 22.016 4.78 16 4.78S4.708 7.826 1.75 12.402m24.309-9.184A21.5 21.5 0 0 0 16 .75c-3.645 0-7.073.895-10.059 2.468M21.03 31.25c-5.222-.775-9.22-5.115-9.22-10.353 0-2.225 1.876-4.03 4.191-4.03s4.191 1.805 4.191 4.03 1.877 4.03 4.191 4.03 4.191-1.805 4.191-4.03c0-6.676-5.629-12.088-12.573-12.088S3.426 14.22 3.426 20.897c0 2.037.525 3.957 1.45 5.641M16 20.091c0 4.45 3.753 8.059 8.382 8.059q.863-.002 1.677-.162"/></svg>}
+
+  ---
+
+  - [Database integrations](/guides/development/integrations/overview)
+  - Enable Clerk-managed users to authenticate and interact directly with your database with Clerk's integrations.
+  - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><path fill="currentColor" fillOpacity=".15" d="M28.25 27.173c0 2.252-5.485 4.077-12.25 4.077S3.75 29.425 3.75 27.173V4.827c0 2.252 5.485 4.077 12.25 4.077s12.25-1.825 12.25-4.077z"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M28.25 16c0 2.252-5.485 4.077-12.25 4.077S3.75 18.252 3.75 16m24.5 0v11.173c0 2.252-5.485 4.077-12.25 4.077S3.75 29.425 3.75 27.173V16m24.5 0V4.827M3.75 16V4.827m24.5 0c0 2.252-5.485 4.077-12.25 4.077S3.75 7.079 3.75 4.827m24.5 0C28.25 2.575 22.765.75 16 .75S3.75 2.575 3.75 4.827"/></svg>}
+
+  ---
+
+  - [Development](/guides/development/clerk-environment-variables)
+  - Build and maintain your app with environment management, custom auth flows, third-party integrations, testing, deployment, and API requests.
+  - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g clipPath="url(#a)"><path fill="currentColor" fillOpacity=".15" fillRule="evenodd" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.907.75c.75 0 1.342.597 1.514 1.304.795 3.262 4.511 5.185 7.877 4.181.703-.21 1.512-.016 1.889.594l1.87 3.025c.394.636.149 1.451-.417 1.952a5.596 5.596 0 0 0 0 8.388c.566.5.81 1.316.417 1.953l-1.87 3.024c-.377.61-1.186.803-1.889.594-3.366-1.004-7.082.92-7.877 4.181-.172.707-.764 1.304-1.514 1.304h-3.813c-.751 0-1.342-.597-1.515-1.304-.794-3.262-4.512-5.185-7.878-4.181-.702.21-1.511.016-1.888-.594l-1.87-3.024c-.394-.637-.15-1.452.417-1.953a5.596 5.596 0 0 0 0-8.388c-.566-.5-.81-1.316-.417-1.952l1.87-3.025c.377-.61 1.186-.803 1.888-.594 3.366 1.004 7.084-.92 7.878-4.181.173-.707.764-1.304 1.515-1.304zM16 11.268a4.733 4.733 0 1 0 0 9.466 4.733 4.733 0 0 0 0-9.466" clipRule="evenodd"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}
+
+  ---
+
+  - [Clerk Dashboard](/guides/dashboard/overview)
+  - Configure your instance, manage settings, and monitor usage from the Clerk Dashboard.
+  - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" clipPath="url(#a)"><path fill="currentColor" fillOpacity=".15" fillRule="evenodd" d="M28.25.75a3 3 0 0 1 3 3v24.5a3 3 0 0 1-3 3H3.75a3 3 0 0 1-3-3V3.75a3 3 0 0 1 3-3zM8.5 17.71c-.95 0-1.719.77-1.719 1.72v3.093a1.719 1.719 0 1 0 3.438 0V19.43c0-.95-.77-1.72-1.719-1.72" clipRule="evenodd"/><path d="M14.281 22.523v-9.078a1.719 1.719 0 0 1 3.438 0v9.078a1.719 1.719 0 0 1-3.438 0m7.5 0V9.477a1.719 1.719 0 0 1 3.438 0v13.046a1.719 1.719 0 0 1-3.438 0"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}
+
+  ---
+
+  - [SDKs](/reference/overview)
+  - Clerk's SDKs allow you to call the Clerk server API without having to implement the calls yourself.
+  - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><path fill="currentColor" fillOpacity=".15" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 31.25 29.25 25l-9.54-4.5L16 22.25l-3.71-1.75L2.75 25z"/><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 22.25 29.25 16l-9.54-4.5L16 13.25l-3.71-1.75L2.75 16z"/><path fill="currentColor" fillOpacity=".15" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M2.75 7 16 .75 29.25 7 16 13.25z"/></svg>}
+
+  ---
+
+  - [How Clerk works](/guides/how-clerk-works/overview)
+  - Understand the underlying concepts and technologies that power Clerk, including authentication protocols, token management, and security practices.
+  - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" clipPath="url(#a)"><circle cx="6" cy="6" r="4.5"/><path d="M5.5 10.563V14.5a2 2 0 0 0 2 2H16m0 0V21m0-4.5h8.5a2 2 0 0 0 2-2v-3.937"/><circle cx="26" cy="6" r="4.5" fill="currentColor" fillOpacity=".15"/><circle cx="16" cy="26" r="4.5" fill="currentColor" fillOpacity=".15"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}
+
+
+## Learn the concepts
+
+
+  - [What is Clerk authentication?](/guides/configure/auth-strategies/sign-up-sign-in-options)
+  - Clerk offers multiple authentication strategies to identify legitimate users of your application, and to allow them to make authenticated requests to your backend.
+  - ![What is Clerk authentication visual](/images/home/what-is-clerk.png){{ dark: '/docs/images/home/what-is-clerk-dark.png' }}
+
+  ---
+
+  - [What is the "User" object?](/guides/users/managing)
+  - The User object contains all account information that describes a user of your app in Clerk. Users can authenticate and manage their accounts, update their personal and contact info, or set up security features for their accounts.
+  - ![User object visual](/images/home/user-object.png){{ dark: '/docs/images/home/user-object-dark.png' }}
+
+  ---
+
+  - [How do Organizations work?](/guides/organizations/overview)
+  - Organizations allow members to collaborate across shared resources. Each member of an Organization needs to have a user account in your application. All Organization members have access to most of the Organization resources, but some members can take advantage of administrative features.
+  - ![Organizations visual](/images/home/organizations.png){{ dark: '/docs/images/home/organizations-dark.png' }}
+
+
+  - [Join our Discord](https://clerk.com/discord 'Join Discord')
+  - Join our official Discord server to chat with us directly and become a part of the Clerk community.
+  - ![Discord logo](/images/logos/auth_providers/discord.svg){{ dark: '/docs/images/logos/auth_providers/discord-dark.svg' }}
+
+  ---
+
+  - [Need help?](/support 'Get help')
+  - Contact us through Discord, Twitter, or email to receive answers to your questions and learn more about Clerk.
+  - {<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"><g clipPath="url(#a)"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M22 30.603c-5.109 0-9.25-3.773-9.25-8.427 0-4.653 4.141-8.426 9.25-8.426s9.25 3.773 9.25 8.426c0 1.864-.664 3.587-1.789 4.982.28 1.476.996 3.488 1.789 4.092 0 0-2.735-.379-4.79-1.69A9.9 9.9 0 0 1 22 30.603"/><path fill="currentColor" fillOpacity=".15" fillRule="evenodd" d="M14.55 27.172c-1.131-1.398-1.8-3.125-1.8-4.996 0-4.653 4.141-8.426 9.25-8.426 3.67 0 6.84 1.947 8.335 4.768.592-1.412.915-2.937.915-4.527C31.25 6.678 24.422.75 16 .75S.75 6.678.75 13.99c0 2.93 1.095 5.636 2.95 7.829-.462 2.319-1.643 5.481-2.95 6.43 0 0 4.511-.595 7.9-2.654a16.9 16.9 0 0 0 5.9 1.577" clipRule="evenodd"/><path fill="currentColor" d="m14.55 27.172-.06.748a.75.75 0 0 0 .643-1.22zm15.785-8.654-.663.351a.75.75 0 0 0 1.355-.06zM3.7 21.818l.736.147a.75.75 0 0 0-.163-.63zM.75 28.25l-.44-.607a.75.75 0 0 0 .538 1.35zm7.9-2.655.323-.677a.75.75 0 0 0-.713.036zm6.483 1.105c-1.031-1.275-1.633-2.837-1.633-4.524H12c0 2.055.736 3.947 1.967 5.468zM13.5 22.176c0-4.175 3.738-7.676 8.5-7.676V13c-5.456 0-10 4.044-10 9.176zM22 14.5c3.408 0 6.315 1.807 7.672 4.37l1.326-.703C29.366 15.087 25.93 13 22 13zm9.027 4.309c.642-1.525.973-3.164.973-4.818h-1.5c0 1.455-.292 2.896-.857 4.237zM32 13.991C32 6.168 24.734 0 16 0v1.5c8.111 0 14.5 5.688 14.5 12.49zM16 0C7.266 0 0 6.168 0 13.99h1.5C1.5 7.189 7.889 1.5 16 1.5zM0 13.99c0 3.123 1.169 5.998 3.127 8.313l1.145-.969c-1.75-2.07-2.772-4.608-2.772-7.343zm2.964 7.682a19 19 0 0 1-1.111 3.58C1.34 26.438.785 27.296.309 27.641l.882 1.215c.831-.604 1.519-1.802 2.04-3.013.538-1.25.963-2.671 1.204-3.879l-1.471-.293zM.75 28.25l.098.743h.006l.011-.002.201-.03a28 28 0 0 0 2.553-.541c1.584-.415 3.637-1.101 5.42-2.185l-.78-1.281c-1.605.976-3.501 1.617-5.02 2.015a27 27 0 0 1-2.578.536l-.008.001zm7.576-1.979a17.6 17.6 0 0 0 6.164 1.649l.122-1.495a16.1 16.1 0 0 1-5.639-1.507z"/></g><defs><clipPath id="a"><path fill="currentColor" d="M0 0h32v32H0z"/></clipPath></defs></svg>}

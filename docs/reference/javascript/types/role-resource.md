@@ -1,0 +1,46 @@
+# RoleResource
+
+
+> An interface that represents a Role in an Organization.
+
+An interface that represents a Role in an Organization.
+
+- **`id`** `string`
+
+  The unique identifier of the Role.
+
+    ---
+
+- **`key`** `string`
+
+  The unique key of the Role.
+
+    ---
+
+- **`name`** `string`
+
+  The name of the Role.
+
+    ---
+
+- **`description`** `string`
+
+  The description of the Role.
+
+    ---
+
+- **`permissions`** <code>[PermissionResource](/reference/javascript/types/permission-resource)\[]</code>
+
+  The Permissions of the Role.
+
+    ---
+
+- **`createdAt`** `Date`
+
+  The date when the Role was created.
+
+    ---
+
+- **`updatedAt`** `Date`
+
+  The date when the Role was last updated.

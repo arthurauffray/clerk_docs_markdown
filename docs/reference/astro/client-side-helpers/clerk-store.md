@@ -1,0 +1,62 @@
+# $clerkStore
+
+
+> Clerk's $clerkStore nanostore provides a convenient way to access the Clerk object. This provides access to some methods that are not available in other stores.
+
+The `$clerkStore` store provides a convenient way to access the [`Clerk`](/reference/javascript/clerk) object. This provides access to some methods that are not available in other stores.
+
+> [!WARNING]
+> This is intended to be used for advanced use cases, like building a completely custom OAuth flow or as an escape hatch for getting access to the `Clerk` object.
+
+## How to use the `$clerkStore` store
+
+
+**React:**
+
+```tsx
+// Filename: components/sign-in.tsx
+
+  import { useStore } from '@nanostores/react'
+  import { $clerkStore } from '@clerk/astro/client'
+
+  export default function SignIn() {
+    const clerk = useStore($clerkStore)
+
+    return <button onClick={() => clerk.openSignIn()}>Sign in</button>
+  }
+  ```
+
+
+**Vue:**
+
+```vue
+// Filename: components/sign-in.vue
+
+  <script setup>
+  import { useStore } from '@nanostores/vue'
+  import { $clerkStore } from '@clerk/astro/client'
+
+  const clerk = useStore($clerkStore)
+
+  const openSignIn = () => clerk.value.openSignIn()
+  </script>
+
+  <template>
+    <button @click="openSignIn">Sign in</button>
+  </template>
+  ```
+
+
+**Svelte:**
+
+```svelte
+// Filename: components/sign-in.svelte
+
+  <script>
+    // The $ prefix is reserved in Svelte for its own reactivity system.
+    // Alias the imports to avoid conflicts.
+    import { $clerkStore as clerk } from '@clerk/astro/client'
+  </script>
+
+  <button on:click={() => $clerk.openSignIn()}>Sign in</button>
+  ```

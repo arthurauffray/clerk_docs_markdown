@@ -1,0 +1,16 @@
+# IdentificationLinkResource
+
+
+> An interface representing an identification link.
+
+An interface representing an identification that is linked to an email address or phone number.
+
+- **`id`** `string`
+
+  The unique identifier for the identification link.
+
+    ---
+
+- **`type`** `string`
+
+  The type of the identification link. Can be either `email_address` or `phone_number`.

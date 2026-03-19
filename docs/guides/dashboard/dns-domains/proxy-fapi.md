@@ -1,0 +1,443 @@
+# Proxying the Clerk Frontend API
+
+
+> Learn how to proxy the Clerk Frontend API through your domain.
+
+> [!IMPORTANT]
+> This feature or workflow is considered **advanced** - it may not be part of an official Clerk SDK or fall within typical usage patterns. The Clerk support team will do their best to assist you, but cannot guarantee a resolution for this type of advanced usage.
+
+
+Clerk supports two configuration methods for connecting to the Clerk Frontend API: CNAME and Proxy.
+
+The recommended way to connect to the Clerk Frontend API is to [set up CNAME records and use DNS](/guides/development/deployment/production). However, if you're unable to use this approach, or would like more control over your integration with Clerk, you can use a proxy.
+
+When using a proxy, all requests to the Frontend API will be made through your domain. This allows you to use your own SSL certificate, and gives you more control over how you configure your application.
+
+> [!WARNING]
+> This guide is for users who need to proxy the Frontend API for **production** (proxying does not work for Clerk development instances). If your application already uses a CNAME subdomain that is required for deploying with Clerk, then you must proxy the Frontend API using a different subdomain. Refer to the [deployment guide](/guides/development/deployment/production#dns-records) on how to configure DNS records for deployment.
+
+## How to use proxying
+
+
+  ### Create your application and install Clerk
+
+  To get started, you need to create an application from the [Clerk Dashboard](https://dashboard.clerk.com/). Once you create an instance via the Clerk Dashboard, you will be prompted to choose a domain. For the purposes of this guide, the domain will be `app.dev`.
+
+  > [!NOTE]
+  > For more information on creating a Clerk application, see the [setup guide](/getting-started/quickstart/setup-clerk).
+
+  ### Configure your proxy server
+
+  For this example, `/__clerk` is used as the path for the proxy. Your proxy server must be on the same domain as your application.
+
+  You can choose any path you'd like, but it must be unique and not conflict with any other routes in your application.
+
+  #### Requirements
+
+  Requests to `https://app.dev/__clerk/*` must be forwarded to `https://frontend-api.clerk.dev/*` with the body and all headers intact.
+
+  Three additional headers must be set
+
+  - `Clerk-Proxy-Url`: Needs to have the full proxy URL.
+  - `Clerk-Secret-Key`: Your Clerk Secret Key.
+  - `X-Forwarded-For`: The IP address of the original client making the request.
+
+  #### Example configuration
+
+  
+#### Next.js
+
+
+If you're using **Next.js**, you can configure a frontend API proxy in one of two ways:
+
+- Use the built-in `frontendApiProxy` option in [`clerkMiddleware()`](/reference/nextjs/clerk-middleware#frontend-api-proxy).
+- Use [`createFrontendApiProxyHandlers()`](/reference/nextjs/clerk-middleware#create-frontend-api-proxy-handlers) in a Next.js App Router route handler. **This is useful if you prefer to keep proxy logic separate from your middleware.**
+
+
+#### Express
+
+
+          The `frontendApiProxy` option in `clerkMiddleware()` handles all proxy requirements automatically, including header forwarding, body streaming, and redirect rewriting. The `proxyUrl` for authentication handshake is also auto-derived.
+
+          > [!IMPORTANT]
+> Ensure your middleware matcher includes the proxy path (by default, `/__clerk`) so proxy requests are handled by the middleware.
+
+```ts
+// Filename: proxy.ts
+
+import { clerkMiddleware } from '@clerk/nextjs/server'
+
+export default clerkMiddleware({
+  frontendApiProxy: {
+    enabled: true,
+  },
+})
+
+export const config = {
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes and the proxy path
+    '/(api|trpc|__clerk)(.*)',
+  ],
+}
+```
+
+
+          For applications that serve multiple domains (e.g., preview deployments, staging environments), you can pass a function to `enabled` to conditionally enable proxying based on the request URL.
+
+```ts
+// Filename: proxy.ts
+
+import { clerkMiddleware } from '@clerk/nextjs/server'
+
+export default clerkMiddleware({
+  frontendApiProxy: {
+    // Only proxy on non-production domains
+    enabled: (url) => url.hostname !== 'myapp.com',
+  },
+})
+
+export const config = {
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes and the proxy path
+    '/(api|trpc|__clerk)(.*)',
+  ],
+}
+```
+
+        
+
+#### Nginx
+
+
+          As an alternative to the middleware approach, you can use `createFrontendApiProxyHandlers()` in a Next.js App Router route handler.
+
+          > [!IMPORTANT]
+> When using route handlers instead of the `frontendApiProxy` middleware option, the `proxyUrl` is **not** auto-derived. You must set the `proxyUrl` option on `clerkMiddleware()` or set the `NEXT_PUBLIC_CLERK_PROXY_URL` environment variable for the authentication handshake to work correctly.
+
+```ts
+// Filename: app/api/__clerk/[[...path]]/route.ts
+
+import { createFrontendApiProxyHandlers } from '@clerk/nextjs/server'
+
+export const { GET, POST, PUT, DELETE, PATCH } = createFrontendApiProxyHandlers()
+```
+
+        
+    
+
+    
+      If you're using **Express**, you can use the built-in `frontendApiProxy` option in [`clerkMiddleware()`](/reference/express/clerk-middleware#frontend-api-proxy) instead of manually configuring a proxy server. This option handles all proxy requirements automatically, including header forwarding, body streaming, and redirect rewriting. The `proxyUrl` for authentication handshake is also auto-derived.
+
+      ```ts
+// Filename: index.ts
+
+      import express from 'express'
+      import { clerkMiddleware } from '@clerk/express'
+
+      const app = express()
+
+      app.use(
+        clerkMiddleware({
+          frontendApiProxy: {
+            enabled: true,
+          },
+        }),
+      )
+      ```
+    
+
+    
+      ```nginx
+// Filename: nginx.conf
+
+      http {
+        # ...
+        server {
+          # ...
+          location /__clerk/ {
+            rewrite          ^/__clerk/(.*)$ /$1 break;
+            proxy_pass       https://frontend-api.clerk.dev;
+            proxy_set_header Clerk-Proxy-Url https://app.dev/__clerk;
+            proxy_set_header Clerk-Secret-Key sk_live_***;
+            proxy_set_header X-Forwarded-For $remote_addr;
+            proxy_redirect   off;
+          }
+        }
+      }
+      ```
+    
+
+    
+      
+**Handler:**
+
+```ts
+// Filename: src/index.ts
+
+        export default {
+          async fetch(req: Request, env: Env, _ctx: ExecutionContext): Promise {
+            const url = req.url.replace(env.CLERK_PROXY_URL, env.CLERK_FAPI)
+            const proxyReq = new Request(req, {
+              redirect: 'manual',
+            })
+
+            proxyReq.headers.set('Clerk-Proxy-Url', env.CLERK_PROXY_URL)
+            proxyReq.headers.set('Clerk-Secret-Key', env.CLERK_SECRET_KEY)
+            proxyReq.headers.set('X-Forwarded-For', req.headers.get('CF-Connecting-IP') || '')
+
+            return fetch(url, proxyReq)
+          },
+        }
+        ```
+
+
+**Wrangler Config:**
+
+```toml
+# Filename: wrangler.toml
+
+          name = "cloudflare-proxy"
+          main = "src/index.ts"
+          compatibility_date = "2023-10-02"
+
+          [vars]
+          CLERK_FAPI="https://frontend-api.clerk.dev"
+        ```
+
+
+**Environment:**
+
+```env
+// Filename: .dev.vars
+
+          # Do not commit this file to source control
+          CLERK_PROXY_URL="https://app.dev/__clerk"
+          CLERK_SECRET_KEY="sk_live_xxxxx"
+        ```
+
+
+**Types:**
+
+```ts
+// Filename: worker-configuration.d.ts
+
+        interface Env {
+          CLERK_FAPI: string
+          CLERK_PROXY_URL: string
+          CLERK_SECRET_KEY: string
+        }
+        ```
+
+    
+  
+
+  > [!NOTE]
+  > Every proxy configuration will be different and we're here to help. [Contact support](/contact/support) if there's a specific use-case you're looking to solve.
+
+  ### Enable proxying
+
+  In order to enable proxying, you need to set a proxy URL for your Clerk instance's domain. This can be done through the Clerk Dashboard or through the Backend API.
+
+  > [!NOTE]
+  > To avoid downtime, your proxy must be set up according to the above configuration before it can be enabled for your instance.
+  > Make sure your proxy forwards requests to the Clerk Frontend API correctly and includes the required headers.
+
+  
+#### Dashboard
+
+
+1. In the Clerk Dashboard, navigate to the **[Domains](https://dashboard.clerk.com/~/domains)** page.
+1. In the **Frontend API** section, select the **Set proxy configuration** option.
+1. Enter your proxy URL. The proxy URL must be a valid URL and resolve correctly.
+    
+
+#### Backend API
+
+
+The request below will update the domain to use the proxy URL `https://app.dev/__clerk`. In doing so, it will trigger checks to validate the proxy URL.
+
+```bash
+curl -X PATCH https://api.clerk.com/v1/domains/{{DOMAIN ID}} \
+    -H "Authorization: Bearer {{SECRET KEY}}" \
+    -H "Content-Type: application/json" \
+    -d '{"proxy_url": "https://app.dev/__clerk"}}'
+```
+    
+
+  ### Configure your proxy setup
+
+  > [!IMPORTANT]
+  > If you used the `frontendApiProxy` option in `clerkMiddleware()` (Next.js or Express), the server-side `proxyUrl` is auto-derived from the proxy configuration. You only need to set the client-side environment variable (e.g., `NEXT_PUBLIC_CLERK_PROXY_URL`) so that ClerkJS in the browser routes requests through the proxy.
+
+  You can configure your proxy setup by either:
+
+  - Setting environment variables
+  - Using properties in your application
+
+  #### Environment variables
+
+  To configure your proxy setup using environment variables, your `.env` file should look like this:
+
+  
+#### Next.js
+
+
+      ```env
+// Filename: .env
+
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY={{pub_key}}
+      CLERK_SECRET_KEY={{secret}}
+
+      NEXT_PUBLIC_CLERK_PROXY_URL=https://app.dev/__clerk/
+      ```
+    
+
+#### Express
+
+
+      ```env
+// Filename: .env
+
+      CLERK_PUBLISHABLE_KEY={{pub_key}}
+      CLERK_SECRET_KEY={{secret}}
+
+      CLERK_PROXY_URL=https://app.dev/__clerk
+      ```
+    
+
+#### Remix
+
+
+      ```env
+// Filename: .env
+
+      CLERK_PUBLISHABLE_KEY={{pub_key}}
+      CLERK_SECRET_KEY={{secret}}
+
+      CLERK_PROXY_URL=https://app.dev/__clerk
+      ```
+    
+
+#### JavaScript
+
+
+      You will only need to set environment variables in your JavaScript application if you are using a bundler (the `NPM module` method for ClerkJS installation). If you are using the `<script>` method, configure your proxy setup using [properties in your application](#properties-in-your-application) instead.
+
+      ```env
+// Filename: .env
+
+      CLERK_PUBLISHABLE_KEY={{pub_key}}
+      CLERK_SECRET_KEY={{secret}}
+
+      CLERK_PROXY_URL=https://app.dev/__clerk
+      ```
+    
+
+  #### Properties in your application
+
+  
+#### Next.js
+
+
+      To configure your proxy setup using properties in your Next.js application, set the `proxyUrl` property on the [``](/reference/components/clerk-provider) component.
+
+      ```tsx
+// Filename: app/layout.tsx
+
+      import { ClerkProvider } from '@clerk/nextjs'
+
+      export default function RootLayout({ children }: { children: React.ReactNode }) {
+        return (
+          <html lang="en">
+            <body>
+              {children}
+            </body>
+          </html>
+        )
+      }
+      ```
+    
+
+#### Express
+
+
+      To configure your proxy setup using properties in your Express application, set the `proxyUrl` option on [`clerkMiddleware()`](/reference/express/clerk-middleware).
+
+      ```ts
+// Filename: index.ts
+
+      import { clerkMiddleware } from '@clerk/express'
+      import express from 'express'
+
+      const app = express()
+
+      app.use(
+        clerkMiddleware({
+          proxyUrl: 'https://app.dev/__clerk',
+        }),
+      )
+      ```
+    
+
+#### Remix
+
+
+      To configure your proxy setup using properties in your Remix application, set the `proxyUrl` property on the [`ClerkApp`](/reference/remix/clerk-app) wrapper.
+
+      ```tsx
+// Filename: root.tsx
+
+      export const loader = (args) => {
+        return rootAuthLoader(
+          args,
+          ({ req }) => {
+            const { userId, sessionId, getToken } = req.auth
+            return json({
+              message: `Hello from the root loader :)`,
+              ENV: getBrowserEnvironment(),
+            })
+          },
+          {
+            loadUser: true,
+            proxyUrl: 'https://app.dev/__clerk',
+          } as const,
+        )
+      }
+
+      export default ClerkApp(App, {
+        proxyUrl: 'https://app.dev/__clerk',
+      })
+      ```
+    
+
+#### JavaScript
+
+
+      To configure your proxy setup using properties in your JavaScript application, pass the `proxyUrl` option to the [`load()`](/reference/javascript/clerk#load) method.
+
+      ```js
+// Filename: main.js
+
+      import { Clerk } from '@clerk/clerk-js'
+
+      // Initialize Clerk with your Clerk Publishable Key
+      const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+      const clerk = new Clerk(clerkPubKey, {
+        proxyUrl: 'https://app.dev/__clerk',
+      })
+
+      await clerk.load()
+      ```
+    
+
+  ### Ready to go 🎉
+
+  Your application should now be able to access the Frontend API from your proxy!
+
+
+If you have any questions about proxying, or you're having any trouble setting this up, contact [support@clerk.com](mailto:support@clerk.com).

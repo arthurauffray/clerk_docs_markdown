@@ -1,0 +1,18 @@
+# Troubleshooting
+
+
+> Learn how to troubleshoot common issues with Clerk and contact support for additional assistance.
+
+We hope that our documentation is thorough and transparent enough that you won't run into any issues. If you can't find what you're looking for in the navigation sidenav, use the search function of the docs to track down the information you need.
+
+Refer to the [Backend API](/reference/backend-api) and [Frontend API](/reference/frontend-api) reference docs for questions about object structures, requests, and responses.
+
+Are you looking for a place to get started? See the [quickstarts](/getting-started/quickstart/overview).
+
+## Discord community
+
+Need help? Have a suggestion? Join our [Discord community](https://clerk.com/discord) and never miss a thing.
+
+## Support
+
+Can't find what you need? [Contact us](/contact/support) to receive answers to your questions and learn more about Clerk.

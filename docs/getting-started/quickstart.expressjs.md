@@ -1,0 +1,149 @@
+# Express Quickstart
+
+
+> Learn how to use Clerk to quickly and easily add secure authentication and user management to your Express server.
+
+Learn how to integrate Clerk into your Express backend for secure user authentication and management. This guide focuses on backend implementation and requires a [Clerk frontend SDK](/docs#explore-by-frontend-framework) to function correctly.
+
+
+  ## Create a new Express app
+
+  If you don't already have an Express app, run the following commands to [create a new one](https://expressjs.com/en/starter/installing.html).
+
+  ```npm
+  mkdir clerk-express
+  cd clerk-express
+  npm init -y
+  npm install express
+  ```
+
+  ## Install `@clerk/express`
+
+  The [Clerk Express SDK](/reference/express/overview) provides a range of backend utilities to simplify user authentication and management in your application.
+
+  Run the following command to install the SDK:
+
+  ```npm
+  npm install @clerk/express
+  ```
+
+  ## Set your Clerk API keys
+
+  
+  Add the following keys to your `.env` file. These keys can always be retrieved from the [**API keys**](https://dashboard.clerk.com/~/api-keys) page in the Clerk Dashboard.
+
+
+  1. In the Clerk Dashboard, navigate to the [**API keys**](https://dashboard.clerk.com/~/api-keys) page.
+  1. In the **Quick Copy** section, copy your Clerk Publishable Key and Secret Key.
+  1. Paste your keys into your `.env` file.
+
+  The final result should resemble the following:
+
+
+  ```sh
+# Filename: .env
+
+  CLERK_PUBLISHABLE_KEY={{pub_key}}
+  CLERK_SECRET_KEY={{secret}}
+  ```
+
+  This guide uses [`dotenv`](https://www.npmjs.com/package/dotenv) to load the environment variables. Run the following command to install it:
+
+  ```npm
+  npm install dotenv
+  ```
+
+  ## Add `clerkMiddleware()` to your app
+
+  The [`clerkMiddleware()`](/reference/express/clerk-middleware) function checks the request's cookies and headers for a session JWT and, if found, attaches the [`Auth`](/reference/backend/types/auth-object) object to the `request` object under the `auth` key.
+
+  ```ts
+// Filename: index.ts
+
+  import 'dotenv/config'
+  import express from 'express'
+  import { clerkMiddleware } from '@clerk/express'
+
+  const app = express()
+  const PORT = 3000
+
+  app.use(clerkMiddleware())
+
+  // Start the server and listen on the specified port
+  app.listen(PORT, () => {
+    console.log(`Example app listening at http://localhost:${PORT}`)
+  })
+  ```
+
+  ## Protect your routes using `requireAuth()`
+
+  To protect your routes, use the [`requireAuth()`](/reference/express/require-auth) middleware. This middleware functions similarly to `clerkMiddleware()`, but also protects your routes by redirecting unauthenticated users to the sign-in page.
+
+  In the following example, `requireAuth()` is used to protect the `/protected` route. If the user isn't authenticated, they're redirected to the homepage. If the user is authenticated, the [`getAuth()`](/reference/express/get-auth) function is used to get the `userId`, which is passed to [`clerkClient.users.getUser()`](/reference/backend/user/get-user) to fetch the current user's `User` object.
+
+  ```ts
+// Filename: index.ts
+
+  import 'dotenv/config'
+  import express from 'express'
+  import { clerkMiddleware, clerkClient, requireAuth, getAuth } from '@clerk/express'
+
+  const app = express()
+  const PORT = 3000
+
+  app.use(clerkMiddleware())
+
+  // Use requireAuth() to protect this route
+  // If user isn't authenticated, requireAuth() will redirect back to the homepage
+  app.get('/protected', requireAuth(), async (req, res) => {
+    // Use `getAuth()` to get the user's `userId`
+    const { userId } = getAuth(req)
+
+    // Use Clerk's JS Backend SDK to get the user's User object
+    const user = await clerkClient.users.getUser(userId)
+
+    return res.json({ user })
+  })
+
+  // Start the server and listen on the specified port
+  app.listen(PORT, () => {
+    console.log(`Example app listening at http://localhost:${PORT}`)
+  })
+  ```
+
+  ## Add global TypeScript type (optional)
+
+  If you're using TypeScript, add a global type reference to your project to enable auto-completion and type checking for the `auth` object in Express request handlers.
+
+  1. In your application's root folder, create a `types/` directory.
+  1. Inside this directory, create a `globals.d.ts` file with the following code.
+
+  ```ts
+// Filename: types/globals.d.ts
+
+  /// <reference types="@clerk/express/env" />
+  ```
+
+
+## Next steps
+
+Learn how to protect routes, handle authentication and authorization, and prepare your Clerk app for production using the following guides.
+
+
+  - [Protect routes using requireAuth()](/reference/express/require-auth)
+  - Learn how to protect specific routes from unauthenticated users.
+
+  ---
+
+  - [Protect routes based on authorization status](/reference/express/get-auth)
+  - Learn how to protect a route based on both authentication and authorization status.
+
+  ---
+
+  - [Deploy to production](/guides/development/deployment/production)
+  - Learn how to deploy your Clerk app to production.
+
+  ---
+
+  - [Clerk Express SDK reference](/reference/express/overview)
+  - Learn about the Clerk Express SDK and how to integrate it into your app.

@@ -1,0 +1,28 @@
+# BackupCodeResource
+
+
+> An interface that represents a backup code.
+
+An interface that represents a backup code.
+
+- **`id`** `string`
+
+  The unique identifier for the set of backup codes.
+
+    ---
+
+- **`codes`** `string[]`
+
+  The generated set of backup codes.
+
+    ---
+
+- **`createdAt`** `Date`
+
+  The date when the backup codes were created.
+
+    ---
+
+- **`updatedAt`** `Date`
+
+  The date when the backup codes were last updated.

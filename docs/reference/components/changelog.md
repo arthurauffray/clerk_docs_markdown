@@ -1,0 +1,10 @@
+# Component Changelog
+
+
+> Keep track of the changes to Clerk's components.
+
+Clerk's components are updated regularly to improve the user experience and add new features. For most users, these updates will be rolled out automatically. Use this changelog to learn about changes and new features being released. If you have [specified a specific Clerk UI version](/reference/components/versioning), use this changelog to understand how new releases might impact your customizations.
+
+## 1.0.0 (2026-03-03)
+
+_Initial release of the versioned components._

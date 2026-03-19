@@ -1,0 +1,521 @@
+# Authentication across different domains
+
+
+> Learn how to share sessions across different domains by adding satellite domains to your application.
+
+> [!IMPORTANT]
+> This feature or workflow is considered **advanced** - it may not be part of an official Clerk SDK or fall within typical usage patterns. The Clerk support team will do their best to assist you, but cannot guarantee a resolution for this type of advanced usage.
+
+
+> [!WARNING]
+> This guide addresses authentication across different domains with shared sessions. For example, `example-site.com` and `example-site-admin.com`.
+>
+> It is not recommended to use **passkeys** as a form of authentication. [Learn more about domain restrictions for passkeys](/guides/development/custom-flows/authentication/passkeys#domain-restrictions-for-passkeys).
+>
+> [Authentication across subdomains](/guides/development/deployment/production#authentication-across-subdomains) with shared sessions works by default with Clerk.
+
+Clerk supports sharing sessions across different domains by adding one or many satellite domains to an application.
+
+Your "primary" domain is where the authentication state lives, and satellite domains are able to securely read that state from the primary domain, enabling a seamless authentication flow across domains.
+
+Users must complete both the sign-in and sign-up flows on the primary domain by using the [``](/reference/components/authentication/sign-in) component or [`useSignIn()`](/reference/hooks/use-sign-in) hook for sign-in and [``](/reference/components/authentication/sign-up) component or [`useSignUp()`](/reference/hooks/use-sign-up) hook for sign-up.
+
+### How authentication syncing works
+
+The syncing behavior between satellite and primary domains is controlled by the `satelliteAutoSync` option.
+
+With `satelliteAutoSync: false` (the default), satellite domains do not automatically sync authentication state with the primary domain when a user visits the page. This means there is no upfront performance cost for users visiting a satellite domain. Authentication state is only synced when a user initiates a sign-in or sign-up action:
+
+1. When a user selects "Sign in" on the satellite domain, they are redirected to the primary domain.
+1. If the user is already signed in on the primary domain, they are immediately redirected back to the satellite domain with the existing auth state — no additional user action is required.
+1. If the user is not signed in on the primary domain, they complete the sign-in (or sign-up) flow there and are then redirected back to the satellite domain.
+1. After the initial sync, signing out from either domain signs out from all domains.
+
+See [Using `satelliteAutoSync: false` (default) with sign-in/sign-up links](#using-satellite-auto-sync-false-default-with-sign-in-sign-up-links) for setup.
+
+If you set `satelliteAutoSync: true`, the satellite domain will automatically redirect to the primary domain on first load to sync authentication state, even if the user has no session. This matches the original Core 2 behavior and is useful if you want users who are already signed in on the primary domain to be automatically recognized on the satellite without needing to select "Sign in". However, this comes with a performance cost since every first visit triggers a redirect.
+
+### Using `satelliteAutoSync: false` (default) with sign-in/sign-up links
+
+When `satelliteAutoSync` is `false` (the default), you must ensure your sign-in and sign-up links on the satellite domain use [`Clerk.buildSignInUrl()`](/reference/javascript/clerk#build-sign-in-url) and [`Clerk.buildSignUpUrl()`](/reference/javascript/clerk#build-sign-up-url) instead of hardcoded URLs. These methods automatically append the `__clerk_synced=false` sync trigger parameter to the redirect URL. This parameter tells the satellite app to sync the session when the user returns from the primary domain.
+
+
+**Vanilla JS:**
+
+```js
+  // Vanilla JS satellite app
+  const signInBtn = document.getElementById('sign-in')
+  signInBtn.addEventListener('click', () => {
+    window.location.href = Clerk.buildSignInUrl()
+  })
+  ```
+
+
+**React:**
+
+```tsx
+  // React satellite app
+  import { useClerk } from '@clerk/clerk-react'
+
+  function SignInButton() {
+    const { buildSignInUrl } = useClerk()
+
+    return <a href={buildSignInUrl()}>Sign in</a>
+  }
+  ```
+
+
+> [!IMPORTANT]
+> If you hardcode sign-in URLs (e.g., `<a href="https://primary.dev/sign-in">`) instead of using `buildSignInUrl()`, the sync trigger parameter will not be added. As a result, when the user returns to the satellite after signing in, the session will not be recognized.
+
+## How to add satellite domains
+
+> [!WARNING]
+> This feature requires a [paid plan](/pricing) for production use, but all features are free to use in development mode so that you can try out what works for you. See the [pricing](/pricing) page for more information.
+
+
+  ### Create your application and install Clerk
+
+  > [!WARNING]
+  > Currently, multi-domain can be added to any Next.js, TanStack Start, or Nuxt application. For other React frameworks, multi-domain is still supported as long as you do not use server rendering or hydration.
+
+  To get started, you need to create an application from the [Clerk Dashboard](https://dashboard.clerk.com/). Once you create an instance via the Clerk Dashboard, you will be prompted to choose a domain. This is your primary domain. For the purposes of this guide:
+
+  - In production, the primary domain will be `primary.dev`
+  - In development, the primary domain will be `localhost:3000`.
+
+  When building your sign-in flow, you must configure it to run within your primary application, e.g. on `/sign-in`.
+
+  > [!NOTE]
+  > For more information about creating your application, see the [setup guide](/getting-started/quickstart/setup-clerk).
+
+  ### Add your first satellite domain
+
+  To add a satellite domain:
+
+  1. In the Clerk Dashboard, navigate to the [**Domains**](https://dashboard.clerk.com/~/domains) page.
+  1. Select the **Satellites** tab.
+  1. Select the **Add satellite domain** button and follow the instructions provided.
+
+  For the purposes of this guide:
+
+  - In production, the satellite domain will be `satellite.dev`.
+  - In development, the satellite domain will be `localhost:3001`.
+
+  ### Complete DNS setup for your satellite domain
+
+  To use a satellite domain **in production**, you will need to add a CNAME record for the `clerk` subdomain. For development instances, you can skip this step.
+
+  1. In the Clerk Dashboard, navigate to the [**Domains**](https://dashboard.clerk.com/~/domains) page.
+  1. Select the **Satellites** tab.
+  1. Select the satellite domain you just added.
+  1. Under **DNS Configuration**, follow the instructions to add a CNAME record in your DNS provider's settings.
+
+  Once your CNAME record is set up correctly, you should see a **Verified** label next to your satellite domain.
+
+  > [!NOTE]
+  > It can take up to 48hrs for DNS records to fully propagate.
+
+  ### Configure your satellite app
+
+  There are two ways that you can configure your Clerk satellite application to work with the primary domain:
+
+  - Using environment variables
+  - Using properties
+
+  Use the following tabs to select your preferred method. Clerk recommends using environment variables.
+
+  
+#### Environment variables
+
+
+      You can configure your satellite application by setting the following environment variables:
+
+      > [!NOTE]
+      > In development, your Publishable Key and Secret Key will start with `pk_test_` and `sk_test` respectively. In production, they will start with `pk_live_` and `sk_live` respectively.
+
+      - In the `.env` file associated with your primary domain:
+
+        
+**Next.js:**
+
+```env
+// Filename: .env
+
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY={{pub_key}}
+          CLERK_SECRET_KEY={{secret}}
+          NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+          NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+          ```
+
+
+**Remix:**
+
+```env
+// Filename: .env
+
+          CLERK_PUBLISHABLE_KEY={{pub_key}}
+          CLERK_SECRET_KEY={{secret}}
+          CLERK_SIGN_IN_URL=/sign-in
+          ```
+
+      - In the `.env` file associated with your other (satellite) domain:
+
+        
+**Next.js:**
+
+```env
+// Filename: .env
+
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY={{pub_key}}
+          CLERK_SECRET_KEY={{secret}}
+          NEXT_PUBLIC_CLERK_IS_SATELLITE=true
+          # Production example:
+          NEXT_PUBLIC_CLERK_DOMAIN=satellite.dev
+          NEXT_PUBLIC_CLERK_SIGN_IN_URL=https://primary.dev/sign-in
+          NEXT_PUBLIC_CLERK_SIGN_UP_URL=https://primary.dev/sign-up
+
+          # Development example:
+          # NEXT_PUBLIC_CLERK_DOMAIN=localhost:3001
+          # NEXT_PUBLIC_CLERK_SIGN_IN_URL=http://localhost:3000/sign-in
+          # NEXT_PUBLIC_CLERK_SIGN_UP_URL=http://localhost:3000/sign-up
+          ```
+
+
+**Remix:**
+
+```env
+// Filename: .env
+
+          CLERK_PUBLISHABLE_KEY={{pub_key}}
+          CLERK_SECRET_KEY={{secret}}
+          CLERK_IS_SATELLITE=true
+          # Production example:
+          CLERK_DOMAIN=satellite.dev
+          CLERK_SIGN_IN_URL=https://primary.dev/sign-in
+          CLERK_SIGN_UP_URL=https://primary.dev/sign-up
+
+          # Development example:
+          # CLERK_DOMAIN=localhost:3001
+          # CLERK_SIGN_IN_URL=http://localhost:3000/sign-in
+          # CLERK_SIGN_UP_URL=http://localhost:3000/sign-up
+          ```
+
+      - You will also need to add the `allowedRedirectOrigins` property to `` on your _primary domain app_ to ensure that the redirect back from primary to satellite domain works correctly. For example:
+
+        
+**Development:**
+
+```tsx
+// Filename: app/layout.tsx
+
+          import { ClerkProvider } from '@clerk/nextjs'
+
+          export default function RootLayout({ children }: { children: React.ReactNode }) {
+            return (
+              <html lang="en">
+                <body>
+                  {children}
+                </body>
+              </html>
+            )
+          }
+          ```
+
+
+**Production:**
+
+```tsx
+// Filename: app/layout.tsx
+
+          import { ClerkProvider } from '@clerk/nextjs'
+
+          export default function RootLayout({ children }: { children: React.ReactNode }) {
+            return (
+              <html lang="en">
+                <body>
+                  {children}
+                </body>
+              </html>
+            )
+          }
+          ```
+
+    
+
+#### Properties
+
+
+You can configure your satellite application by setting the following properties:
+
+- `isSatellite` - Defines the app as a satellite app when `true`.
+- `domain` - Sets the domain of the satellite application. This is required since we cannot figure this out by your Publishable Key, since it is the same for all of your multi-domain apps.
+- `signInUrl` - This url will be used when signing in on your satellite application and needs to point to your primary application. This option is optional for production instances and required for development instances.
+- `signUpUrl` - This url will be used for signing up on your satellite application and needs to point to your primary application. This option is optional for production instances and required for development instances.
+- `allowedRedirectOrigins` - This is a list of origins that are allowed to redirect back to from the primary domain.
+
+> [!TIP]
+> The `URL` parameter that can be passed to `isSatellite` and `domain` is the request url for server-side usage or the current location for client usage.
+
+
+#### Tab 3
+
+
+          In a Next.js application, you must set the properties in the [``](/reference/components/clerk-provider) component _and_ in your [`clerkMiddleware()`](/reference/nextjs/clerk-middleware).
+
+          - In the Next project associated with your primary domain, only the `signInUrl` prop needs to be configured as shown in the following example:
+
+            > [!IMPORTANT]
+            > You should set your `CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` in your environment variables even if you're using props to configure satellite domains.
+
+            
+**App Router:**
+
+```tsx
+// Filename: app/layout.tsx
+
+              import { ClerkProvider } from '@clerk/nextjs'
+
+              export default function RootLayout({ children }: { children: React.ReactNode }) {
+                const primarySignInUrl = '/sign-in'
+                const primarySignUpUrl = '/sign-up'
+                const satelliteUrl = 'https://satellite.dev'
+
+                return (
+                  <html lang="en">
+                    <body>
+                      
+                        <p>Satellite Next.js app</p>
+                        {children}
+                      
+                    </body>
+                  </html>
+                )
+              }
+              ```
+
+
+**Pages Router:**
+
+```jsx
+// Filename: _app.tsx
+
+              import { ClerkProvider } from '@clerk/nextjs'
+              import Head from 'next/head'
+
+              export default function App({ Component, pageProps }) {
+                const primarySignInUrl = '/sign-in'
+                const primarySignUpUrl = '/sign-up'
+                const satelliteUrl = 'https://satellite.dev'
+
+                return (
+                  
+                    
+                      <title>Satellite Next.js app</title>
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                    
+                    
+                )
+              }
+              ```
+
+
+          - In the Next project associated with your satellite domain, configure your `` as shown in the following example:
+
+            
+**App Router:**
+
+```tsx
+// Filename: app/layout.tsx
+
+              import { ClerkProvider } from '@clerk/nextjs'
+
+              export default function RootLayout({ children }: { children: React.ReactNode }) {
+                const primarySignInUrl = 'https://primary.dev/sign-in'
+                const primarySignUpUrl = 'https://primary.dev/sign-up'
+                // Or, in development:
+                // const primarySignInUrl = 'http://localhost:3000/sign-in';
+                // const primarySignUpUrl = 'http://localhost:3000/sign-up';
+
+                return (
+                  <html lang="en">
+                    <body>
+                       url.host}
+                        signInUrl={primarySignInUrl}
+                        signUpUrl={primarySignUpUrl}
+                      >
+                        <title>Satellite Next.js app</title>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        {children}
+                      
+                    </body>
+                  </html>
+                )
+              }
+              ```
+
+
+**Pages Router:**
+
+```jsx
+// Filename: _app.tsx
+
+              import { ClerkProvider } from '@clerk/nextjs'
+              import Head from 'next/head'
+
+              export default function App({ Component, pageProps }) {
+                const primarySignInUrl = 'https://primary.dev/sign-in'
+                const primarySignUpUrl = 'https://primary.dev/sign-up'
+                // Or, in development:
+                // const primarySignInUrl = 'http://localhost:3000/sign-in';
+                // const primarySignUpUrl = 'http://localhost:3000/sign-up';
+
+                return (
+                   url.host}
+                    signInUrl={primarySignInUrl}
+                    signUpUrl={primarySignUpUrl}
+                    {...pageProps}
+                  >
+                    
+                      <title>Satellite Next.js app</title>
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                    
+                    
+                )
+              }
+              ```
+
+
+          And the middleware associated with your satellite domain should look like this:
+
+          
+  > [!IMPORTANT]
+  >
+  > If you're using Next.js ≤15, name your file `middleware.ts` instead of `proxy.ts`. The code itself remains the same; only the filename changes.
+
+
+          ```ts
+// Filename: proxy.ts
+
+          import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+
+          // Set the homepage as a public route
+          const isPublicRoute = createRouteMatcher(['/'])
+
+          // Set the necessary options for a satellite application
+          const options = {
+            isSatellite: true,
+            signInUrl: 'https://primary.dev/sign-in',
+            signUpUrl: 'https://primary.dev/sign-up',
+            // Or, in development:
+            // signInUrl: 'http://localhost:3000/sign-in',
+            // signUpUrl: 'http://localhost:3000/sign-up',
+            domain: 'satellite.dev',
+            // Or, in development:
+            // domain: 'http://localhost:3001',
+
+            // satelliteAutoSync defaults to false. Uncomment below to automatically sync auth state on first load.
+            // This adds a redirect on every first visit, which comes with a performance cost.
+            // satelliteAutoSync: true,
+          }
+
+          export default clerkMiddleware(async (auth, req) => {
+            if (isPublicRoute(req)) return // if it's a public route, do nothing
+            await auth.protect() // for any other route, require auth
+          }, options)
+
+          export const config = {
+            matcher: [
+              // Skip Next.js internals and all static files, unless found in search params
+              '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+              // Always run for API routes
+              '/(api|trpc)(.*)',
+            ],
+          }
+          ```
+        
+
+#### Tab 4
+
+
+          In a Remix application, you must set the properties in the [`ClerkApp`](/reference/remix/clerk-app) wrapper.
+
+          - In the root file associated with your primary domain, you only need to configure the `signInUrl` prop:
+
+            ```ts
+// Filename: root.tsx
+
+            export const loader = (args) => {
+              return rootAuthLoader(
+                args,
+                ({ req }) => {
+                  const { userId, sessionId, getToken } = req.auth
+                  return json({
+                    message: `Hello from the root loader :)`,
+                    ENV: getBrowserEnvironment(),
+                  })
+                },
+                {
+                  loadUser: true,
+                  signInUrl: '/sign-in',
+                  signUpUrl: '/sign-up',
+                  allowedRedirectOrigins: ['https://satellite.dev'],
+                } as const,
+              )
+            }
+
+            export default ClerkApp(App, {
+              signInUrl: '/sign-in',
+              signUpUrl: '/sign-up',
+            })
+            ```
+
+          - In the root file associated with your satellite domain, configure `ClerkApp` as shown in the following example:
+
+            ```ts
+// Filename: root.tsx
+
+            export const loader = (args) => {
+              return rootAuthLoader(
+                args,
+                ({ req }) => {
+                  const { userId, sessionId, getToken } = req.auth
+                  return json({
+                    message: `Hello from the root loader :)`,
+                    ENV: getBrowserEnvironment(),
+                  })
+                },
+                {
+                  loadUser: true,
+                  signInUrl: 'https://primary.dev/sign-in',
+                  signUpUrl: 'https://primary.dev/sign-up',
+                  // Or, in development:
+                  // signInUrl: 'http://localhost:3000/sign-in',
+                  // signUpUrl: 'http://localhost:3000/sign-up',
+                  isSatellite: true,
+                  domain: (url) => url.host,
+                } as const,
+              )
+            }
+
+            export default ClerkApp(App, {
+              isSatellite: true,
+              domain: (url) => url.host,
+              signInUrl: 'https://primary.dev/sign-in',
+              signUpUrl: 'https://primary.dev/sign-up',
+              // Or, in development:
+              // signInUrl: 'http://localhost:3000/sign-in',
+              // signUpUrl: 'http://localhost:3000/sign-up',
+            })
+            ```
+        
+    
+  
+
+  ### Ready to go
+
+  Your satellite application should now be able to access the authentication state from your satellite domain!
+
+  To verify it's working, visit your satellite domain and select "Sign in" — you should be redirected to the primary domain and back with an active session. For details on the sync flow, see the [How authentication syncing works](#how-authentication-syncing-works) section.
+
+  You can repeat this process and create as many satellite applications as you need.

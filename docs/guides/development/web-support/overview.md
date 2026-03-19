@@ -1,0 +1,45 @@
+# Web support
+
+
+> Add web support to your Expo project with Clerk.
+
+Expo provides a way to [develop web applications](https://docs.expo.dev/workflow/web/) using the same codebase as your iOS and Android apps. Though Clerk prebuilt components cannot be used in native apps, they can be used in web applications built with Expo.
+
+## Create a new project with web support
+
+If you're starting from scratch, you can follow the [Expo quickstart](/expo/getting-started/quickstart), which showcases how to create a sign-in and sign-up page with the same code for all platforms Expo supports.
+
+## Add web support to an existing project
+
+If you already have an Expo project and want to add web support, you must first ensure that your existing Clerk [custom flows](/guides/development/custom-flows/overview) do not have any native-specific code. If you have any native-specific code you will have to either adjust your custom flows to also work on web by leveraging [platform-specific code](https://reactnative.dev/docs/platform-specific-code#platform-specific-extensions), if you are using Expo Router you can also take a look at the [platform-specific modules](https://docs.expo.dev/router/advanced/platform-specific-modules/) guide.
+
+> [!WARNING]
+> Clerk prebuilt components are only available on the web platform. If you're using Expo for iOS or Android, you'll need to build components using [custom flows](/guides/development/custom-flows/overview).
+
+## Next steps
+
+Learn more about Clerk components, how to build custom flows for your native apps, and how to use Clerk's client-side helpers using the following guides.
+
+
+  - [Create a custom sign-up page](/guides/development/web-support/custom-sign-up-page)
+  - Learn how to add a custom sign-up page to your app with Clerk's components.
+
+  ---
+
+  - [Prebuilt components](/reference/components/overview)
+  - Learn how to quickly add authentication to your app using Clerk's suite of components.
+
+  ---
+
+  - [Customization & localization](/guides/customizing-clerk/appearance-prop/overview)
+  - Learn how to customize and localize Clerk components.
+
+  ---
+
+  - [Custom flows](/guides/development/custom-flows/overview)
+  - Expo native apps require custom flows in place of prebuilt components.
+
+  ---
+
+  - [Client-side helpers](/reference/expo/overview#react-hooks)
+  - Learn more about Clerk's client-side helpers and how to use them.

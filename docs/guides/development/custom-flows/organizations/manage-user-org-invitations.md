@@ -1,0 +1,389 @@
+# Build a custom flow for managing a user's Organization invitations
+
+
+> Learn how to use the Clerk API to build a custom flow for managing a user's Organization invitations.
+
+> [!WARNING]
+> This guide is for users who want to build a custom flow. To use a _prebuilt_ UI, use the [Account Portal pages](/guides/account-portal/overview) or [prebuilt components](/reference/components/overview).
+
+
+This guide will demonstrate how to use the Clerk API to build a custom flow for managing a user's [Organization invitations](/guides/organizations/add-members/invitations).
+
+
+  
+    > [!TIP]
+> Examples for this SDK aren't available yet. For now, try adapting the  available example to fit your SDK.
+
+  
+
+  The following example:
+
+  1. Uses the [`useOrganizationList()`](/reference/hooks/use-organization) hook to get `userInvitations`, which is a list of the user's Organization invitations.
+     - `userInvitations` is an object with `data` that contains an array of [`UserOrganizationInvitation`](/reference/javascript/types/user-organization-invitation) objects.
+     - Each `UserOrganizationInvitation` object has an [`accept()`](/reference/javascript/types/organization-membership-request#accept) method that accepts the invitation to the Organization.
+  1. Maps over the `data` array to display the invitations in a table, providing an "Accept" button for each invitation that calls the `accept()` method.
+
+  
+    **This example is written for Next.js App Router but it can be adapted for any React-based framework, such as React Router or Tanstack Start.**
+
+    ```jsx
+// Filename: app/components/UserInvitationsList.tsx
+
+    'use client'
+
+    import { useOrganizationList } from '@clerk/nextjs'
+    import React from 'react'
+
+    export default function UserInvitationsList() {
+      const { isLoaded, userInvitations } = useOrganizationList({
+        userInvitations: {
+          infinite: true,
+          keepPreviousData: true,
+        },
+      })
+
+      if (!isLoaded || userInvitations.isLoading) {
+        return <>Loading</>
+      }
+
+      return (
+        <>
+          <h1>Organization invitations</h1>
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Organization name</th>
+                <th>Role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {userInvitations.data?.map((invitation) => (
+                <tr key={invitation.id}>
+                  <td>{invitation.emailAddress}</td>
+                  <td>{invitation.publicOrganizationData.name}</td>
+                  <td>{invitation.role}</td>
+                  <td>
+                    <button onClick={() => invitation.accept()}>Accept</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <button disabled={!userInvitations.hasNextPage} onClick={userInvitations.fetchNext}>
+            Load more
+          </button>
+        </>
+      )
+    }
+    ```
+  
+
+  
+    ```tsx
+// Filename: app/components/manage-user-org-invitations.tsx
+
+    import { ThemedText } from '@/components/themed-text'
+    import { ThemedView } from '@/components/themed-view'
+    import { useOrganizationList } from '@clerk/expo'
+    import * as React from 'react'
+    import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+
+    export default function UserInvitationsList() {
+      const { isLoaded, userInvitations } = useOrganizationList({
+        userInvitations: {
+          infinite: true,
+          keepPreviousData: true,
+        },
+      })
+
+      if (!isLoaded || userInvitations.isLoading) {
+        return (
+          
+            Loading
+          
+        )
+      }
+
+      return (
+        
+          
+            Organization invitations
+          
+          {userInvitations.data && userInvitations.data.length > 0 ? (
+            <>
+              
+                {userInvitations.data?.map((invitation) => (
+                  
+                    Email:
+                    {invitation.emailAddress}
+
+                    Organization name:
+                    
+                      {invitation.publicOrganizationData?.name || 'N/A'}
+                    
+
+                    Role:
+                    {invitation.role}
+
+                     [styles.button, pressed && styles.buttonPressed]}
+                      onPress={() => invitation.accept()}
+                    >
+                      Accept
+                    
+                  
+                ))}
+              
+
+               [
+                  styles.loadMoreButton,
+                  !userInvitations.hasNextPage && styles.buttonDisabled,
+                  pressed && styles.buttonPressed,
+                ]}
+                disabled={!userInvitations.hasNextPage}
+                onPress={() => userInvitations.fetchNext?.()}
+              >
+                Load more
+              
+            </>
+          ) : (
+            No invitations found
+          )}
+        
+      )
+    }
+
+    const styles = StyleSheet.create({
+      container: {
+        flex: 1,
+        padding: 20,
+        gap: 12,
+      },
+      center: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 16,
+      },
+      title: {
+        marginBottom: 20,
+      },
+      label: {
+        fontWeight: '600',
+        fontSize: 14,
+      },
+      value: {
+        fontSize: 16,
+        marginBottom: 8,
+      },
+      scrollView: {
+        flex: 1,
+      },
+      card: {
+        backgroundColor: 'rgba(128, 128, 128, 0.1)',
+        borderRadius: 8,
+        padding: 16,
+        marginBottom: 12,
+        gap: 8,
+      },
+      button: {
+        backgroundColor: '#0a7ea4',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginTop: 8,
+      },
+      loadMoreButton: {
+        backgroundColor: '#0a7ea4',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginTop: 20,
+      },
+      buttonPressed: {
+        opacity: 0.7,
+      },
+      buttonDisabled: {
+        opacity: 0.5,
+      },
+      buttonText: {
+        color: '#fff',
+        fontWeight: '600',
+      },
+    })
+    ```
+  
+
+
+  The following example:
+
+  1. Calls the [`getOrganizationInvitations()`](/reference/javascript/user#get-organization-invitations) method to retrieve the list of Organization invitations for the active user. This method returns `data`, which is an array of [`UserOrganizationInvitation`](/reference/javascript/types/user-organization-invitation) objects.
+  1. Maps over the `data` array to display the invitations in a table.
+  1. Provides an "Accept" button for each invitation that calls the [`accept()`](/reference/javascript/types/user-organization-invitation#accept) method.
+
+  Use the following tabs to view the code necessary for the `index.html` and `main.js` files.
+
+  
+**index.html:**
+
+```html
+<!-- Filename: index.html -->
+
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Clerk + JavaScript App</title>
+      </head>
+      <body>
+        <div id="app"></div>
+
+        <h1>Organization invitations</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Organization name</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody id="invitations-table-body"></tbody>
+        </table>
+
+        <script type="module" src="/src/main.js" async crossorigin="anonymous"></script>
+      </body>
+    </html>
+    ```
+
+
+**main.js:**
+
+```js
+// Filename: main.js
+
+    import { Clerk } from '@clerk/clerk-js'
+
+    const pubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+    if (!pubKey) {
+      throw new Error('Add your VITE_CLERK_PUBLISHABLE_KEY to .env file')
+    }
+
+    const clerk = new Clerk('{{pub_key}}')
+    await clerk.load()
+
+    if (clerk.isSignedIn) {
+      const { data } = await clerk.user.getOrganizationInvitations()
+      const invitations = data
+
+      invitations.map((invitation) => {
+        const tableBody = document.getElementById('invitations-table-body')
+        const row = tableBody.insertRow()
+        row.insertCell().textContent = invitation.emailAddress
+        row.insertCell().textContent = invitation.publicOrganizationData.name
+        row.insertCell().textContent = invitation.role
+        row.insertCell().textContent = invitation.status
+
+        // Show accept button for pending invitations
+        if (invitation.status === 'pending') {
+          const acceptBtn = document.createElement('button')
+          acceptBtn.textContent = 'Accept'
+          acceptBtn.addEventListener('click', async function (e) {
+            e.preventDefault()
+            await invitation.accept()
+          })
+          row.insertCell().appendChild(acceptBtn)
+        }
+      })
+    } else {
+      // If there is no active user, mount Clerk's document.getElementById('app').innerHTML = `
+        <div id="sign-in"></div>
+      `
+
+      const signInDiv = document.getElementById('sign-in')
+
+      clerk.mountSignIn(signInDiv)
+    }
+    ```
+
+
+  ```swift
+// Filename: ManageUserOrgInvitationsView.swift
+
+  import SwiftUI
+  import ClerkKit
+
+  struct ManageUserOrgInvitationsView: View {
+    @Environment(Clerk.self) private var clerk
+    @State private var invitations: [UserOrganizationInvitation] = []
+
+    var body: some View {
+      VStack {
+        ForEach(invitations) { invitation in
+          HStack {
+            Text(invitation.publicOrganizationData.name)
+            Button("Accept") {
+              Task {
+                await acceptInvitation(invitation)
+                await fetchUserOrganizationInvitations()
+              }
+            }
+          }
+        }
+      }
+      .task { await fetchUserOrganizationInvitations() }
+    }
+  }
+
+  extension ManageUserOrgInvitationsView {
+
+    func fetchUserOrganizationInvitations() async {
+      do {
+        invitations = try await clerk.user?.getOrganizationInvitations().data ?? []
+      } catch {
+        // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+        // for more info on error handling
+        dump(error)
+        invitations = []
+      }
+    }
+
+    func acceptInvitation(_ invitation: UserOrganizationInvitation) async {
+      do {
+        try await invitation.accept()
+      } catch {
+        // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+        // for more info on error handling
+        dump(error)
+      }
+    }
+  }
+  ```
+
+
+  ```kotlin
+  import com.clerk.api.network.serialization.ClerkResult
+  import com.clerk.api.organizations.UserOrganizationInvitation
+  import com.clerk.api.organizations.accept
+  import com.clerk.api.user.User
+
+  suspend fun fetchUserOrganizationInvitations(): List {
+    return when (val invitationsResult = User.getOrganizationInvitations(status = "pending")) {
+      is ClerkResult.Success -> invitationsResult.value.data
+      is ClerkResult.Failure -> emptyList()
+    }
+  }
+
+  suspend fun acceptInvitation(invitation: UserOrganizationInvitation) {
+    invitation.accept()
+  }
+  ```

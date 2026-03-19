@@ -1,0 +1,379 @@
+# Build a custom flow for displaying the last authentication method
+
+
+> Learn how to use the Clerk API to build a custom flow for displaying the lastAuthenticationStrategy property and highlighting the last used OAuth provider with a badge.
+
+> [!WARNING]
+> This guide is for users who want to build a custom flow. To use a _prebuilt_ UI, use the [Account Portal pages](/guides/account-portal/overview) or [prebuilt components](/reference/components/overview).
+
+
+  > [!IMPORTANT]
+  > This guide applies to the following Clerk SDKs:
+  >
+  > - `@clerk/react` v6 or higher
+  > - `@clerk/nextjs` v7 or higher
+  > - `@clerk/expo` v3 or higher
+  > - `@clerk/react-router` v3 or higher
+  > - `@clerk/tanstack-react-start` v0.26.0 or higher
+  >
+  > If you're using an older version of one of these SDKs, or are using the legacy API, refer to the [legacy API documentation](/guides/development/custom-flows/authentication/legacy/passkeys).
+
+
+The `Client` object includes a `lastAuthenticationStrategy` property that tracks the last authentication method used by the user. This is useful for improving the user experience by showing a "Last used" badge on OAuth buttons, helping returning users quickly identify their preferred sign-in method.
+
+## Access the last authentication strategy
+
+The `lastAuthenticationStrategy` property is available on the [`Client`](/reference/javascript/client) object. You can access it through the `client` property of the [`Clerk`](/reference/javascript/clerk) instance.
+
+
+  The following example demonstrates how to:
+
+  1. Access the `client` object using the [`useClerk()`](/reference/hooks/use-clerk) hook.
+  1. Check the `lastAuthenticationStrategy` property to identify which OAuth provider was last used.
+  1. Display a badge next to the corresponding OAuth button.
+
+  
+    
+      > [!TIP]
+> Examples for this SDK aren't available yet. For now, try adapting the  available example to fit your SDK.
+
+    
+
+    ```tsx
+// Filename: app/sign-in/[[...sign-in]]/page.tsx
+
+    'use client'
+
+    import * as React from 'react'
+    import { OAuthStrategy } from '@clerk/shared/types'
+    import { useSignIn, useClerk } from '@clerk/nextjs'
+
+    export default function Page() {
+      const { signIn } = useSignIn()
+      const { client } = useClerk()
+
+      const lastStrategy = client?.lastAuthenticationStrategy
+
+      const signInWith = (strategy: OAuthStrategy) => {
+        return signIn.sso({
+          strategy,
+          redirectCallbackUrl: '/sign-in/sso-callback',
+          redirectUrl: '/',
+        })
+      }
+
+      const providers = [
+        { strategy: 'oauth_google' as const, name: 'Google' },
+        { strategy: 'oauth_github' as const, name: 'GitHub' },
+      ]
+
+      return (
+        <div>
+          <h1>Sign in</h1>
+          {providers.map((provider) => (
+            <button key={provider.strategy} onClick={() => signInWith(provider.strategy)}>
+              Sign in with {provider.name}
+              {lastStrategy === provider.strategy && <span> (Last used)</span>}
+            </button>
+          ))}
+        </div>
+      )
+    }
+    ```
+  
+
+  
+    ```tsx
+// Filename: app/(auth)/sign-in.tsx
+
+    import { ThemedText } from '@/components/themed-text'
+    import { ThemedView } from '@/components/themed-view'
+    import { useClerk, useSSO } from '@clerk/expo'
+    import { OAuthStrategy } from '@clerk/shared/types'
+    import * as AuthSession from 'expo-auth-session'
+    import { useRouter } from 'expo-router'
+    import * as WebBrowser from 'expo-web-browser'
+    import { useCallback, useEffect } from 'react'
+    import { Platform, Pressable, StyleSheet } from 'react-native'
+
+    // Preloads the browser for Android devices to reduce authentication load time
+    // See: https://docs.expo.dev/guides/authentication/#improving-user-experience
+    export const useWarmUpBrowser = () => {
+      useEffect(() => {
+        if (Platform.OS !== 'android') return
+        void WebBrowser.warmUpAsync()
+        return () => {
+          // Cleanup: closes browser when component unmounts
+          void WebBrowser.coolDownAsync()
+        }
+      }, [])
+    }
+
+    // Handle any pending authentication sessions
+    WebBrowser.maybeCompleteAuthSession()
+
+    export default function Page() {
+      useWarmUpBrowser()
+
+      // Use the `useSSO()` hook to access the `startSSOFlow()` method
+      const { startSSOFlow } = useSSO()
+      const { client } = useClerk()
+      const router = useRouter()
+
+      const lastStrategy = client?.lastAuthenticationStrategy
+
+      const onPress = useCallback(async (oauthStrategy: OAuthStrategy) => {
+        try {
+          // Start the authentication process by calling `startSSOFlow()`
+          const { createdSessionId, setActive, signIn, signUp } = await startSSOFlow({
+            strategy: oauthStrategy,
+            // For web, defaults to current path
+            // For native, you must pass a scheme, like AuthSession.makeRedirectUri({ scheme, path })
+            // For more info, see https://docs.expo.dev/versions/latest/sdk/auth-session/#authsessionmakeredirecturioptions
+            redirectUrl: AuthSession.makeRedirectUri({
+              scheme: 'com.clerk.clerk-expo-quickstart',
+              path: '/sign-in',
+            }),
+          })
+
+          // If sign in was successful, set the active session
+          if (createdSessionId) {
+            setActive!({
+              session: createdSessionId,
+              //  Handle pending session tasks
+              // See https://clerk.com/docs/guides/development/custom-flows/authentication/session-tasks
+              navigate: async ({ session, decorateUrl }) => {
+                if (session?.currentTask) {
+                  console.log(session?.currentTask)
+                  return
+                }
+
+                const url = decorateUrl('/')
+                if (url.startsWith('http')) {
+                  window.location.href = url
+                } else {
+                  router.push(url)
+                }
+              },
+            })
+          } else {
+            // If there is no `createdSessionId`,
+            // there are missing requirements, such as MFA
+            // See https://clerk.com/docs/guides/development/custom-flows/authentication/oauth-connections#handle-missing-requirements
+            router.push('/sign-in/continue')
+          }
+        } catch (err) {
+          // See https://clerk.com/docs/guides/development/custom-flows/error-handling
+          console.error(JSON.stringify(err, null, 2))
+        }
+      }, [])
+
+      const providers = [
+        { strategy: 'oauth_google', name: 'Sign in with Google' },
+        { strategy: 'oauth_github', name: 'Sign in with GitHub' },
+      ]
+
+      return (
+        
+          
+            Sign in
+          
+          Choose a provider to continue
+          {providers.map((provider) => (
+             [styles.button, pressed && styles.buttonPressed]}
+              onPress={() => onPress(provider.strategy as OAuthStrategy)}
+            >
+              
+                {provider.name}
+                {lastStrategy === provider.strategy ? ' (Last used)' : ''}
+              
+            
+          ))}
+        
+      )
+    }
+
+    const styles = StyleSheet.create({
+      container: {
+        flex: 1,
+        padding: 20,
+        gap: 12,
+      },
+      title: {
+        marginBottom: 8,
+      },
+      description: {
+        fontSize: 14,
+        marginBottom: 16,
+        opacity: 0.8,
+      },
+      button: {
+        backgroundColor: '#0a7ea4',
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginTop: 8,
+      },
+      buttonPressed: {
+        opacity: 0.7,
+      },
+      buttonText: {
+        color: '#fff',
+        fontWeight: '600',
+      },
+    })
+    ```
+  
+
+
+  The following example demonstrates how to:
+
+  1. Access the `client` object from the `Clerk` instance.
+  1. Check the `lastAuthenticationStrategy` property to identify which OAuth provider was last used.
+  1. Display a badge next to the corresponding OAuth button.
+
+  
+**index.html:**
+
+```html
+<!-- Filename: index.html -->
+
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Clerk + JavaScript App</title>
+      </head>
+      <body>
+        <div id="app"></div>
+
+        <script type="module" src="/src/main.js" async crossorigin="anonymous"></script>
+      </body>
+    </html>
+    ```
+
+
+**main.js:**
+
+```js
+// Filename: main.js
+
+    import { Clerk } from '@clerk/clerk-js'
+
+    const pubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+    const clerk = new Clerk(pubKey)
+    await clerk.load()
+
+    if (clerk.user) {
+      // User is already signed in
+      document.getElementById('app').innerHTML = `
+        <div id="user-button"></div>
+      `
+      clerk.mountUserButton(document.getElementById('user-button'))
+    } else {
+      const lastStrategy = clerk.client?.lastAuthenticationStrategy
+
+      const providers = [
+        { strategy: 'oauth_google', name: 'Google' },
+        { strategy: 'oauth_github', name: 'GitHub' },
+      ]
+
+      const buttons = providers
+        .map(
+          (provider) => `
+        <button id="${provider.strategy}">
+          Sign in with ${provider.name}
+          ${lastStrategy === provider.strategy ? '<span> (Last used)</span>' : ''}
+        </button>
+      `,
+        )
+        .join('')
+
+      document.getElementById('app').innerHTML = `
+        <h1>Sign in</h1>
+        ${buttons}
+      `
+
+      providers.forEach((provider) => {
+        document.getElementById(provider.strategy)?.addEventListener('click', async () => {
+          try {
+            await clerk.client.signIn.authenticateWithRedirect({
+              strategy: provider.strategy,
+              redirectUrl: '/sso-callback',
+              redirectUrlComplete: '/',
+            })
+          } catch (error) {
+            console.error('Error:', error)
+          }
+        })
+      })
+    }
+    ```
+
+
+  ```swift
+// Filename: LastAuthenticationStrategyView.swift
+
+  import SwiftUI
+  import ClerkKit
+
+  struct LastAuthenticationStrategyView: View {
+    @Environment(Clerk.self) private var clerk
+
+    var providers: [OAuthProvider] {
+      clerk.environment?.allSocialProviders ?? []
+    }
+
+    var lastStrategy: String? {
+      clerk.client?.lastAuthenticationStrategy?.rawValue
+    }
+
+    var body: some View {
+      VStack(alignment: .leading, spacing: 8) {
+        ForEach(providers) { provider in
+          Text(provider.name)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .overlay(alignment: .trailing) {
+              if provider.strategy == lastStrategy {
+                Text("Last used")
+                  .font(.caption)
+                  .padding(.horizontal, 8)
+                  .padding(.vertical, 2)
+                  .background(Color.gray.opacity(0.2))
+                  .clipShape(Capsule())
+              }
+            }
+        }
+      }
+    }
+  }
+  ```
+
+
+  ```kotlin
+  import com.clerk.api.Clerk
+
+  data class ProviderOption(val strategy: String, val name: String)
+
+  val providers =
+    listOf(
+      ProviderOption("oauth_google", "Google"),
+      ProviderOption("oauth_github", "GitHub"),
+    )
+
+  val lastStrategy = Clerk.client.lastAuthenticationStrategy
+
+  providers.forEach { provider ->
+    val label =
+      if (lastStrategy == provider.strategy) {
+        "Sign in with ${provider.name} (Last used)"
+      } else {
+        "Sign in with ${provider.name}"
+      }
+
+    println(label)
+  }
+  ```
