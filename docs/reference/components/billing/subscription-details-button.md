@@ -3,8 +3,6 @@
 
 > Clerk's <SubscriptionDetailsButton /> component renders a button that opens the Subscription details drawer.
 
-![The \component renders a button that opens the Subscription details drawer.](/images/ui-components/subscription.svg)
-
 The `` component renders a button that opens the Subscription details drawer when selected, allowing users to view and manage their Subscription details, whether for their Personal Account or Organization. It must be wrapped inside a [``](/reference/components/control/show) component to ensure the user is authenticated.
 
 > [!WARNING]

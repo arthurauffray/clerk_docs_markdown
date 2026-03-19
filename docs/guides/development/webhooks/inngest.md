@@ -18,23 +18,18 @@ To follow this guide, you need an Inngest account (free tier is enough) and have
 
 To create an Inngest webhook endpoint and add it to your Clerk account, navigate to the [**Webhooks**](https://dashboard.clerk.com/~/webhooks) page in the Clerk Dashboard. Next, select **Add Endpoint**.
 
-![The Webhooks page in the Clerk Dashboard. A red arrow points to the button for Add Endpoint](/images/integrations/inngest/webhook-page.webp)
 
 On the next page, select the **Transformation template** tab and the **Inngest** template, then select the **Connect to Inngest** button.
 
-![The Webhooks page in the Clerk Dashboard showing the Inngest transformation template. Red arrows point to the Transformation Template tab, the Inngest template, and the Connect to Inngest button](/images/integrations/inngest/webhook-transformation-template.webp)
 
 A popup window will appear to complete the setup. Select **Approve** to create the webhook.
 
-![The Inngest permissions popup window showing the Approve button](/images/integrations/inngest/inngest-permissions-dialog.webp)
 
 After the popup window disappears, the Webhooks page will now display **Connected** with the webhook URL underneath. There is one more step to complete setup.
 
-![The Webhooks page in the Clerk Dashboard showing a connected Inngest account. A red arrow points to the Connected button](/images/integrations/inngest/webhook-endpoint-connected.webp)
 
 To complete the setup, scroll down and select **Create**.
 
-![The Webhooks page in the Clerk Dashboard showing the end of the page to create a new endpoint. A red arrow points to the Create button](/images/integrations/inngest/webhook-create.webp)
 
 You'll be redirected to the new endpoint. In your Inngest dashboard, you will see a new webhook created in your account's [production environment](https://app.inngest.com/env/production/manage/webhooks).
 
@@ -42,7 +37,6 @@ You'll be redirected to the new endpoint. In your Inngest dashboard, you will se
 
 After setup, as webhook events are sent from Clerk to Inngest, new `clerk` events will appear in your [Inngest dashboard](https://app.inngest.com/env/production/events). Event names will be the prefixed `clerk/` followed by the event name. See [webhook events](/guides/development/webhooks/overview#supported-webhook-events) for a full list.
 
-![The Events page in the Inngest Dashboard showing a list of Clerk events](/images/integrations/inngest/inngest-clerk-events.webp)
 
 ## Creating a function to sync a new user to a database
 
@@ -154,15 +148,12 @@ In your browser open [http://localhost:8288](http://localhost:8288) to see the I
 
 To quickly get events to test within Dev Server, you can select any individual event from the **Events** tab then select the **Send to Dev Server**.
 
-![The Inngest Dashboard showing an individual event payload. Red arrows point to the Events tab and the Send to Dev Server button](/images/integrations/inngest/inngest-send-to-dev-server.webp)
 
 You'll now see the event in the Inngest Dev Server's **Stream** tab alongside any functions that it triggered.
 
-![The Inngest Dev Server showing the Stream tab. The forwarded event is visible in the stream](/images/integrations/inngest/inngest-dev-server.webp)
 
 From here you can select the event, replay it to re-run any functions or edit and replay to edit the event payload to test different types of events.
 
-![The Inngest Dev Server showing the forwarded event payload. A red arrow points to the Replay button](/images/integrations/inngest/inngest-replay-event.webp)
 
 ## Conclusion
 

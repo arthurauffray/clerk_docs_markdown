@@ -251,7 +251,7 @@ By having access to both `message` and `code` you can enrich the incoming `messa
 
 ## ``
 
-By default, renders as an `<img>` element with the logo of the parent `` as the value of its `src` prop. **Must be a child of [``](#connection)**.
+By default, renders as an `` element with the logo of the parent `` as the value of its `src` prop. **Must be a child of [``](#connection)**.
 
 > [!TIP]
 > `` is designed to give you access to Clerk's social connection logos and has intentionally limited customizability. If you need more customizability, consider options such as [Iconify](https://iconify.design/getting-started/).

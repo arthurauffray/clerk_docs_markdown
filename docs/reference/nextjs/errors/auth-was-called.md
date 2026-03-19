@@ -51,7 +51,7 @@ If `` is correctly configured, it's possible this error is happening because whe
 For example,
 
 1. A user accesses `/dashboard`, which is a **valid page and matched route**.
-1. That page includes an `<img>` tag with a `src` pointing to an invalid path.
+1. That page includes an `` tag with a `src` pointing to an invalid path.
 1. A 404 error is triggered because of the invalid static asset request.
 1. Next.js serves the 404 response.
 1. The 404 page is rendered **within the root layout** — that's where Next.js injects their 404 page/component.

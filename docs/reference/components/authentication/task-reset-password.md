@@ -3,8 +3,6 @@
 
 > Clerk's <TaskResetPassword /> component renders a UI for resolving the reset-password task.
 
-![The \component renders a UI for resolving the reset-password session task.](/images/ui-components/task-reset-password.png){{ style: { maxWidth: '460px' } }}
-
 The `` component renders a UI for resolving the `reset-password` session task. You can further customize your `` component by passing additional [properties](#properties) at the time of rendering.
 
 > [!IMPORTANT]

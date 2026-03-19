@@ -72,9 +72,7 @@ To add a custom page to the `` component, you will need to use one of the follow
 
       const DotIcon = () => {
         return (
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-          </svg>
+          
         )
       }
 
@@ -116,9 +114,7 @@ To add a custom page to the `` component, you will need to use one of the follow
 
       const DotIcon = () => {
         return (
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-          </svg>
+          
         )
       }
 
@@ -166,14 +162,7 @@ To add a custom page to the `` component, you will need to use one of the follow
       <header>
         
           
-            <svg
-              slot="label-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-              fill="currentColor"
-            >
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-            </svg>
+            
             <div>
               <h1>Custom page</h1>
               <p>This is the content of the custom page.</p>
@@ -195,14 +184,7 @@ To add a custom page to the `` component, you will need to use one of the follow
 
       
         
-          <svg
-            slot="label-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            fill="currentColor"
-          >
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-          </svg>
+          
           <div>
             <h1>Custom page</h1>
             <p>This is the content of the custom page.</p>
@@ -229,9 +211,7 @@ To add a custom page to the `` component, you will need to use one of the follow
           
             
               <template #labelIcon>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                  <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-                </svg>
+                
               </template>
               <div>
                 <h1>Custom page</h1>
@@ -257,9 +237,7 @@ To add a custom page to the `` component, you will need to use one of the follow
         
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
             <div>
               <h1>Custom page</h1>
@@ -288,9 +266,7 @@ To add a custom page to the `` component, you will need to use one of the follow
           
             
               <template #labelIcon>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                  <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-                </svg>
+                
               </template>
               <div>
                 <h1>Custom page</h1>
@@ -316,9 +292,7 @@ To add a custom page to the `` component, you will need to use one of the follow
         
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
             <div>
               <h1>Custom page</h1>
@@ -434,9 +408,7 @@ To add a custom page to the `` component, you will need to use one of the follow
 
       const DotIcon = () => {
         return (
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-          </svg>
+          
         )
       }
 
@@ -459,9 +431,7 @@ To add a custom page to the `` component, you will need to use one of the follow
 
       const DotIcon = () => {
         return (
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-          </svg>
+          
         )
       }
 
@@ -490,14 +460,7 @@ To add a custom page to the `` component, you will need to use one of the follow
       <header>
         
           
-            <svg
-              slot="label-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-              fill="currentColor"
-            >
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-            </svg>
+            
           </UserButton.UserProfileLink>
         
       </header>
@@ -515,14 +478,7 @@ To add a custom page to the `` component, you will need to use one of the follow
 
       
         
-          <svg
-            slot="label-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            fill="currentColor"
-          >
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-          </svg>
+          
         </UserProfile.Link>
       
       ```
@@ -545,9 +501,7 @@ To add a custom page to the `` component, you will need to use one of the follow
           
             
               <template #labelIcon>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                  <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-                </svg>
+                
               </template>
             </UserButton.UserProfileLink>
           
@@ -569,9 +523,7 @@ To add a custom page to the `` component, you will need to use one of the follow
         
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
           </UserProfile.Link>
         
@@ -596,9 +548,7 @@ To add a custom page to the `` component, you will need to use one of the follow
           
             
               <template #labelIcon>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                  <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-                </svg>
+                
               </template>
             </UserButton.UserProfileLink>
           
@@ -620,9 +570,7 @@ To add a custom page to the `` component, you will need to use one of the follow
         
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
           </UserProfile.Link>
         
@@ -651,9 +599,7 @@ The following example adds a custom page as the first item in the sidenav, follo
 
     const DotIcon = () => {
       return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-          <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-        </svg>
+        
       )
     }
 
@@ -689,9 +635,7 @@ The following example adds a custom page as the first item in the sidenav, follo
 
     const DotIcon = () => {
       return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-          <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-        </svg>
+        
       )
     }
 
@@ -731,28 +675,14 @@ The following example adds a custom page as the first item in the sidenav, follo
     <header>
       
         
-          <svg
-            slot="label-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            fill="currentColor"
-          >
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-          </svg>
+          
           <div>
             <h1>Custom page</h1>
             <p>This is the content of the custom page.</p>
           </div>
         </UserButton.UserProfilePage>
         
-          <svg
-            slot="label-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            fill="currentColor"
-          >
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-          </svg>
+          
         </UserButton.UserProfileLink>
         
         
@@ -772,28 +702,14 @@ The following example adds a custom page as the first item in the sidenav, follo
 
     
       
-        <svg
-          slot="label-icon"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          fill="currentColor"
-        >
-          <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-        </svg>
+        
         <div>
           <h1>Custom page</h1>
           <p>This is the content of the custom page.</p>
         </div>
       </UserProfile.Page>
       
-        <svg
-          slot="label-icon"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          fill="currentColor"
-        >
-          <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-        </svg>
+        
       </UserProfile.Link>
       
       
@@ -863,9 +779,7 @@ The following example adds a custom page as the first item in the sidenav, follo
       
         
           <template #labelIcon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-            </svg>
+            
           </template>
           <div>
             <h1>Custom page</h1>
@@ -874,9 +788,7 @@ The following example adds a custom page as the first item in the sidenav, follo
         </UserButton.UserProfilePage>
         
           <template #labelIcon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-            </svg>
+            
           </template>
         </UserButton.UserProfileLink>
         
@@ -899,9 +811,7 @@ The following example adds a custom page as the first item in the sidenav, follo
       
         
           <template #labelIcon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-            </svg>
+            
           </template>
           <div>
             <h1>Custom page</h1>
@@ -910,9 +820,7 @@ The following example adds a custom page as the first item in the sidenav, follo
         </UserProfile.Page>
         
           <template #labelIcon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-            </svg>
+            
           </template>
         </UserProfile.Link>
         
@@ -936,9 +844,7 @@ The following example adds a custom page as the first item in the sidenav, follo
       
         
           <template #labelIcon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-            </svg>
+            
           </template>
           <div>
             <h1>Custom page</h1>
@@ -947,9 +853,7 @@ The following example adds a custom page as the first item in the sidenav, follo
         </UserButton.UserProfilePage>
         
           <template #labelIcon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-            </svg>
+            
           </template>
         </UserButton.UserProfileLink>
         
@@ -972,9 +876,7 @@ The following example adds a custom page as the first item in the sidenav, follo
       
         
           <template #labelIcon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-            </svg>
+            
           </template>
           <div>
             <h1>Custom page</h1>
@@ -983,9 +885,7 @@ The following example adds a custom page as the first item in the sidenav, follo
         </UserProfile.Page>
         
           <template #labelIcon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-            </svg>
+            
           </template>
         </UserProfile.Link>
         

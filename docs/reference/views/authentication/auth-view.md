@@ -3,12 +3,6 @@
 
 > Clerk's AuthView renders a UI for signing in and signing up users on your app.
 
-![The AuthView renders a comprehensive authentication interface that handles both user sign-in and sign-up flows.](/images/ui-components/ios-auth-view.png){{ style: { maxWidth: '460px' } }}
-
-
-  ![The AuthView renders a comprehensive authentication interface that handles both user sign-in and sign-up flows.](/images/ui-components/android-auth-view.png){{ style: { maxWidth: '460px' } }}
-
-
 The `AuthView` renders a comprehensive authentication interface with support for multiple sign-up flows and sign-in methods, multi-factor authentication, password reset, and account recovery. The functionality of the `AuthView` is controlled by the instance settings you specify in the [Clerk Dashboard](https://dashboard.clerk.com), such as [sign-in and sign-up options](/guides/configure/auth-strategies/sign-up-sign-in-options) and [social connections](/guides/configure/auth-strategies/social-connections/overview).
 
 By default, the `AuthView` will automatically determine whether to sign users in or sign them up based on whether they already have an account. This is the default mode that provides seamless authentication without requiring users to choose between sign-in and sign-up.

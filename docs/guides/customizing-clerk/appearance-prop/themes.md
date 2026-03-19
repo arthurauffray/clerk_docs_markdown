@@ -734,11 +734,11 @@ You can also control dark mode via a class, data attribute, or media query by sp
 
 
 <div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
-  ![A sign-in form with a light/dark theme in light mode](/images/themes/default.png){{ style: { maxWidth: '400px', width: '100%' } }}
+  
 </div>
 
 <div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
-  ![A sign-in form with a light/dark theme in dark mode](/images/themes/dark.png){{ style: { maxWidth: '400px', width: '100%' } }}
+  
 </div>
 
 
@@ -753,7 +753,7 @@ To use the simple theme, set `theme` to `simple`:
 ```
 
 <div style={{padding: "1rem 0"}}>
-  ![A sign-in form with a simple theme](/images/themes/simple.png){{ style: { maxWidth: '400px', width: '100%' } }}
+  
 </div>
 
 ### "shadcn" theme
@@ -784,11 +784,11 @@ When using the [shadcn/ui](https://ui.shadcn.com/) library, you can use the `sha
 
 
 <div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
-  ![A sign-in form with a shadcn theme in light mode](/images/themes/shadcn_light_mode.png){{ style: { maxWidth: '400px', width: '100%' } }}
+  
 </div>
 
 <div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
-  ![A sign-in form with a shadcn theme in dark mode](/images/themes/shadcn_dark_mode.png){{ style: { maxWidth: '400px', width: '100%' } }}
+  
 </div>
 
 
@@ -803,7 +803,7 @@ import { dark } from '@clerk/ui/themes'
 ```
 
 <div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
-  ![A sign-in form with a dark theme](/images/themes/dark.png){{ style: { maxWidth: '400px', width: '100%' } }}
+  
 </div>
 
 ### "Shades of purple" theme
@@ -817,7 +817,7 @@ import { shadesOfPurple } from '@clerk/ui/themes'
 ```
 
 <div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
-  ![A sign-in form with a purple and yellow theme](/images/themes/shades_of_purple.png){{ style: { maxWidth: '400px', width: '100%' } }}
+  
 </div>
 
 ### "Neobrutalism" theme
@@ -831,5 +831,5 @@ import { neobrutalism } from '@clerk/ui/themes'
 ```
 
 <div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
-  ![A sign-in form with a neobrutalist red theme](/images/themes/neobrutalism.png){{ style: { maxWidth: '400px', width: '100%' } }}
+  
 </div>

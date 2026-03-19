@@ -51,7 +51,6 @@ Here is what a typical OAuth flow, known as the [Authorization Code Flow](https:
 1. Your server exchanges this code (along with the `client_id` and `client_secret`) for an access token.
 1. Your app can now use this access token to make authorized requests on behalf of the user.
 
-![OAuth flow diagram](/images/oauth/oauth-flow-diagram.jpg)
 
 > [!QUIZ]
 > Why does this happen in two steps? Why return an "authorization code" and not just send back the OAuth token to save time and resources?

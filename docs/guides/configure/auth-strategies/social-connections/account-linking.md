@@ -11,7 +11,6 @@ When a user attempts to sign in or sign up, Clerk first checks the provided emai
 
 In the following sections, we'll look at the different scenarios that can occur during this process and explain how Clerk handles each one.
 
-![Flow chart of the account linking process in various scenarios](/images/authentication/account-linking-flow-oauth.webp)
 
 ### Email address is verified in both OAuth and Clerk
 

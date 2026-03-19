@@ -29,7 +29,6 @@ Set-Cookie: session_id=sess123
 
 This response sets a `session_id` cookie with the value `sess123`. To view cookies in your browser's developer tools, navigate to the **Application** tab. Then in the **Storage** section, select **Cookies**. Here's an example from Clerk's website:
 
-![cookies in browser console](/images/how-clerk-works/devtools-cookies.png)
 
 ## Cookie domains and scope
 
@@ -52,7 +51,7 @@ For example, say you [hotlink](https://developer.mozilla.org/en-US/docs/Glossary
 <html>
   <body>
     <p>Check out this cool picture of me on vacation that I posted on FB</p>
-    <img src='http://facebook.com/images/h0e208whe8r0.jpg alt='Me on vacation' />
+    
   <body>
 </html>
 ```

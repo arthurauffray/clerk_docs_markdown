@@ -20,7 +20,7 @@ This guide will show you how to customize a session token to include additional 
 
   The following example adds the `fullName` and `primaryEmail` claims to the session token.
 
-  ![Clerk Dashboard showing the custom claim modal](/images/custom-session-token/example.png)
+  
 
   ## Use the custom claims in your application
 

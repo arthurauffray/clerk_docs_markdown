@@ -470,151 +470,151 @@ Clerk provides a wide range of social providers to ease your user's sign-up and 
 
   - [Apple](/guides/configure/auth-strategies/social-connections/apple)
   - Add Apple as an authentication provider for your Clerk app.
-  - ![Apple logo](/images/logos/auth_providers/apple.svg){{ dark: '/docs/images/logos/auth_providers/apple-dark.svg' }}
+  - 
 
   ---
 
   - [Atlassian](/guides/configure/auth-strategies/social-connections/atlassian)
   - Add Atlassian as an authentication provider for your Clerk app.
-  - ![Atlassian logo](/images/logos/auth_providers/atlassian.svg)
+  - 
 
   ---
 
   - [Bitbucket](/guides/configure/auth-strategies/social-connections/bitbucket)
   - Add Bitbucket as an authentication provider for your Clerk app.
-  - ![Bitbucket logo](/images/logos/auth_providers/bitbucket.svg)
+  - 
 
   ---
 
   - [Box](/guides/configure/auth-strategies/social-connections/box)
   - Add Box as an authentication provider for your Clerk app.
-  - ![Box logo](/images/logos/auth_providers/box.svg)
+  - 
 
   ---
 
   - [Coinbase](/guides/configure/auth-strategies/social-connections/coinbase)
   - Add Coinbase as an authentication provider for your Clerk app.
-  - ![Coinbase logo](/images/logos/auth_providers/coinbase.svg)
+  - 
 
   ---
 
   - [Discord](/guides/configure/auth-strategies/social-connections/discord)
   - Add Discord as an authentication provider for your Clerk app.
-  - ![Discord logo](/images/logos/auth_providers/discord.svg){{ dark: '/docs/images/logos/auth_providers/discord-dark.svg' }}
+  - 
 
   ---
 
   - [Dropbox](/guides/configure/auth-strategies/social-connections/dropbox)
   - Add Dropbox as an authentication provider for your Clerk app.
-  - ![Dropbox logo](/images/logos/auth_providers/dropbox.svg)
+  - 
 
   ---
 
   - [Facebook](/guides/configure/auth-strategies/social-connections/facebook)
   - Add Facebook as an authentication provider for your Clerk app.
-  - ![Facebook logo](/images/logos/auth_providers/facebook.svg)
+  - 
 
   ---
 
   - [GitHub](/guides/configure/auth-strategies/social-connections/github)
   - Add GitHub as an authentication provider for your Clerk app.
-  - ![GitHub logo](/images/logos/auth_providers/github.svg){{ dark: '/docs/images/logos/auth_providers/github-dark.svg' }}
+  - 
 
   ---
 
   - [GitLab](/guides/configure/auth-strategies/social-connections/gitlab)
   - Add GitLab as an authentication provider for your Clerk app.
-  - ![GitLab logo](/images/logos/auth_providers/gitlab.svg)
+  - 
 
   ---
 
   - [Google](/guides/configure/auth-strategies/social-connections/google)
   - Add Google as an authentication provider for your Clerk app.
-  - ![Google logo](/images/logos/auth_providers/google.svg)
+  - 
 
   ---
 
   - [HubSpot](/guides/configure/auth-strategies/social-connections/hubspot)
   - Add HubSpot as an authentication provider for your Clerk app.
-  - ![HubSpot logo](/images/logos/auth_providers/hubspot.svg)
+  - 
 
   ---
 
   - [Hugging Face](/guides/configure/auth-strategies/social-connections/hugging-face)
   - Add Hugging Face as an authentication provider for your Clerk app.
-  - ![Hugging Face logo](/images/logos/auth_providers/huggingface.svg)
+  - 
 
   ---
 
   - [LINE](/guides/configure/auth-strategies/social-connections/line)
   - Add LINE as an authentication provider for your Clerk app.
-  - ![LINE logo](/images/logos/auth_providers/line.svg)
+  - 
 
   ---
 
   - [Linear](/guides/configure/auth-strategies/social-connections/linear)
   - Add Linear as an authentication provider for your Clerk app.
-  - ![Linear logo](/images/logos/auth_providers/linear.svg)
+  - 
 
   ---
 
   - [LinkedIn](/guides/configure/auth-strategies/social-connections/linkedin-oidc)
   - Add LinkedIn as an authentication provider for your Clerk app.
-  - ![LinkedIn logo](/images/logos/auth_providers/linkedin.svg)
+  - 
 
   ---
 
   - [Microsoft](/guides/configure/auth-strategies/social-connections/microsoft)
   - Add Microsoft as an authentication provider for your Clerk app.
-  - ![Microsoft logo](/images/logos/auth_providers/microsoft.svg)
+  - 
 
   ---
 
   - [Notion](/guides/configure/auth-strategies/social-connections/notion)
   - Add Notion as an authentication provider for your Clerk app.
-  - ![Notion logo](/images/logos/auth_providers/notion.svg)
+  - 
 
   ---
 
   - [Slack](/guides/configure/auth-strategies/social-connections/slack)
   - Add Slack as an authentication provider for your Clerk app.
-  - ![Slack logo](/images/logos/auth_providers/slack.svg)
+  - 
 
   ---
 
   - [Spotify](/guides/configure/auth-strategies/social-connections/spotify)
   - Add Spotify as an authentication provider for your Clerk app.
-  - ![Spotify logo](/images/logos/auth_providers/spotify.svg)
+  - 
 
   ---
 
   - [TikTok](/guides/configure/auth-strategies/social-connections/tiktok)
   - Add TikTok as an authentication provider for your Clerk app.
-  - ![TikTok logo](/images/logos/auth_providers/tiktok.svg)
+  - 
 
   ---
 
   - [Twitch](/guides/configure/auth-strategies/social-connections/twitch)
   - Add Twitch as an authentication provider for your Clerk app.
-  - ![Twitch logo](/images/logos/auth_providers/twitch.svg)
+  - 
 
   ---
 
   - [Vercel](/guides/configure/auth-strategies/social-connections/vercel)
   - Add Vercel as an authentication provider for your Clerk app.
-  - ![Vercel logo](/images/logos/auth_providers/vercel.svg){{ dark: '/docs/images/logos/auth_providers/vercel-dark.svg' }}
+  - 
 
   ---
 
   - [X/Twitter v2](/guides/configure/auth-strategies/social-connections/x-twitter)
   - Add X (Twitter v2) as an authentication provider for your Clerk app.
-  - ![X/Twitter logo](/images/logos/auth_providers/x-twitter.svg){{ dark: '/docs/images/logos/auth_providers/x-twitter-dark.svg' }}
+  - 
 
   ---
 
   - [Xero](/guides/configure/auth-strategies/social-connections/xero)
   - Add Xero as an authentication provider for your Clerk app.
-  - ![Xero logo](/images/logos/auth_providers/xero.svg)
+  - 
 
 
 Don't see the provider you're looking for? You can [configure a custom OIDC-compatible provider](/guides/configure/auth-strategies/social-connections/custom-provider) or [request a new one](https://feedback.clerk.com/roadmap).

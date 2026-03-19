@@ -11,11 +11,9 @@ The standard token issued by Clerk expires after 60 seconds. Clerk SDKs handle r
 
 You will want to create a long-lived [JWT Template](/guides/sessions/jwt-templates) to be used in Postman or Insomnia. To do so, navigate to the [**JWT templates**](https://dashboard.clerk.com/~/jwt-templates) page in the Clerk Dashboard. Select **New template** then choose the **Blank** template.
 
-![The JWT templates page in the Clerk Dashboard. The 'New template' button was clicked, in the modal that opened, the 'Blank' template is hovered over](/images/testing/blank-jwt-template.webp)
 
 Give your template a unique name, such as _'testing-template'_. Set the **Token Lifetime** to a value that suits your needs, or use the maximum of 315360000 seconds (10 years). If you added custom claims to the normal session token, then you should add the same claims to your JWT template.
 
-![Creating a JWT template in the Clerk Dashboard](/images/testing/testing-template.webp)
 
 ## Fetch long-lived token
 
@@ -25,7 +23,6 @@ Visit your frontend that is using the same Clerk Application and instance that y
 await window.Clerk.session.getToken({ template: '<the template name you chose above>' })
 ```
 
-![The Dev Tools Console with the command 'await window.Clerk.session.getToken()' entered. The token is logged to the console](/images/testing/get-token-from-console.webp)
 
 ## Using Postman or Insomnia
 
@@ -35,15 +32,13 @@ await window.Clerk.session.getToken({ template: '<the template name you chose ab
 
 Open Postman and create a new request.
 
-![The Postman app with a red arrow pointing at the plus icon in the top-left corner](/images/testing/postman-new-request.webp)
 
 Configure Postman with the method and URL for the API Route you want to test. This example uses the `POST` method and the `/api/protected-route` route.
 
-![The Postman app with a red box around the method and URL field](/images/testing/postman-configure-request.webp)
 
 Navigate to the **Authorization** tab and for token type, select **Bearer Token**. Paste the token you copied from the console as the Bearer Token. Your request will now authenticate as the user you created the token with.
 
-![The Postman app with the first red arrow pointing at the Authorization tab, the second red arrow pointing at the token type with 'Bearer token' chosen, and a third red arrow pointing at the token field with the token pasted in](/images/testing/postman-bearer-token.webp)
+
   
 
 #### Insomnia
@@ -51,15 +46,13 @@ Navigate to the **Authorization** tab and for token type, select **Bearer Token*
 
 Open Insomnia and create a new request.
 
-![The Insomnia app with a red arrow pointing at the 'New HTTP Request' button](/images/testing/insomnia-new-request.webp)
 
 Configure Insomnia with the method and URL for the API Route you want to test. This example uses the `POST` method and the `/api/protected-route` route.
 
-![The Insomnia app with a red box around the method and URL field](/images/testing/insomnia-configure-request.webp)
 
 Navigate to the **Auth** tab and select **Auth** again to show a menu of auth types. Choose the **Bearer token** option. Paste the token you copied from the console. Your request will now authenticate as the user you created the token with.
 
-![The Insomnia app with the first red arrow pointing at the Auth tab which has been switched to the 'Bearer token' option. The second red arrow points at the token field with the token pasted in](/images/testing/insomnia-bearer-token.webp)
+
   
 
 ## Grouping requests

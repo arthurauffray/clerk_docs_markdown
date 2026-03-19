@@ -7,15 +7,12 @@ The first step is to create a new Clerk application from the Clerk Dashboard if 
 
 After your Clerk application has been created, navigate to the [**JWT templates**](https://dashboard.clerk.com/~/jwt-templates) page in the Clerk Dashboard. Select **New template** to create a new template based on Nhost.
 
-![The JWT templates page in the Clerk Dashboard. The 'New template' button was clicked, and a pop up titled 'New JWT template' is shown. The 'Nhost' template is hovered over](/images/integrations/nhost/jwt-template.webp)
 
 Once the Nhost template is created, you will be redirected to the template's page. You can now configure the template to your needs.
 
-![The 'Create new template' page of the JWT templates page in the Clerk Dashboard](/images/integrations/nhost/create-template.webp)
 
 The Nhost template will pre-populate the default claims required by Nhost and Hasura. You can include additional claims as necessary. [Shortcodes](/guides/sessions/jwt-templates#shortcodes) are available to make adding dynamic user values easy.
 
-![The 'Create new template' page of the JWT templates page in the Clerk Dashboard. The page is scrolled down to the 'Claims' section](/images/integrations/nhost/template-shortcodes.webp)
 
 ## Configure Nhost
 
@@ -23,7 +20,6 @@ The next step is to provide Nhost with the public keys used to verify the JWT is
 
 From your Nhost dashboard, navigate to **Settings** --> **Environment variables**.
 
-![The Environment variables page in the Nhost dashboard](/images/integrations/nhost/nhost-env-var.webp)
 
 Next to the **NHOST\_JWT\_SECRET**, select **Edit** and paste in the JSON Web Key Set (JWKS) URL that you copied from the Clerk Dashboard.
 

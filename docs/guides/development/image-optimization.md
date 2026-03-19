@@ -51,7 +51,7 @@ export default function ImageOptimization() {
       <h1>Image source:</h1>
       <p>{imageSrc}</p>
       <h2>Image:</h2>
-      <img src={imageSrc} alt="User image" />
+      
     </div>
   )
 }
@@ -102,7 +102,7 @@ export default function ImageOptimization() {
           <h1>Image source:</h1>
           <p>{imageSrc}</p>
           <h2>Image:</h2>
-          <img src={imageSrc} alt="User image" />
+          
         </div>
       )
     }
@@ -139,7 +139,7 @@ export default function ImageOptimization() {
             <h1>Image source:</h1>
             <p>{imageSrc}</p>
             <h2>Image:</h2>
-            <img src={imageSrc} alt="User image" />
+            
           </div>
         )
       }
@@ -175,6 +175,6 @@ export default function ImageOptimization() {
         <h1>Image source:</h1>
         <p>{imageSrc}</p>
         <h2>Image:</h2>
-        <img src={imageSrc} alt="User image" />
+        
       </div>
       ```

@@ -267,8 +267,8 @@ AuthView(clerkTheme = ClerkTheme(typography = ClerkTypography(displaySmall = Cle
 Clerk Android views automatically support both light and dark mode appearance, adapting seamlessly to the user's system preferences.
 
 <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-  ![Light Mode](/images/ui-components/android-user-profile-view.png){{ style: { maxWidth: '230px' } }}
-  ![Dark Mode](/images/ui-components/android-user-profile-view-dark.png){{ style: { maxWidth: '230px' } }}
+  
+  
 </div>
 
 If Clerk's prebuilt theming doesn't meet your specific needs, you can create completely custom authentication flows using the Clerk API. See the [SDK docs](/reference/native-mobile/overview).

@@ -53,9 +53,7 @@ The following example adds an "Open chat" action to the `` component. When a use
   ```tsx
   const DotIcon = () => {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-      </svg>
+      
     )
   }
 
@@ -91,24 +89,10 @@ The following example adds an "Open chat" action to the `` component. When a use
     
       
         
-          <svg
-            slot="label-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            fill="currentColor"
-          >
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-          </svg>
+          
         </UserButton.Action>
         
-          <svg
-            slot="label-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            fill="currentColor"
-          >
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-          </svg>
+          
         </UserButton.Action>
       </UserButton.MenuItems>
     
@@ -179,9 +163,7 @@ The following example adds an "Open chat" action to the `` component. When a use
         
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
           </UserButton.Action>
         </UserButton.MenuItems>
@@ -207,9 +189,7 @@ The following example adds an "Open chat" action to the `` component. When a use
         
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
           </UserButton.Action>
         </UserButton.MenuItems>
@@ -227,9 +207,7 @@ The following example adds an "Open help" action to the `` component, as well as
   ```tsx
   const DotIcon = () => {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-      </svg>
+      
     )
   }
 
@@ -267,26 +245,12 @@ The following example adds an "Open help" action to the `` component, as well as
     
       
         
-          <svg
-            slot="label-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            fill="currentColor"
-          >
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-          </svg>
+          
         </UserButton.Action>
       </UserButton.MenuItems>
 
       
-        <svg
-          slot="label-icon"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          fill="currentColor"
-        >
-          <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-        </svg>
+        
         <div>
           <h1>Help Page</h1>
           <p>This is the custom help page</p>
@@ -371,18 +335,14 @@ The following example adds an "Open help" action to the `` component, as well as
         
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
           </UserButton.Action>
         </UserButton.MenuItems>
 
         
           <template #labelIcon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-            </svg>
+            
           </template>
           <div>
             <h1>Help Page</h1>
@@ -408,18 +368,14 @@ The following example adds an "Open help" action to the `` component, as well as
         
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
           </UserButton.Action>
         </UserButton.MenuItems>
 
         
           <template #labelIcon>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-              <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-            </svg>
+            
           </template>
           <div>
             <h1>Help Page</h1>
@@ -465,9 +421,7 @@ The following example adds a "Create organization" link to the `` component. Whe
   ```tsx
   const DotIcon = () => {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-      </svg>
+      
     )
   }
 
@@ -498,14 +452,7 @@ The following example adds a "Create organization" link to the `` component. Whe
     
       
         
-          <svg
-            slot="label-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            fill="currentColor"
-          >
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-          </svg>
+          
         </UserButton.Link>
       </UserButton.MenuItems>
     
@@ -559,9 +506,7 @@ The following example adds a "Create organization" link to the `` component. Whe
         
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
           </UserButton.Link>
         </UserButton.MenuItems>
@@ -584,9 +529,7 @@ The following example adds a "Create organization" link to the `` component. Whe
         
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
           </UserButton.Link>
         </UserButton.MenuItems>
@@ -606,9 +549,7 @@ In the following example, the "Sign out" menu item is moved to the top of the me
   ```tsx
   const DotIcon = () => {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-      </svg>
+      
     )
   }
 
@@ -642,14 +583,7 @@ In the following example, the "Sign out" menu item is moved to the top of the me
       
         
         
-          <svg
-            slot="label-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            fill="currentColor"
-          >
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-          </svg>
+          
         </UserButton.Link>
         
       </UserButton.MenuItems>
@@ -709,9 +643,7 @@ In the following example, the "Sign out" menu item is moved to the top of the me
           
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
           </UserButton.Link>
           
@@ -736,9 +668,7 @@ In the following example, the "Sign out" menu item is moved to the top of the me
           
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
           </UserButton.Link>
           
@@ -764,9 +694,7 @@ In the following example, the "Create organization" menu item will only render i
   ```tsx
   const DotIcon = () => {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-      </svg>
+      
     )
   }
 
@@ -813,14 +741,7 @@ In the following example, the "Create organization" menu item will only render i
         isAdmin && (
           
             
-              <svg
-                slot="label-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-                fill="currentColor"
-              >
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-              </svg>
+              
             </UserButton.Link>
           </UserButton.MenuItems>
         )
@@ -895,9 +816,7 @@ In the following example, the "Create organization" menu item will only render i
         
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
           </UserButton.Link>
         </UserButton.MenuItems>
@@ -926,9 +845,7 @@ In the following example, the "Create organization" menu item will only render i
         
           
             <template #labelIcon>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"></path>
-              </svg>
+              
             </template>
           </UserButton.Link>
         </UserButton.MenuItems>

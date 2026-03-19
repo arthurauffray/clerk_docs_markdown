@@ -11,7 +11,6 @@ When you or a user of your application performs certain actions, a webhook can b
 
 When you are developing on your localhost, your application is not internet facing and can't receive the webhook request. You will need to use a tool that creates a tunnel from the internet to your localhost. These tools will provide temporary or permanent URLs depending on the tool and the plan you subscribe to. Popular tools include `ngrok`, `localtunnel`, and `Cloudflare Tunnel`.
 
-![Using webhooks in development](/images/integrations/webhooks/webhooks_diagram.png)
 
 Debugging webhook-related issues can be tricky, so the following sections address common issues and how to resolve them.
 

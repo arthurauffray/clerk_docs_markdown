@@ -77,7 +77,6 @@ The OAuth consent screen shows users a confirmation dialog before they authorize
 - The specific access scopes that are being requested, in user-friendly language.
 - Clear accept/deny options.
 
-![OAuth Consent Screen](/images/oauth/consent-screen.png){{ style: { maxWidth: '460px' } }}
 
 The consent screen is enabled by default for all OAuth apps. You can enable or disable the consent screen for each OAuth app [in the Clerk Dashboard](https://dashboard.clerk.com/~/oauth-applications).
 

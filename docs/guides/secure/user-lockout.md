@@ -29,7 +29,6 @@ Clerk measures the following actions as part of account lockout:
 
 When a user exceeds the maximum sign-in attempts, the Clerk [``](/reference/components/authentication/sign-in) component will inform them of how long they have been locked out for and to contact support for more information.
 
-![The Clerk component sign-in form with a red alert stating 'Your account is locked. You will be able to try again in 59 minutes. For more information, contact support.'](/images/security/userlock_login.png)
 
 > [!NOTE]
 > Currently, users cannot unlock their own account or submit a request to the admin to be unlocked ("self-service unlock"). This is an upcoming feature, so see the [changelog](https://clerk.com/changelog) periodically to find out when it is available. Until then, you can [lock and unlock user accounts programmatically](#unlock-a-user-programmatically).

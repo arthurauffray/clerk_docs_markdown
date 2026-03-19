@@ -11,7 +11,6 @@ When a user attempts to sign in or up, Clerk checks if the email address from th
 
 The following sections explain the different scenarios that can occur during this process and how Clerk handles each one.
 
-![Flow chart of the SAML SSO account linking process in various scenarios.](/images/authentication/account-linking-flow-saml.webp)
 
 ### Email is verified in Clerk
 

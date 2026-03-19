@@ -3,12 +3,6 @@
 
 > Clerk's UserProfileView renders a beautiful, full-featured account management UI that allows users to manage their profile and security settings.
 
-![The UserProfileView renders a comprehensive user profile interface that displays user information and provides account management options.](/images/ui-components/ios-user-profile-view.png){{ style: { maxWidth: '460px' } }}
-
-
-  ![The UserProfileView renders a comprehensive user profile interface that displays user information and provides account management options.](/images/ui-components/android-user-profile-view.png){{ style: { maxWidth: '460px' } }}
-
-
 The `UserProfileView` renders a comprehensive user profile interface that displays user information and provides account management options. It includes personal information, security settings, account switching, and sign-out functionality.
 
 > [!IMPORTANT]

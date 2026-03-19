@@ -15,6 +15,5 @@ Disabling this protection means that your users are vulnerable to the scenario a
 
 With same device and browser protection on, users will see the following warning if an email link for sign-in or sign-up was opened on a different device or browser:
 
-![Error message displayed if email link is opened in a different device or browser if email link same device/browser protection is enabled](/images/security/email-link_require-same-client.webp)
 
 To configure this security setting, navigate to the [**User & authentication**](https://dashboard.clerk.com/~/user-authentication/user-and-authentication) page in the Clerk Dashboard and ensure that under the **Sign-in with email** section, the **Email verification link** option is enabled.

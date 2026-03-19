@@ -9,7 +9,6 @@
 
 Clerk Elements is a library of unstyled, composable components that can be used to build custom UIs on top of the Clerk APIs without having to manage the underlying logic.
 
-![Clerk Elements](/images/elements/elements-hero-light.webp){{ dark: '/docs/images/elements/elements-hero-dark.webp' }}
 
 ## Why use Clerk Elements?
 

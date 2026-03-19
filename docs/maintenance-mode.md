@@ -31,7 +31,6 @@ All mutations from both the Frontend API and the Backend API will return the fol
 
 During **Maintenance Mode**, Clerk's UI components will display the following error for sign-ins, sign-ups, and all mutations to user and org data.
 
-![The \component with a maintenance mode error.](/images/maintenance-mode/maintenance-mode-error.png)
 
 ## Development instances
 

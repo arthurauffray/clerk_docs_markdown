@@ -14,7 +14,6 @@ Users can belong to multiple Organizations, and Clerk provides the Organization 
 
 Organizations live within your Clerk application. Each application can contain multiple Organizations, and each Organization can have multiple users. You define [Roles and Permissions](/guides/organizations/control-access/roles-and-permissions) once at the application level, and they apply across all Organizations within that application.
 
-![Relationship between Clerk Organization, users, Roles and Permissions](/images/orgs/relationship-diagram.jpg)
 
 The Organization that a user is currently viewing is called the **Active Organization**. The Active Organization determines which Organization-specific data the user can access and which Role and related Permissions they have within the Organization.
 

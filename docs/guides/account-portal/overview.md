@@ -5,7 +5,6 @@
 
 The Account Portal in Clerk is a powerful feature that allows you to streamline the sign-in, sign-up, and profile management experience for your users, without having to build your own components or host your own pages. **To integrate the Account Portal with your application, see the [setup guide](/guides/account-portal/getting-started).**
 
-![Account Portal](/images/account-portal/account_portal_splash.png)
 
 ## Why use the Account Portal?
 
@@ -17,7 +16,6 @@ However, if you require more precise customization or prefer having your applica
 
 The Account Portal uses Clerk's [prebuilt components](/reference/components/overview), which are embedded into dedicated pages hosted on Clerk servers.
 
-![Account Portal](/images/account-portal/account_portal_how_it_works.png)
 
 After a user has finished their flow in an Account Portal page, Clerk automatically redirects them back to your application along with the required authentication context. This way, users are automatically redirected to and from your application for a seamless experience.
 
@@ -33,7 +31,6 @@ These pages cannot be customized beyond the options provided in the [Clerk Dashb
 
 The sign-in page hosts the prebuilt [``](/reference/components/authentication/sign-in) component, which renders a UI for signing in users. The functionality of the `` component is controlled by the instance settings you specify in the [Clerk Dashboard](https://dashboard.clerk.com), such as [sign-up and sign-in options](/guides/configure/auth-strategies/sign-up-sign-in-options) and [social connections](/guides/configure/auth-strategies/social-connections/overview). The `` component also displays any session tasks that are required for the user to complete after signing in.
 
-![The Account Portal sign-in page hosts the \component](/images/account-portal/sign-in.png)
 
 Redirect users to the sign-in page using the [``](/reference/components/control/redirect-to-sign-in) control component.
 
@@ -41,7 +38,6 @@ Redirect users to the sign-in page using the [``](/reference/components/control/
 
 The sign-up page hosts the prebuilt [``](/reference/components/authentication/sign-up) component, which renders a UI for signing up users. The functionality of the `` component is controlled by the instance settings you specify in the [Clerk Dashboard](https://dashboard.clerk.com), such as [sign-up and sign-in options](/guides/configure/auth-strategies/sign-up-sign-in-options) and [social connections](/guides/configure/auth-strategies/social-connections/overview). The `` component also displays any session tasks that are required for the user to complete after signing up.
 
-![The Account Portal sign-up page hosts the \component](/images/account-portal/sign-up.png)
 
 Redirect users to the sign-up page using the [``](/reference/components/control/redirect-to-sign-up) control component.
 
@@ -49,7 +45,6 @@ Redirect users to the sign-up page using the [``](/reference/components/control/
 
 The user profile page hosts the prebuilt [``](/reference/components/user/user-profile) component, which renders a beautiful, full-featured account management UI that allows users to manage their profile and security settings.
 
-![The Account Portal user profile page hosts the \component](/images/account-portal/user-profile.png)
 
 Redirect your authenticated users to their user profile page using the [``](/reference/components/control/redirect-to-user-profile) control component.
 
@@ -59,13 +54,11 @@ The unauthorized sign-in page doesn't host any prebuilt Clerk component. It disp
 
 The unauthorized sign-in page displays a UI confirming that a session from an unrecognized device was successfully revoked. For more information, refer to [the reference.](/guides/secure/best-practices/unauthorized-sign-in)
 
-![Clerk's Account Portal unauthorized sign-in page](/images/account-portal/unauthorized-sign-in.png)
 
 ### Create Organization
 
 The create Organization page hosts the prebuilt [``](/reference/components/organization/create-organization) component, which provides a streamlined interface for users to create new Organizations within your application.
 
-![The Account Portal create Organization page hosts the \component](/images/account-portal/create-org.png)
 
 Redirect your authenticated users to the create Organization page using the [``](/reference/components/control/redirect-to-create-organization) control component.
 
@@ -73,12 +66,9 @@ Redirect your authenticated users to the create Organization page using the [``]
 
 The Organization profile page hosts the prebuilt [``](/reference/components/organization/organization-profile) component, which renders a beautiful, full-featured Organization management UI that allows users to manage their Organization profile and security settings.
 
-![The Account Portal Organization Profile page hosts the \component](/images/account-portal/org-profile.png)
 
 Redirect your authenticated users to their Organization Profile page using the [``](/reference/components/control/redirect-to-organization-profile) control component.
 
 ### Waitlist
 
 The waitlist page hosts the prebuilt [``](/reference/components/authentication/waitlist) component which renders a form that allows users to join for early access to your app.
-
-![The Account Portal waitliste page hosts the \component](/images/account-portal/waitlist.png)

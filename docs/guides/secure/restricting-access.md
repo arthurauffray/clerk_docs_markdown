@@ -34,7 +34,6 @@ Additional features available in **Restricted** mode:
 
 ### Waitlist
 
-![\component](/images/ui-components/waitlist.svg)
 
 > [!NOTE]
 > If you're using Next.js, the [``](/reference/components/authentication/waitlist) component is available in `@clerk/nextjs@6.2.0` and above.

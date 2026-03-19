@@ -3,12 +3,6 @@
 
 > Clerk's UserButton renders a circular button that displays the current user's profile image and opens the user profile when tapped.
 
-![The UserButton is a circular button that displays the signed-in user's profile image.](/images/ui-components/ios-user-button.png)
-
-
-  ![The UserButton is a circular button that displays the signed-in user's profile image.](/images/ui-components/android-user-button.png)
-
-
 The `UserButton` is a circular button that displays the user's profile image. When tapped, it presents a sheet with the [`UserProfileView`](/reference/views/user/user-profile-view).
 
 

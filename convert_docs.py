@@ -510,6 +510,20 @@ def convert_links(content: str) -> str:
     return content
 
 
+def strip_images_and_svgs(content: str) -> str:
+    """Remove standard markdown images, HTML images, and raw SVGs."""
+    # Remove markdown images: ![alt](url) or ![alt](url){{metadata}}
+    content = re.sub(r'!\[.*?\]\(.*?\)(?:\{\{.*?\}\})?', '', content)
+    
+    # Remove HTML img tags
+    content = re.sub(r'<img[^>]*>', '', content)
+    
+    # Remove raw SVGs (could be inside {})
+    content = re.sub(r'\{?<svg.*?</svg>\}?', '', content, flags=re.DOTALL)
+    
+    return content
+
+
 def dedent_content(text: str) -> str:
     """Remove common leading whitespace from text block."""
     lines = text.split("\n")
@@ -562,11 +576,14 @@ def convert_mdx_to_md(content: str, filepath: Path) -> str:
     # 7. Convert links
     content = convert_links(content)
     
-    # 8. Clean up
+    # 8. Strip images and svgs
+    content = strip_images_and_svgs(content)
+    
+    # 9. Clean up
     content = clean_excessive_blank_lines(content)
     content = content.strip() + "\n"
     
-    # 9. Add title from frontmatter
+    # 10. Add title from frontmatter
     header_parts = []
     title = metadata.get("title", "")
     if title:

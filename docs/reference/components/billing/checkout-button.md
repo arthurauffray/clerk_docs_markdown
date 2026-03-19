@@ -3,8 +3,6 @@
 
 > Clerk's <CheckoutButton /> component renders a button that opens the checkout drawer for Subscription Plans.
 
-![The \component renders a button that opens the checkout drawer.](/images/ui-components/checkout-button.svg)
-
 The `` component renders a button that opens the checkout drawer when selected, allowing users to subscribe to a Plan for either their Personal Account or an Organization. It must be wrapped inside a [``](/reference/components/control/show) component to ensure the user is authenticated.
 
 > [!WARNING]

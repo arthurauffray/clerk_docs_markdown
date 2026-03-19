@@ -7,15 +7,12 @@ The first step is to create a new Clerk application from the Clerk Dashboard if 
 
 After your Clerk application has been created, navigate to the [**JWT templates**](https://dashboard.clerk.com/~/jwt-templates) page in the Clerk Dashboard. Select **New template** to create a new template based on Hasura.
 
-![The JWT templates page in the Clerk Dashboard. The 'New template' button was clicked, and a pop up titled 'New JWT template' is shown. The 'Hasura' template is hovered over](/images/integrations/hasura/jwt-template.webp)
 
 Once the Hasura template is created, you will be redirected to the template's page. You can now configure the template to your needs.
 
-![The 'Create new template' page of the JWT templates page in the Clerk Dashboard](/images/integrations/hasura/create-template.webp)
 
 The Hasura template will pre-populate the default claims required by Hasura. You can include additional claims as necessary. [Shortcodes](/guides/sessions/jwt-templates#shortcodes) are available to make adding dynamic user values easy.
 
-![The 'Create new template' page of the JWT templates page in the Clerk Dashboard. The page is scrolled down to the 'Claims' section](/images/integrations/hasura/template-shortcodes.webp)
 
 By default, Clerk will sign the JWT with a private key automatically generated for your application, which is what most developers use for Hasura. If you so choose, you can customize this key.
 

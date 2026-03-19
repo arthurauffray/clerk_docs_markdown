@@ -3,8 +3,6 @@
 
 > Clerk's <PlanDetailsButton /> component renders a button that opens the Plan details drawer.
 
-![The \component renders a button that opens the Plan details drawer.](/images/ui-components/plan-details.svg){{ style: { maxWidth: '460px' } }}
-
 The `` component renders a button that opens the Plan details drawer, allowing users to view detailed information about a specific Plan, including pricing, Features, and other Plan-specific details.
 
 > [!WARNING]

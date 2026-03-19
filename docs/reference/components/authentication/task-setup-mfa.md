@@ -3,8 +3,6 @@
 
 > Clerk's <TaskSetupMFA /> component renders a UI for resolving the setup-mfa task.
 
-![The \component renders a UI for resolving the setup-mfa session task.](/images/ui-components/task-setup-mfa.png){{ style: { maxWidth: '460px' } }}
-
 The `` component renders a UI for resolving the `setup-mfa` session task. You can further customize your `` component by passing additional [properties](#properties) at the time of rendering.
 
 > [!IMPORTANT]

@@ -14,7 +14,7 @@ Most CSRF attacks can be protected against by properly configuring the way sessi
 Imagine an attacker made a malicious website at `foo.com` that contained the following code:
 
 ```html
-<img src="https://www.example.com/?action=delete&id=123" />
+
 ```
 
 Notice the query string `?action=delete&id=123`.

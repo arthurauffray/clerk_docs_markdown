@@ -270,8 +270,8 @@ struct CustomFontView: View {
 Clerk iOS views automatically support both light and dark mode appearance, adapting seamlessly to the user's system preferences.
 
 <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-  ![Light Mode](/images/ui-components/ios-user-profile-view.png){{ style: { maxWidth: '230px' } }}
-  ![Dark Mode](/images/ui-components/ios-user-profile-view-dark.png){{ style: { maxWidth: '230px' } }}
+  
+  
 </div>
 
 ### Using Asset Catalog Colors

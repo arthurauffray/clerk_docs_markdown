@@ -39,12 +39,10 @@ To do so, go to "[Projects & Apps](https://developer.twitter.com/en/portal/proje
 
 Navigate to your application settings screen and scroll down to the **User authentication settings** section and select **Set up**.
 
-![Setting up User Authentication settings of a Twitter app](/images/authentication-providers/twitter/a5b63a206cc6a04fd8b143dd191483c4f6e81d66-979x618.png)
 
 In the next screen you'll be presented with the user authentication settings. Make sure that both **OAuth 1.0a** and **Request email address from users** are enabled.
 
 Also, enter the **Authorized Redirect URI** that you grabbed in the previous step from your Clerk instance's settings and insert it in the **Callback URI** setting. Your app's settings should like similar to the ones below.  Fill any other required fields and click save. Your Twitter App is now ready.
 
-![Fill in the Callback URI](/images/authentication-providers/twitter/89fc23c0ac843ba74831c669e17c44a31896a8d7-1196x954.png)
 
 Finally, select **Add connection** so that the settings are applied. Congratulations! Social connection with Twitter is now configured for your instance.
